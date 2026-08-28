@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { Inter } from "next/font/google";
+
 import {
   NextIntlClientProvider,
   hasLocale,
@@ -32,11 +33,23 @@ const inter = Inter({
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+export const viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Baghdad Medical Center",
   description:
     "Compassionate, patient-centered healthcare in Al Madam, Sharjah.",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon-logo.png",
+    shortcut: "/favicon-logo.png",
+    apple: "/apple-touch-logo.png",
+  },
   robots: {
     index: true,
     follow: true,
@@ -52,19 +65,17 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Make sure the locale is supported
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // Enables static rendering for this locale
   setRequestLocale(locale);
-
   const messages = await getMessages();
   const dir = getDirection(locale as Locale);
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
+      {/* Removed the hardcoded <head> tags here */}
       <body className={`${inter.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
