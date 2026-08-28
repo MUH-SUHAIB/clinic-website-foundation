@@ -28,7 +28,7 @@ import {
 
 export const metadata: Metadata = {
   title:
-    "Baghdad Medical Center — Compassionate Family Healthcare in Al Madam",
+    "Baghdad Medical Center - Al Madam",
   description:
     "Modern diagnostics, calm consultations, and expert doctors in Sharjah. Book your appointment with Baghdad Medical Center today.",
 };
