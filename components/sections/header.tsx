@@ -65,7 +65,7 @@ export default function Header() {
       }`}
     >
       <div
-        className={`container mx-auto flex items-center justify-between transition-all duration-500 ease-out ${
+        className={`container mx-auto flex items-center justify-between gap-6 md:gap-8 transition-all duration-500 ease-out ${
           isScrolled
             ? "bg-white/85 backdrop-blur-xl border border-blue-100/60 shadow-[0_8px_30px_-10px_rgba(59,130,246,0.15)] py-2.5 px-5 md:px-6 rounded-[2rem]"
             : "bg-transparent border-transparent shadow-none py-4 md:py-5 px-5 md:px-8 rounded-none"
@@ -102,11 +102,11 @@ export default function Header() {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4 shrink-0">
           {/* Language Switcher */}
           <Link
             href={`/${nextLocale}`}
-            className="flex items-center gap-1 text-slate-600 hover:text-blue-700 text-sm font-semibold transition-colors"
+            className="flex items-center gap-1.5 text-slate-600 hover:text-blue-700 text-sm font-semibold transition-colors px-2 py-1"
           >
             <span>
               {nextLocale === "ar" ? "عربي" : "English"}
