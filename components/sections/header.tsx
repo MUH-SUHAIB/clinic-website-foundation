@@ -60,14 +60,14 @@ export default function Header() {
     <header
       className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-out ${
         isScrolled
-          ? "top-4 px-4 md:px-8"
+          ? "top-4 px-4 md:px-6"
           : "top-0 px-0 bg-[var(--color-secondary,#eaf0f6)]"
       }`}
     >
       <div
-        className={`container mx-auto flex items-center justify-between gap-6 md:gap-8 transition-all duration-500 ease-out ${
+        className={`container mx-auto flex items-center justify-between gap-4 transition-all duration-500 ease-out ${
           isScrolled
-            ? "bg-white/85 backdrop-blur-xl border border-blue-100/60 shadow-[0_8px_30px_-10px_rgba(59,130,246,0.15)] py-2.5 px-5 md:px-6 rounded-[2rem]"
+            ? "bg-white/90 backdrop-blur-xl border border-blue-100/60 shadow-[0_8px_30px_-10px_rgba(59,130,246,0.15)] py-2.5 px-4 md:px-5 rounded-[2rem]"
             : "bg-transparent border-transparent shadow-none py-4 md:py-5 px-5 md:px-8 rounded-none"
         }`}
       >
@@ -79,20 +79,20 @@ export default function Header() {
           <Image
             src="/baghdad/logo.png"
             alt="Baghdad Medical Center"
-            width={130}
-            height={45}
-            className="h-auto w-[110px] md:w-[130px] rounded-xl md:rounded-2xl"
+            width={120}
+            height={42}
+            className="h-auto w-[100px] md:w-[120px] rounded-xl"
             priority
           />
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-5">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-slate-800 hover:text-blue-700 text-sm font-semibold transition-colors py-1 group"
+              className="relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
             >
               {link.name}
 
@@ -102,24 +102,24 @@ export default function Header() {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4 shrink-0">
+        <div className="hidden lg:flex items-center gap-2.5 xl:gap-3 shrink-0">
           {/* Language Switcher */}
           <Link
             href={`/${nextLocale}`}
-            className="flex items-center gap-1.5 text-slate-600 hover:text-blue-700 text-sm font-semibold transition-colors px-2 py-1"
+            className="flex items-center gap-1 text-slate-600 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors px-1.5 py-1"
           >
             <span>
               {nextLocale === "ar" ? "عربي" : "English"}
             </span>
-            <Globe className="w-4 h-4" />
+            <Globe className="w-3.5 h-3.5" />
           </Link>
 
           {/* Call */}
           <a
             href="tel:+97168861115"
-            className="flex items-center gap-2 bg-blue-700 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-blue-700/20 hover:bg-blue-800 hover:shadow-lg hover:shadow-blue-700/30 transition-all duration-300 hover:-translate-y-0.5 text-sm"
+            className="flex items-center gap-1.5 bg-blue-700 text-white px-3.5 xl:px-4 py-2 rounded-full font-semibold shadow-md shadow-blue-700/20 hover:bg-blue-800 transition-all text-xs xl:text-sm"
           >
-            <Phone className="w-4 h-4" />
+            <Phone className="w-3.5 h-3.5" />
             <span>{t("callNow")}</span>
           </a>
 
@@ -128,9 +128,9 @@ export default function Header() {
             href="https://wa.me/971563564165"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-[#25D366]/20 hover:bg-[#20bd5a] hover:shadow-lg hover:shadow-[#25D366]/40 transition-all duration-300 hover:-translate-y-0.5 text-sm"
+            className="flex items-center gap-1.5 bg-[#25D366] text-white px-3.5 xl:px-4 py-2 rounded-full font-semibold shadow-md shadow-[#25D366]/20 hover:bg-[#20bd5a] transition-all text-xs xl:text-sm"
           >
-            <MessageCircle className="w-4 h-4" />
+            <MessageCircle className="w-3.5 h-3.5" />
             <span>{t("whatsapp")}</span>
           </a>
         </div>
