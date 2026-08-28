@@ -1,70 +1,12 @@
-import { Facebook, Instagram, Phone, MessageCircle } from "lucide-react";
-import type {
-  HeroContent,
-  AboutContent,
-  ServicesContent,
-  DoctorsContent,
-  FacilitiesContent,
-  TestimonialsContent,
-  InsuranceContent,
-  FAQContent,
-  ContactContent,
-  FooterContent,
-} from "@/components/sections";
-
-/**
- * TEMPORARY MOCK CONTENT — homepage placeholder data only.
- *
- * This file exists so `app/[locale]/page.tsx` can assemble every section
- * with realistic content without hardcoding any of it into the section
- * components themselves. Replace with real per-clinic content (ideally
- * sourced from next-intl messages or a CMS) before shipping a specific
- * clinic's site — nothing here is production copy.
- */
-
-export const heroContent: HeroContent = {
-  badge: "Trusted Medical Center",
-  headline: "Baghdad Medical Center",
-  subtitle: "Trusted Multispecialty Medical Care in Al Madam, Sharjah",
-  description:
-    "Providing compassionate, modern healthcare for individuals and families with experienced doctors and quality medical services.",
-  primaryCta: {
-    label: "050 238 8626",
-    href: "tel:+971502388626",
-    icon: <Phone size={18} />,
-  },
-  secondaryCta: {
-    label: "056 356 4165",
-    href: "https://wa.me/971563564165",
-    icon: <MessageCircle size={18} />,
-  },
-  image: { src: "/baghdad/hero-reception.png", alt: "Reception area of Baghdad Medical Center" },
-};
-
-export const aboutContent: AboutContent = {
-  eyebrow: "ABOUT US",
-  title: "Compassionate Healthcare Built on Trust and Excellence",
-  paragraphs: [
-    "At Baghdad Medical Center, we believe that health is life's greatest wealth. Guided by the vision of our founder, Dr. Safaa Mohamed Hussein, we are committed to providing compassionate, patient-centered healthcare through experienced doctors, advanced medical technology, and modern facilities. Every patient is treated with professionalism, respect, and genuine care.",
-  ],
-  mission: {
-    title: "Our Mission",
-    description:
-      "To improve the health and well-being of our community by delivering compassionate, accessible, and high-quality healthcare supported by experienced medical professionals, advanced technology, and patient-focused care.",
-  },
-  vision: {
-    title: "Our Vision",
-    description:
-      "To be the trusted healthcare destination for families in Al Madam by combining medical excellence, modern facilities, and continuous innovation in patient care.",
-  },
-  image: { src: "/baghdad/about-founder-doctor.png", alt: "Dr. Safaa Mohamed Hussein, Founder of Baghdad Medical Center" },
-  founderQuote: {
-    quote:
-      "We believe that health is the greatest wealth a person can possess. Our goal is to help patients achieve the highest levels of health and well-being, and we work diligently to create a supportive and dedicated environment in their service.",
-    author: "Dr. Safaa Mohamed Hussein",
-    role: "Founder, Baghdad Medical Center",
-  },
-};
+import { Facebook, Instagram } from "lucide-react";
+import type { ServicesContent } from "@/components/sections/services";
+import type { DoctorsContent } from "@/components/sections/doctors";
+import type { FacilitiesContent } from "@/components/sections/facilities";
+import type { TestimonialsContent } from "@/components/sections/testimonials";
+import type { InsuranceContent } from "@/components/sections/insurance";
+import type { FAQContent as FAQContent } from "@/components/sections/faq";
+import type { ContactContent } from "@/components/sections/contact";
+import type { FooterContent } from "@/components/sections/footer";
 
 export const servicesContent: ServicesContent = {
   eyebrow: "OUR SERVICES",
@@ -285,7 +227,6 @@ export const insuranceContent: InsuranceContent = {
     { src: "/baghdad/insurance/nextcare.svg", alt: "NextCare" },
     { src: "/baghdad/insurance/al-buhaira.svg", alt: "Al Buhaira" },
   ],
-
 };
 
 export const faqContent: FAQContent = {
@@ -293,7 +234,6 @@ export const faqContent: FAQContent = {
   title: "Common Questions",
   description: "Answers to what patients ask us most.",
   items: [
-    // Row 1 (Short)
     {
       question: "Do I need an appointment?",
       answer: "Walk-ins are welcome, but booking ahead guarantees your preferred time slot with minimal wait time.",
@@ -302,7 +242,6 @@ export const faqContent: FAQContent = {
       question: "What are your working hours?",
       answer: "We are open Saturday through Thursday from 9:00 AM to 9:00 PM, and Friday from 4:00 PM to 9:00 PM.",
     },
-    // Row 2 (Medium)
     {
       question: "Do you accept insurance?",
       answer: "Yes — we partner with major providers including NextCare, AlMadallah, Al-Buhaira, Neuron, FMC, and Life Line.",
@@ -311,7 +250,6 @@ export const faqContent: FAQContent = {
       question: "What should I bring for my first visit?",
       answer: "Please bring a valid Emirates ID and your digital or physical insurance card (if applicable).",
     },
-    // Row 3 (Long)
     {
       question: "Does insurance cover laser, cosmetic, or Hijama (cupping) treatments?",
       answer: "No. Insurance covers core consultations and treatments in General Medicine, Dermatology, Dentistry, and Gynecology. Laser, skincare, and Hijama services are direct-pay only.",
@@ -320,7 +258,6 @@ export const faqContent: FAQContent = {
       question: "Do you offer Hijama (cupping therapy) and laser treatments?",
       answer: "Yes, we provide professional Hijama (cupping therapy), cosmetic laser treatments, and advanced skincare procedures.",
     },
-    // Row 4 (Medium)
     {
       question: "What medical specialties do you offer?",
       answer: "We offer General Medicine, Dentistry, Dermatology, Obstetrics & Gynecology, Pediatrics, and internal diagnostics.",
@@ -339,7 +276,6 @@ export const faqContent: FAQContent = {
     phoneLink: "tel:+971502388626",
   }
 };
-
 
 export const contactContent: ContactContent = {
   eyebrow: "Contact Us",
@@ -362,8 +298,6 @@ export const contactContent: ContactContent = {
   mapEmbedSrc: "https://www.google.com/maps?q=24.914790376977315,55.77578987975816&hl=en&z=17&output=embed",
 };
 
-
-
 export const footerContent: FooterContent = {
   clinicName: "Baghdad Medical Center",
   logo: { src: "/baghdad/logo.png", alt: "Baghdad Medical Center" },
@@ -385,7 +319,7 @@ export const footerContent: FooterContent = {
   mobile: "050 238 8626",
   mobileHref: "+971502388626",
   whatsapp: "056 356 4165",
-  whatsappHref: "https://wa.me/971563564165", // We will make the Footer use this
+  whatsappHref: "https://wa.me/971563564165",
   email: "info@baghdadmedicalcenter.ae",
   
   address: [
