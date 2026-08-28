@@ -26,14 +26,29 @@ import {
   footerContent,
 } from "@/lib/mock-data/homepage";
 
-export const metadata: Metadata = {
-  title:
-    "Baghdad Medical Center - Al Madam",
-  description:
-    "Modern diagnostics, calm consultations, and expert doctors in Sharjah. Book your appointment with Baghdad Medical Center today.",
+type Props = {
+  params: Promise<{ locale: string }>;
 };
 
-export default function HomePage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const isArabic = locale === "ar";
+
+  return {
+    title: {
+      absolute: isArabic
+        ? "مركز بغداد الطبي ـ المدام"
+        : "Baghdad Medical Center - Al Madam",
+    },
+    description: isArabic
+      ? "تشخيصات حديثة، استشارات هادئة، وأطباء خبراء في الشارقة. احجز موعدك مع مركز بغداد الطبي اليوم."
+      : "Modern diagnostics, calm consultations, and expert doctors in Sharjah. Book your appointment with Baghdad Medical Center today.",
+  };
+}
+
+export default async function HomePage({ params }: Props) {
+  const { locale } = await params;
+
   return (
     <main className="min-h-screen pt-20">
       <Hero {...heroContent} animate />
