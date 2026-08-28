@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { Section } from "./section-shell";
 import { Heading, Text } from "@/components/ui/typography";
-import { Button, LinkButton } from "@/components/ui/button";
-import { AppointmentModal } from "./appointment-modal";
+import { LinkButton } from "@/components/ui/button";
 import type { CTAContent, ImageContent } from "./types";
 import { staggerContainer, fadeIn, slideUp, duration, easing } from "@/lib/motion";
 
@@ -37,7 +35,6 @@ export function Hero({
 }: HeroContent) {
   const resolvedImage = normalizeImage(image, `${headline} — clinic doctor`);
   const TextWrapper = animate ? motion.div : "div";
-  const [isBookingOpen, setBookingOpen] = useState(false);
 
   return (
     <div className="relative overflow-hidden">
@@ -90,16 +87,16 @@ export function Hero({
               {...(animate ? { variants: slideUp } : {})}
               className="mt-4 flex w-full flex-col gap-3 sm:flex-row sm:w-auto md:justify-start"
             >
-              <Button
+              <LinkButton
+                href={primaryCta.href}
                 variant={primaryCta.variant ?? "primary"}
                 size="lg"
                 icon={primaryCta.icon}
                 fullWidth
                 className="w-full sm:w-auto min-h-[48px] py-3.5 px-6 whitespace-nowrap !rounded-full !font-semibold !text-sm sm:!text-base !shadow-md !shadow-blue-700/20 hover:!shadow-lg hover:!shadow-blue-700/30 !transition-all !duration-300 hover:-translate-y-0.5 !bg-blue-700 hover:!bg-blue-800 !text-white"
-                onClick={() => setBookingOpen(true)}
               >
                 {primaryCta.label}
-              </Button>
+              </LinkButton>
 
               <LinkButton
                 href={secondaryCta.href}
@@ -139,8 +136,6 @@ export function Hero({
           </motion.div>
         </div>
       </Section>
-
-      <AppointmentModal isOpen={isBookingOpen} onClose={() => setBookingOpen(false)} />
     </div>
   );
 }

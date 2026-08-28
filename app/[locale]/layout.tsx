@@ -33,6 +33,7 @@ const inter = Inter({
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
 export const viewport = {
   themeColor: "#ffffff",
   width: "device-width",
@@ -41,12 +42,19 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Baghdad Medical Center",
+  metadataBase: new URL("https://baghdadmedicalcenter.ae"),
+  title: {
+    default: "Baghdad Medical Center | مركز بغداد الطبي",
+    template: "%s | Baghdad Medical Center",
+  },
   description:
-    "Compassionate, patient-centered healthcare in Al Madam, Sharjah.",
+    "Compassionate, multispecialty healthcare for individuals and families in Al Madam, Sharjah. مركز بغداد الطبي - رعاية صحية متكاملة في المدام، الشارقة.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon-logo.png",
+    icon: [
+      { url: "/favicon-logo.png", sizes: "any" },
+      { url: "/favicon-logo.png", type: "image/png" },
+    ],
     shortcut: "/favicon-logo.png",
     apple: "/apple-touch-logo.png",
   },
@@ -73,9 +81,37 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const dir = getDirection(locale as Locale);
 
+  // Structured JSON-LD Data for Google Sitelinks & Search Knowledge Graph
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": locale === "ar" ? "مركز بغداد الطبي" : "Baghdad Medical Center",
+    "alternateName": locale === "ar" ? "Baghdad Medical Center" : "مركز بغداد الطبي",
+    "url": `https://baghdadmedicalcenter.ae/${locale}`,
+    "logo": "https://baghdadmedicalcenter.ae/favicon-logo.png",
+    "image": "https://baghdadmedicalcenter.ae/favicon-logo.png",
+    "description":
+      locale === "ar"
+        ? "مركز طبي متعدد التخصصات يقدم أفضل الخدمات الطبية والرعاية الصحية في المدام، الشارقة."
+        : "Multispecialty Medical Center providing compassionate, modern healthcare in Al Madam, Sharjah.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Al Madam",
+      "addressRegion": "Sharjah",
+      "addressCountry": "AE"
+    },
+    "telephone": "+971502388626",
+    "priceRange": "$$"
+  };
+
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      {/* Removed the hardcoded <head> tags here */}
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
