@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, Phone, MessageCircle, Globe } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
@@ -13,6 +13,7 @@ export default function Header() {
 
   const locale = useLocale();
   const nextLocale = locale === "en" ? "ar" : "en";
+  const t = useTranslations("Navigation");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,21 +46,21 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Doctors", href: "#doctors" },
-    { name: "Facilities", href: "#facilities" },
-    { name: "Reviews", href: "#testimonials" },
-    { name: "Insurance", href: "#insurance" },
-    { name: "FAQ", href: "#faq" },
-    { name: "Contact", href: "#contact" },
+    { name: t("about"), href: "#about" },
+    { name: t("services"), href: "#services" },
+    { name: t("doctors"), href: "#doctors" },
+    { name: t("facilities"), href: "#facilities" },
+    { name: t("reviews"), href: "#testimonials" },
+    { name: t("insurance"), href: "#insurance" },
+    { name: t("faq"), href: "#faq" },
+    { name: t("contact"), href: "#contact" },
   ];
 
   return (
     <header
       className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-out ${
-        isScrolled 
-          ? "top-4 px-4 md:px-8" 
+        isScrolled
+          ? "top-4 px-4 md:px-8"
           : "top-0 px-0 bg-[var(--color-secondary,#eaf0f6)]"
       }`}
     >
@@ -71,7 +72,10 @@ export default function Header() {
         }`}
       >
         {/* Logo */}
-        <a href={`/${locale}`} className="flex items-center shrink-0 cursor-pointer">
+        <a
+          href={`/${locale}`}
+          className="flex items-center shrink-0 cursor-pointer"
+        >
           <Image
             src="/baghdad/logo.png"
             alt="Baghdad Medical Center"
@@ -86,11 +90,12 @@ export default function Header() {
         <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
-              key={link.name}
+              key={link.href}
               href={link.href}
               className="relative text-slate-800 hover:text-blue-700 text-sm font-semibold transition-colors py-1 group"
             >
               {link.name}
+
               <span className="absolute inset-x-0 bottom-0 h-[2px] bg-red-400 transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300 ease-out rounded-full" />
             </Link>
           ))}
@@ -98,22 +103,27 @@ export default function Header() {
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4">
+          {/* Language Switcher */}
           <Link
             href={`/${nextLocale}`}
             className="flex items-center gap-1 text-slate-600 hover:text-blue-700 text-sm font-semibold transition-colors"
           >
+            <span>
+              {nextLocale === "ar" ? "عربي" : "English"}
+            </span>
             <Globe className="w-4 h-4" />
-            <span>{nextLocale === "ar" ? "عربي" : "English"}</span>
           </Link>
 
+          {/* Call */}
           <a
             href="tel:+97168861115"
             className="flex items-center gap-2 bg-blue-700 text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-blue-700/20 hover:bg-blue-800 hover:shadow-lg hover:shadow-blue-700/30 transition-all duration-300 hover:-translate-y-0.5 text-sm"
           >
             <Phone className="w-4 h-4" />
-            <span>Call</span>
+            <span>{t("callNow")}</span>
           </a>
 
+          {/* WhatsApp */}
           <a
             href="https://wa.me/971563564165"
             target="_blank"
@@ -121,7 +131,7 @@ export default function Header() {
             className="flex items-center gap-2 bg-[#25D366] text-white px-5 py-2.5 rounded-full font-semibold shadow-md shadow-[#25D366]/20 hover:bg-[#20bd5a] hover:shadow-lg hover:shadow-[#25D366]/40 transition-all duration-300 hover:-translate-y-0.5 text-sm"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>WhatsApp</span>
+            <span>{t("whatsapp")}</span>
           </a>
         </div>
 
@@ -155,7 +165,7 @@ export default function Header() {
           >
             {navLinks.map((link) => (
               <Link
-                key={link.name}
+                key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
@@ -166,24 +176,30 @@ export default function Header() {
 
             <div className="w-full h-px bg-blue-50 my-3" />
 
+            {/* Language Switcher */}
             <Link
               href={`/${nextLocale}`}
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-2 text-slate-700 font-semibold p-3 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all"
             >
               <Globe className="w-5 h-5" />
-              <span>{nextLocale === "ar" ? "العربية" : "English"}</span>
+
+              <span>
+                {nextLocale === "ar" ? "العربية" : "English"}
+              </span>
             </Link>
 
             <div className="flex flex-col gap-3 mt-2">
+              {/* Call */}
               <a
                 href="tel:+97168861115"
                 className="flex items-center justify-center gap-2 bg-blue-700 text-white px-5 py-3.5 rounded-xl font-semibold w-full hover:bg-blue-800 shadow-md shadow-blue-700/20 active:scale-[0.98] transition-all duration-200"
               >
                 <Phone className="w-5 h-5" />
-                <span>Call</span>
+                <span>{t("callNow")}</span>
               </a>
 
+              {/* WhatsApp */}
               <a
                 href="https://wa.me/971563564165"
                 target="_blank"
@@ -191,7 +207,7 @@ export default function Header() {
                 className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-semibold w-full hover:bg-[#20bd5a] shadow-md shadow-[#25D366]/20 active:scale-[0.98] transition-all duration-200"
               >
                 <MessageCircle className="w-5 h-5" />
-                <span>WhatsApp</span>
+                <span>{t("whatsapp")}</span>
               </a>
             </div>
           </motion.div>

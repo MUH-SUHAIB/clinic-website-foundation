@@ -14,8 +14,6 @@ import {
 } from "@/components/sections";
 
 import {
-  heroContent,
-  aboutContent,
   servicesContent,
   doctorsContent,
   facilitiesContent,
@@ -51,14 +49,15 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <main className="min-h-screen pt-20">
-      <Hero {...heroContent} animate />
+      {/* 
+        Fully localized sections pulling from messages/ar.json and en.json 
+      */}
+      <Hero animate />
+      <About animate />
 
-      <About
-        {...aboutContent}
-        id="about"
-        animate
-      />
-
+      {/* 
+        Sections still using mock data (we will update these next) 
+      */}
       <Services
         {...servicesContent}
         id="services"

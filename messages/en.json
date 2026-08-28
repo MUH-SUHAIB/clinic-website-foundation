@@ -1,6 +1,35 @@
 {
-  "common": {
-    "clinicName": "Clinic Name",
-    "language": "Language"
+  "Navigation": {
+    "about": "About",
+    "services": "Services",
+    "doctors": "Doctors",
+    "facilities": "Facilities",
+    "reviews": "Reviews",
+    "insurance": "Insurance",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "callNow": "Call",
+    "whatsapp": "WhatsApp"
+  },
+  "Hero": {
+    "badge": "Trusted Medical Center",
+    "headline": "Baghdad Medical Center",
+    "subtitle": "Trusted Multispecialty Medical Care in Al Madam, Sharjah",
+    "description": "Providing compassionate, modern healthcare for individuals and families with experienced doctors and quality medical services.",
+    "primaryCta": "050 238 8626",
+    "secondaryCta": "056 356 4165"
+  },
+  "About": {
+    "eyebrow": "ABOUT US",
+    "title": "Compassionate Healthcare Built on Trust and Excellence",
+    "paragraph1": "At Baghdad Medical Center, we believe that health is life's greatest wealth. Guided by the vision of our founder, Dr. Safaa Mohamed Hussein, we are committed to providing compassionate, patient-centered healthcare through experienced doctors, advanced medical technology, and modern facilities. Every patient is treated with professionalism, respect, and genuine care.",
+    "missionTitle": "Our Mission",
+    "missionDesc": "To improve the health and well-being of our community by delivering compassionate, accessible, and high-quality healthcare supported by experienced medical professionals, advanced technology, and patient-focused care.",
+    "visionTitle": "Our Vision",
+    "visionDesc": "To be the trusted healthcare destination for families in Al Madam by combining medical excellence, modern facilities, and continuous innovation in patient care.",
+    "quote": "We believe that health is the greatest wealth a person can possess. Our goal is to help patients achieve the highest levels of health and well-being, and we work diligently to create a supportive and dedicated environment in their service.",
+    "author": "Dr. Safaa Mohamed Hussein",
+    "role": "Founder, Baghdad Medical Center"
   }
+
 }
