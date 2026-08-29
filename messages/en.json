@@ -129,6 +129,22 @@
         "label": "Patient Comfort Area"
       }
     }
+  },
+  "Testimonials": {
+    "eyebrow": "Patient Stories",
+    "title": "What Our Patients Say",
+    "description": "Read feedback from patients who trust us with their health.",
+    "platform": "Google Reviews",
+    "ctaLabel": "View More on Google Reviews",
+    "pauseLabel": "Pause testimonials",
+    "playLabel": "Play testimonials",
+    "prevLabel": "Previous review",
+    "nextLabel": "Next review"
+  },
+  "Insurance": {
+    "eyebrow": "Insurance Partners",
+    "title": "Accepted Insurance Providers",
+    "description": "We work with major health insurance networks to ensure your medical experience is smooth, accessible, and covered."
   }
 
 }

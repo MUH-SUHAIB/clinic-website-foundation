@@ -10,6 +10,7 @@ import {
   Play,
   Pause,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Section } from "./section-shell";
 import { Text } from "@/components/ui/typography";
 import type { CTAContent } from "./types";
@@ -32,13 +33,12 @@ export interface TestimonialsContent {
     totalReviews: string;
     platform?: string;
   };
-  testimonials: TestimonialItem[];
-  appointmentCta: CTAContent;
+  testimonials?: TestimonialItem[];
+  appointmentCta?: CTAContent;
   animate?: boolean;
 }
 
 /* Authentic Google "G" Vector Brand Mark */
-/* Note: For maximum optimization, move this to /public/google-icon.svg and use next/image */
 function GoogleIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
@@ -111,16 +111,75 @@ const slideVariants = {
   }),
 };
 
+const defaultTestimonials: TestimonialItem[] = [
+  {
+    name: "Muna Mohamed",
+    review:
+      "الدكتورة يارا متميزة جدًا في عملها، لديها خبرة عالية ودقة واضحة في التشخيص والعلاج. أسلوبها راقٍ وتعاملها لطيف جدًا ويمنح المريضة راحة وثقة. تشرح الحالة بشكل واضح وتهتم بكل التفاصيل، وهذا يدل على حرصها وإخلاصها في عملها. بصراحة، من أفضل الطبيبات اللاتي تعاملت معهن، وأنصح بها بشدة.",
+    date: "2026-05-10",
+    rating: 5,
+  },
+  {
+    name: "جوجو الكعبي",
+    review:
+      "دكتورة يارا من أروع طبيبات التجميل، دقيقة في عملها وذوقها راقٍ جدًا. تهتم بأدق التفاصيل وتحرص على راحة المراجع. كانت تجربة أكثر من ممتازة، وأنصح الجميع بزيارتها. أسلوبها راقٍ وتعاملها لا يُعلى عليه. شكرًا دكتورة يارا، وإن شاء الله لي زيارات جديدة قادمة ❤️",
+    date: "2026-04-02",
+    rating: 5,
+  },
+  {
+    name: "Sultan Harib",
+    review:
+      "أخذت باكيج جلسات عند الدكتورة يارا لعلاج الشعر، وما شاء الله خفّ تساقط الشعر وزادت كثافته، وسعر الجلسات مناسب.",
+    date: "2026-01-20",
+    rating: 5,
+  },
+  {
+    name: "Ahmed Habib",
+    review:
+      "تجربتي عند دكتورة الأسنان كانت ممتازة بكل التفاصيل. تعاملها مع الأسنان احترافي ودقيق، وتشرح كل خطوة بطريقة تريح المريض. المكان نظيف جدًا ومرتب ويعطي انطباعًا بالثقة من أول ما تدخل. الموظفون محترمون، وتعاملهم لطيف وسريع، ويسهّلون جميع الإجراءات. بصراحة كانت تجربة رائعة وأنصح بها بكل تأكيد.",
+    date: "2025-11-15",
+    rating: 5,
+  },
+  {
+    name: "Ahed Saif",
+    review:
+      "ماشالله المركز بقمه النظافه والي في السربشين اسمها لانا جدا ممتاذه في التعامل والاستقبال والهنديه تبع الليزر اسمها اشنا ماشالله بنصح التجربه",
+    date: "2026-08-10",
+    rating: 5,
+  },
+  {
+    name: "Waqar Ahmad",
+    review: "Good.",
+    date: "2025-01-18",
+    rating: 4,
+  },
+  {
+    name: 'MOHAMMAD "mmsir"',
+    review: "It's ok 👍",
+    date: "2024-06-10",
+    rating: 3,
+  },
+];
+
+const defaultAggregateScore = {
+  rating: 4.4,
+  totalReviews: "80+",
+  platform: "Google Reviews",
+};
+
+const defaultCta: CTAContent = {
+  label: "View More on Google Reviews",
+  href: "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7731613,17z/data=!4m14!1m5!8m4!1e1!2s108076981700144378409!3m1!1e1!3m7!1s0x3ef573f609a9bbf7:0x9ebb7b0be900046e!8m2!3d24.9146055!4d55.7757416!9m1!1b1!16s%2Fg%2F11clvpfq2k?hl=en-GB&entry=ttu",
+};
+
 export function Testimonials({
-  id,
-  eyebrow = "Patient Stories",
-  title = "What Our Patients Say",
-  description,
-  aggregateScore,
-  testimonials,
-  appointmentCta,
+  id = "testimonials",
+  aggregateScore = defaultAggregateScore,
+  testimonials = defaultTestimonials,
+  appointmentCta = defaultCta,
   animate = false,
 }: TestimonialsContent) {
+  const t = useTranslations("Testimonials");
   const [[page, direction], setPage] = useState([0, 0]);
   const [isHovered, setIsHovered] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -162,7 +221,7 @@ export function Testimonials({
       <div className="relative w-full overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(255,241,242,0.7)_0%,rgba(239,246,255,0.6)_40%,rgba(219,234,254,0.4)_100%)] dark:bg-[linear-gradient(to_bottom,rgba(225,29,72,0.03)_0%,rgba(29,78,216,0.03)_40%,transparent_100%)]" aria-hidden="true" />
 
-        <Section id={id} eyebrow={eyebrow} title={title} description={description} animate={animate}>
+        <Section id={id} eyebrow={t("eyebrow")} title={t("title")} description={t("description")} animate={animate}>
           {aggregateScore && (
             <m.div
               {...(animate ? { variants: slideUp, initial: "hidden", whileInView: "visible", viewport: { once: true } } : {})}
@@ -173,7 +232,7 @@ export function Testimonials({
                 <span className="text-sm font-bold tracking-tight text-foreground">{aggregateScore.rating.toFixed(1)}</span>
                 <StarRating rating={Math.round(aggregateScore.rating)} />
                 <span className="h-3.5 w-px bg-slate-300 dark:bg-slate-600" />
-                <span className="text-xs font-medium text-muted-foreground">{aggregateScore.totalReviews} {aggregateScore.platform}</span>
+                <span className="text-xs font-medium text-muted-foreground">{aggregateScore.totalReviews} {t("platform")}</span>
               </div>
             </m.div>
           )}
@@ -189,7 +248,7 @@ export function Testimonials({
               <button
                 onClick={() => setIsAutoPlaying(!isAutoPlaying)}
                 className="absolute top-6 end-6 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-slate-500 transition-colors hover:bg-white hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:bg-slate-800/60 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-blue-400 dark:focus-visible:ring-offset-slate-900"
-                aria-label={isAutoPlaying ? "Pause testimonials" : "Play testimonials"}
+                aria-label={isAutoPlaying ? t("pauseLabel") : t("playLabel")}
               >
                 {isAutoPlaying ? <Pause className="h-4 w-4" fill="currentColor" /> : <Play className="h-4 w-4" fill="currentColor" />}
               </button>
@@ -199,7 +258,7 @@ export function Testimonials({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => paginate(-1)}
-                aria-label="Previous review"
+                aria-label={t("prevLabel")}
                 className="absolute start-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/90 text-foreground shadow-md backdrop-blur-md transition-colors hover:border-blue-400 hover:bg-blue-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:start-6 sm:h-12 sm:w-12 dark:border-slate-700 dark:bg-slate-800 dark:focus-visible:ring-offset-slate-900"
               >
                 <ChevronLeft className="h-5 w-5 rtl:rotate-180" />
@@ -210,7 +269,7 @@ export function Testimonials({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => paginate(1)}
-                aria-label="Next review"
+                aria-label={t("nextLabel")}
                 className="absolute end-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/90 text-foreground shadow-md backdrop-blur-md transition-colors hover:border-blue-400 hover:bg-blue-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:end-6 sm:h-12 sm:w-12 dark:border-slate-700 dark:bg-slate-800 dark:focus-visible:ring-offset-slate-900"
               >
                 <ChevronRight className="h-5 w-5 rtl:rotate-180" />
@@ -296,7 +355,7 @@ export function Testimonials({
               className="group relative inline-flex items-center gap-3 rounded-full border border-blue-300 bg-white/70 px-8 py-4 text-sm font-semibold text-foreground shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 hover:border-blue-400 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-blue-800/50 dark:bg-slate-900/70 dark:hover:bg-blue-900/30 dark:focus-visible:ring-offset-slate-900"
             >
               <GoogleIcon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-              <span>{appointmentCta.label}</span>
+              <span>{t("ctaLabel")}</span>
               <ExternalLink className="h-4 w-4 text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1 group-hover:text-blue-500" />
             </m.a>
           </div>

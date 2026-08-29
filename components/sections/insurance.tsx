@@ -2,39 +2,25 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { Section } from "./section-shell";
 import { Text } from "@/components/ui/typography";
 import { staggerContainer, slideUp, duration, easing } from "@/lib/motion";
 
 export interface InsuranceLogo {
-  /** Logo image src. Omit to render a placeholder tile with `alt` as the label. */
   src?: string;
-  /** Insurer name — used as alt text when `src` is provided, and as the visible label when it isn't. */
   alt: string;
 }
 
 export interface InsuranceContent {
-  /** Anchor id for nav links / SEO deep-linking, e.g. "insurance". */
   id?: string;
-  eyebrow?: string;
-  title: string;
-  /** Short supporting line above the grid, e.g. "We work with all major providers." */
-  description?: string;
-  logos: InsuranceLogo[];
+  logos?: InsuranceLogo[]; // Marked as optional here
   animate?: boolean;
   playful?: boolean;
 }
 
 const TILT_DEGREES = [-2, 1.5, -1, 2, -1.5, 1, -2];
 
-/**
- * Grid mapping for the 7-card layout on desktop:
- * - 1 center card (2x2)
- * - 1 top card
- * - 2 left cards
- * - 2 right cards
- * - 1 bottom card
- */
 const getGridLayout = (index: number) => {
   switch (index) {
     case 0:
@@ -110,27 +96,24 @@ function LogoCard({
 }
 
 export function Insurance({
-  id,
-  eyebrow,
-  title,
-  description,
-  logos,
+  id = "insurance",
   animate = false,
   playful = false,
 }: InsuranceContent) {
+  const t = useTranslations("Insurance");
+
+  const logos: InsuranceLogo[] = [
+    { src: "/baghdad/insurance/al-madallah.svg", alt: "Al Madallah" },
+    { src: "/baghdad/insurance/lifeline.png", alt: "Lifeline" },
+    { src: "/baghdad/insurance/fmc.svg", alt: "FMC" },
+    { src: "/baghdad/insurance/enaya.svg", alt: "Enaya" },
+    { src: "/baghdad/insurance/neuron.svg", alt: "Neuron" },
+    { src: "/baghdad/insurance/nextcare.svg", alt: "NextCare" },
+    { src: "/baghdad/insurance/al-buhaira.svg", alt: "Al Buhaira" },
+  ];
+
   return (
     <div className="relative w-full overflow-hidden">
-      {/*
-        Seam fix: this MUST start at the exact color Testimonials' own
-        gradient ends at (rgba(219,234,254,0.4)), not at `transparent`.
-        Starting transparent guarantees a mismatch, since the section
-        above doesn't end transparent — it ends at a visible pale-blue
-        tint. Matching that exact value at 0% is what actually removes
-        the seam; everything after 0% is free to fade however you like.
-        Dark mode is untouched — Testimonials' dark gradient already
-        ends at `transparent`, so starting transparent here already
-        matches correctly in dark mode.
-      */}
       <div
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,rgba(219,234,254,0.4)_0%,rgba(239,246,255,0.2)_45%,transparent_100%)] dark:bg-[linear-gradient(to_bottom,transparent_0%,rgba(30,64,175,0.04)_40%,transparent_100%)]"
         aria-hidden="true"
@@ -138,9 +121,9 @@ export function Insurance({
 
       <Section
         id={id}
-        eyebrow={eyebrow}
-        title={title}
-        description={description}
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
         animate={animate}
         className="border-none bg-transparent"
       >
