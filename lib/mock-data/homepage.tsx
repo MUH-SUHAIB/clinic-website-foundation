@@ -1,5 +1,4 @@
 import { Facebook, Instagram } from "lucide-react";
-import type { ServicesContent } from "@/components/sections/services";
 import type { DoctorsContent } from "@/components/sections/doctors";
 import type { FacilitiesContent } from "@/components/sections/facilities";
 import type { TestimonialsContent } from "@/components/sections/testimonials";
@@ -7,46 +6,6 @@ import type { InsuranceContent } from "@/components/sections/insurance";
 import type { FAQContent as FAQContent } from "@/components/sections/faq";
 import type { ContactContent } from "@/components/sections/contact";
 import type { FooterContent } from "@/components/sections/footer";
-
-export const servicesContent: ServicesContent = {
-  eyebrow: "OUR SERVICES",
-  title: "Comprehensive Healthcare for the Whole Family",
-  description:
-    "From everyday healthcare to specialized medical services, Baghdad Medical Center provides compassionate, high-quality care for every stage of life through experienced professionals and modern medical facilities.",
-  columns: 3,
-  services: [
-    {
-      image: { src: "/baghdad/services/general-practice.jpg", alt: "General Practice consultation room at Baghdad Medical Center" },
-      title: "General Practice",
-      description: "Comprehensive primary healthcare, preventive check-ups, diagnosis, and treatment for patients of all ages.",
-    },
-    {
-      image: { src: "/baghdad/services/pediatrics.jpg", alt: "Pediatric care at Baghdad Medical Center" },
-      title: "Pediatrics",
-      description: "Compassionate healthcare for infants, children, and adolescents in a safe and welcoming environment.",
-    },
-    {
-      image: { src: "/baghdad/services/obstetrics-gynecology.jpg", alt: "Obstetrics and gynecology care at Baghdad Medical Center" },
-      title: "Obstetrics & Gynecology",
-      description: "Specialized women's healthcare, pregnancy care, and lifelong medical support.",
-    },
-    {
-      image: { src: "/baghdad/services/dentistry.jpg", alt: "Dentistry services at Baghdad Medical Center" },
-      title: "Dentistry",
-      description: "Comprehensive dental care including preventive, restorative, cosmetic, and implant dentistry.",
-    },
-    {
-      image: { src: "/baghdad/services/skincare.jpg", alt: "Skin care and aesthetics treatment room at Baghdad Medical Center" },
-      title: "Skin Care & Aesthetics",
-      description: "Professional skincare, facial treatments, laser procedures, and aesthetic services tailored to your needs.",
-    },
-    {
-      image: { src: "/baghdad/services/hijama-prp.jpg", alt: "Hijama and PRP therapy room at Baghdad Medical Center" },
-      title: "Hijama & PRP Therapy",
-      description: "Traditional Hijama therapy together with advanced PRP treatments for wellness, skin rejuvenation, and hair restoration.",
-    },
-  ],
-};
 
 export const doctorsContent: DoctorsContent = {
   eyebrow: "Our Doctors",

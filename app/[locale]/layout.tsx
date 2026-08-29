@@ -79,6 +79,7 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
+  console.log("AVAILABLE TRANSLATIONS:", Object.keys(messages));
   const dir = getDirection(locale as Locale);
 
   // Structured JSON-LD Data for Google Sitelinks & Search Knowledge Graph

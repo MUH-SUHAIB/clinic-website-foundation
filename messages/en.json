@@ -30,6 +30,37 @@
     "quote": "We believe that health is the greatest wealth a person can possess. Our goal is to help patients achieve the highest levels of health and well-being, and we work diligently to create a supportive and dedicated environment in their service.",
     "author": "Dr. Safaa Mohamed Hussein",
     "role": "Founder, Baghdad Medical Center"
-  }
+  }, 
+   "Services": {
+      "eyebrow": "OUR SERVICES",
+      "title": "Comprehensive Healthcare for the Whole Family",
+      "description": "From everyday healthcare to specialized medical services, Baghdad Medical Center provides compassionate, high-quality care for every stage of life through experienced professionals and modern medical facilities.",
+      "items": {
+        "service1": {
+          "title": "General Practice",
+          "description": "Comprehensive primary healthcare, preventive check-ups, diagnosis, and treatment for patients of all ages."
+        },
+        "service2": {
+          "title": "Pediatrics",
+          "description": "Compassionate healthcare for infants, children, and adolescents in a safe and welcoming environment."
+        },
+        "service3": {
+          "title": "Obstetrics & Gynecology",
+          "description": "Specialized women's healthcare, pregnancy care, and lifelong medical support."
+        },
+        "service4": {
+          "title": "Dentistry",
+          "description": "Comprehensive dental care including preventive, restorative, cosmetic, and implant dentistry."
+        },
+        "service5": {
+          "title": "Skin Care & Aesthetics",
+          "description": "Professional skincare, facial treatments, laser procedures, and aesthetic services tailored to your needs."
+        },
+        "service6": {
+          "title": "Hijama & PRP Therapy",
+          "description": "Traditional Hijama therapy together with advanced PRP treatments for wellness, skin rejuvenation, and hair restoration."
+        }
+      }
+    }
 
 }

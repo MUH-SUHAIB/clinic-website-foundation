@@ -1,111 +1,82 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+
 import { Section } from "./section-shell";
 import { Heading, Text } from "@/components/ui/typography";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import type { ImageContent } from "./types";
+import { Card } from "@/components/ui/card";
+
 import { staggerContainer, slideUp } from "@/lib/motion";
 
-export interface ServiceItem {
-  image: ImageContent;
-  title: string;
-  description: string;
-}
+// Static image mapping - untouched
+const serviceItems = [
+  { id: "service1", image: "/baghdad/services/general-practice.jpg" },
+  { id: "service2", image: "/baghdad/services/pediatrics.jpg" },
+  { id: "service3", image: "/baghdad/services/obstetrics-gynecology.jpg" },
+  { id: "service4", image: "/baghdad/services/dentistry.jpg" },
+  { id: "service5", image: "/baghdad/services/skincare.jpg" },
+  { id: "service6", image: "/baghdad/services/hijama-prp.jpg" },
+];
 
-export interface ServicesContent {
-  /** Anchor id for nav links / SEO deep-linking, e.g. "services". */
-  id?: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  services: ServiceItem[];
-  /** Max grid columns at desktop width. Grid is always responsive down to 1 column on mobile. */
-  columns?: 2 | 3 | 4;
-  animate?: boolean;
-}
-
-const columnClasses: Record<2 | 3 | 4, string> = {
-  2: "sm:grid-cols-2",
-  3: "sm:grid-cols-2 lg:grid-cols-3",
-  4: "sm:grid-cols-2 lg:grid-cols-4",
-};
-
-export function Services({
-  id,
-  eyebrow,
-  title,
-  description,
-  services,
-  columns = 3,
-  animate = true,
-}: ServicesContent) {
+export function Services({ animate = true }: { animate?: boolean }) {
+  const t = useTranslations("Services");
   const Container = animate ? motion.div : "div";
 
   return (
-    <div className="relative overflow-hidden">
-      {/* Exact symmetric background gradient matching the About section */}
-      <div className="absolute inset-0 -z-10" aria-hidden>
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-background),var(--color-secondary)_50%,var(--color-background)_100%)]" />
-      </div>
+    <Section id="services" className="bg-slate-50/50 py-16 md:py-24 dark:bg-slate-900/50" align="center">
+      <Container
+        {...(animate
+          ? {
+              variants: staggerContainer,
+              initial: "hidden",
+              whileInView: "visible",
+              viewport: { once: true, margin: "-100px" },
+            }
+          : {})}
+        className="flex w-full flex-col items-center gap-12"
+      >
+        {/* TEXT HEADER */}
+        <motion.div {...(animate ? { variants: slideUp } : {})} className="flex max-w-3xl flex-col items-center text-center gap-4">
+          <Heading level="h6" className="text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider text-sm">
+            {t("eyebrow")}
+          </Heading>
+          <Heading level="h2" className="text-slate-900 dark:text-white">
+            {t("title")}
+          </Heading>
+          <Text variant="body" className="text-slate-600 dark:text-slate-300 sm:text-lg">
+            {t("description")}
+          </Text>
+        </motion.div>
 
-      <Section id={id} className="py-xl md:py-2xl">
-        <Container
-          {...(animate
-            ? {
-                variants: staggerContainer,
-                initial: "hidden",
-                whileInView: "visible",
-                viewport: { once: true, margin: "-50px" },
-              }
-            : {})}
-          className="flex flex-col items-center w-full"
-        >
-          {/* Animated Header Block */}
-          <motion.div
-            {...(animate ? { variants: slideUp } : {})}
-            className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14 gap-3"
-          >
-            {eyebrow && <Heading level="h6">{eyebrow}</Heading>}
-            <Heading level="h2" className="text-foreground">
-              {title}
-            </Heading>
-            {description && (
-              <Text variant="body" className="text-muted-foreground">
-                {description}
-              </Text>
-            )}
-          </motion.div>
-
-          {/* Animated Services Grid */}
-          <div className={`grid grid-cols-1 gap-6 w-full ${columnClasses[columns]}`}>
-            {services.map((service, i) => (
-              <motion.div
-                key={i}
-                {...(animate ? { variants: slideUp } : {})}
-                className="h-full"
-              >
-                <Card interactive className="group h-full flex flex-col overflow-hidden">
-                  {/* Matching 4/5 Aspect Ratio Image Wrapper */}
-                  <div className="relative w-full aspect-[4/4] overflow-hidden bg-muted">
-                    <img
-                      src={service.image.src}
-                      alt={service.image.alt}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-                    />
-                  </div>
-
-                  <CardHeader className="text-center flex flex-col items-center p-5 sm:p-6">
-                    <CardTitle>{service.title}</CardTitle>
-                    <CardDescription>{service.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-    </div>
+        {/* SERVICES GRID */}
+        <motion.div {...(animate ? { variants: slideUp } : {})} className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {serviceItems.map((item) => (
+            <Card
+              key={item.id}
+              interactive
+              className="flex flex-col overflow-hidden border-blue-100 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+            >
+              <div className="relative h-56 w-full overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={t(`items.${item.id}.title`)}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6 text-start">
+                <Heading level="h4" as="h3" className="mb-3 text-blue-700 dark:text-blue-400">
+                  {t(`items.${item.id}.title`)}
+                </Heading>
+                <Text variant="small" className="text-slate-600 dark:text-slate-300">
+                  {t(`items.${item.id}.description`)}
+                </Text>
+              </div>
+            </Card>
+          ))}
+        </motion.div>
+      </Container>
+    </Section>
   );
 }
