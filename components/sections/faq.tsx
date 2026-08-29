@@ -2,6 +2,7 @@
 
 import { useState, useId, memo } from "react";
 import { motion, type Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { ChevronDown, MessageCircle, PhoneCall } from "lucide-react";
 import { Section } from "./section-shell";
 import { Text } from "@/components/ui/typography";
@@ -25,11 +26,6 @@ export interface FAQSupport {
 
 export interface FAQContent {
   id?: string;
-  eyebrow?: string;
-  title?: string;
-  description?: string;
-  items: FAQItem[];
-  support?: FAQSupport;
   allowMultiple?: boolean;
   animate?: boolean;
   className?: string;
@@ -147,7 +143,14 @@ const FAQAccordionCard = memo(function FAQAccordionCard({
 });
 
 interface FAQSupportCTAProps {
-  support: FAQSupport;
+  support: {
+    title: string;
+    description: string;
+    phoneLabel: string;
+    phoneLink: string;
+    whatsappLabel: string;
+    whatsappLink: string;
+  };
   animate: boolean;
 }
 
@@ -216,18 +219,30 @@ const FAQSupportCTA = memo(function FAQSupportCTA({
 });
 
 export function FAQ({
-  id,
-  eyebrow,
-  title,
-  description,
-  items,
-  support,
+  id = "faq",
   allowMultiple = false,
   animate = false,
   className,
 }: FAQContent) {
+  const t = useTranslations("FAQ");
   const [openIndexes, setOpenIndexes] = useState<Set<number>>(new Set());
   const baseId = useId();
+
+  // Load items dynamically from next-intl
+  const itemKeys = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8"];
+  const items: FAQItem[] = itemKeys.map((key) => ({
+    question: t(`items.${key}.question`),
+    answer: t(`items.${key}.answer`),
+  }));
+
+  const support = {
+    title: t("support.title"),
+    description: t("support.description"),
+    phoneLabel: t("support.phoneLabel"),
+    phoneLink: "tel:+971502388626",
+    whatsappLabel: t("support.whatsappLabel"),
+    whatsappLink: "https://wa.me/971563564165",
+  };
 
   const handleToggle = (index: number) => {
     setOpenIndexes((prev) => {
@@ -281,9 +296,9 @@ export function FAQ({
 
       <Section
         id={id}
-        eyebrow={eyebrow}
-        title={title}
-        description={description}
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        description={t("description")}
         animate={animate}
         className="border-none bg-transparent"
       >
@@ -301,7 +316,7 @@ export function FAQ({
           >
             {items.map((item, index) => (
               <FAQAccordionCard
-                key={item.id ?? `${item.question}-${index}`}
+                key={`${item.question}-${index}`}
                 item={item}
                 index={index}
                 isOpen={openIndexes.has(index)}
@@ -312,7 +327,7 @@ export function FAQ({
             ))}
           </motion.div>
 
-          {support && <FAQSupportCTA support={support} animate={animate} />}
+          <FAQSupportCTA support={support} animate={animate} />
         </div>
       </Section>
     </div>

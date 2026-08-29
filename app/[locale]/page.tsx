@@ -14,7 +14,6 @@ import {
 } from "@/components/sections";
 
 import {
-  faqContent,
   contactContent,
   footerContent,
 } from "@/lib/mock-data/homepage";
@@ -54,22 +53,8 @@ export default async function HomePage({ params }: Props) {
       <Facilities animate />
       <Testimonials animate />
       <Insurance animate />
-
-      {/* 
-        Sections still using mock data (we will update these next) 
-      */}
-      <FAQ
-        {...faqContent}
-        id="faq"
-        animate
-      />
-
-      <Contact
-        {...contactContent}
-        id="contact"
-        animate
-      />
-
+      <FAQ animate />
+      <Contact {...contactContent} animate />
       <Footer {...footerContent} />
     </main>
   );

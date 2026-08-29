@@ -145,6 +145,86 @@
     "eyebrow": "Insurance Partners",
     "title": "Accepted Insurance Providers",
     "description": "We work with major health insurance networks to ensure your medical experience is smooth, accessible, and covered."
+  },
+  "FAQ": {
+    "eyebrow": "FAQ",
+    "title": "Common Questions",
+    "description": "Answers to what patients ask us most.",
+    "support": {
+      "title": "Can't find your answer?",
+      "description": "Our reception team is ready to help you with anything you need. Reach out to us directly.",
+      "whatsappLabel": "Chat on WhatsApp",
+      "phoneLabel": "Call Clinic"
+    },
+    "items": {
+      "item1": {
+        "question": "Do I need an appointment?",
+        "answer": "Walk-ins are welcome, but booking ahead guarantees your preferred time slot with minimal wait time."
+      },
+      "item2": {
+        "question": "What are your working hours?",
+        "answer": "We are open Saturday through Thursday from 9:00 AM to 9:00 PM, and Friday from 4:00 PM to 9:00 PM."
+      },
+      "item3": {
+        "question": "Do you accept insurance?",
+        "answer": "Yes — we partner with major providers including NextCare, AlMadallah, Al-Buhaira, Neuron, FMC, and Life Line."
+      },
+      "item4": {
+        "question": "What should I bring for my first visit?",
+        "answer": "Please bring a valid Emirates ID and your digital or physical insurance card (if applicable)."
+      },
+      "item5": {
+        "question": "Does insurance cover laser, cosmetic, or Hijama (cupping) treatments?",
+        "answer": "No. Insurance covers core consultations and treatments in General Medicine, Dermatology, Dentistry, and Gynecology. Laser, skincare, and Hijama services are direct-pay only."
+      },
+      "item6": {
+        "question": "Do you offer Hijama (cupping therapy) and laser treatments?",
+        "answer": "Yes, we provide professional Hijama (cupping therapy), cosmetic laser treatments, and advanced skincare procedures."
+      },
+      "item7": {
+        "question": "What medical specialties do you offer?",
+        "answer": "We offer General Medicine, Dentistry, Dermatology, Obstetrics & Gynecology, Pediatrics, and internal diagnostics."
+      },
+      "item8": {
+        "question": "Do you offer lab testing and diagnostics on-site?",
+        "answer": "Yes, our facility includes an on-site laboratory for routine blood work and essential diagnostic services."
+      }
+    }
+  },
+  "Contact": {
+    "eyebrow": "Contact Us",
+    "title": "Get in Touch",
+    "description": "Have a question or need to schedule a visit? Our team is available by phone, WhatsApp, or email to assist you.",
+    "instantConnect": "Instant Connect",
+    "location": "Our Location",
+    "workingHours": "Working Hours",
+    "openNow": "Open Now",
+    "closedNow": "Closed Now",
+    "getDirections": "Get Directions",
+    "mapUnavailable": "Map Embed Unavailable",
+    "mapTitle": "Clinic location map",
+    "days": {
+      "satThu": "Sat – Thu",
+      "fri": "Fri"
+    },
+    "hours": {
+      "satThuHours": "8:30 AM – 10:00 PM",
+      "friHours": "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM"
+    }
+  },
+  "Footer": {
+    "clinicName": "Baghdad Medical Center",
+    "tagline": "Compassionate, patient-centered healthcare for individuals and families in Al Madam, Sharjah.",
+    "followUs": "Follow Us",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Information",
+    "copyright": "© {year} Baghdad Medical Center. All rights reserved.",
+    "address": [
+      "Al Madam, Sharjah",
+      "First Abu Dhabi Bank (FAB) Building",
+      "Side Entrance",
+      "First Floor"
+    ]
   }
 
 }

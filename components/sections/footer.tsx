@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Phone,
   Mail,
@@ -24,10 +25,7 @@ export interface FooterSocialLink {
 }
 
 export interface FooterContent {
-  clinicName: string;
   logo?: ImageContent;
-  tagline?: string;
-  quickLinks: FooterLink[];
   phone?: string;
   phoneHref?: string;
   mobile?: string;
@@ -35,17 +33,12 @@ export interface FooterContent {
   whatsapp?: string;
   whatsappHref?: string;
   email?: string;
-  address?: string[];
   addressHref?: string;
   socialLinks?: FooterSocialLink[];
-  copyright: string;
 }
 
 export function Footer({
-  clinicName,
   logo,
-  tagline,
-  quickLinks,
   phone,
   phoneHref,
   mobile,
@@ -53,15 +46,27 @@ export function Footer({
   whatsapp,
   whatsappHref,
   email,
-  address,
   addressHref,
   socialLinks,
-  copyright,
 }: FooterContent) {
-  
-  // FIX: Prioritize whatsappHref so the correct UAE link is used instead of auto-generating it
-  const whatsappUrl = whatsappHref || (whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : "");
+  const tFooter = useTranslations("Footer");
+  const tNav = useTranslations("Navigation");
 
+  const clinicName = tFooter("clinicName");
+  const address = tFooter.raw("address") as string[];
+
+  const quickLinks = [
+    { label: tNav("about"), href: "#about" },
+    { label: tNav("services"), href: "#services" },
+    { label: tNav("doctors"), href: "#doctors" },
+    { label: tNav("facilities"), href: "#facilities" },
+    { label: tNav("reviews"), href: "#testimonials" },
+    { label: tNav("insurance"), href: "#insurance" },
+    { label: tNav("faq"), href: "#faq" },
+    { label: tNav("contact"), href: "#contact" },
+  ];
+
+  const whatsappUrl = whatsappHref || (whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : "");
   const addressUrl = addressHref || "https://maps.google.com/?q=Baghdad+Medical+Center+Al+Madam+Sharjah";
 
   const socialWithBrand = [
@@ -71,14 +76,16 @@ export function Footer({
     })),
   ];
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="relative overflow-hidden bg-gradient-to-b from-white via-blue-50/40 to-pink-50/40 dark:from-slate-950 dark:via-blue-950/20 dark:to-pink-950/20 pt-24 pb-12">
-      {/* Background Soft Glow Spheres */}
       <div className="pointer-events-none absolute top-10 left-10 h-[500px] w-[500px] rounded-full bg-blue-300/15 dark:bg-blue-800/15 blur-[120px] mix-blend-multiply dark:mix-blend-overlay" />
       <div className="pointer-events-none absolute bottom-10 right-10 h-[500px] w-[500px] rounded-full bg-pink-300/15 dark:bg-pink-800/15 blur-[120px] mix-blend-multiply dark:mix-blend-overlay" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12 items-stretch text-start">
+          
           {/* 1. Brand & Socials Card */}
           <div className="lg:col-span-4 p-8 rounded-3xl bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-blue-200/60 dark:border-blue-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 flex flex-col justify-between group">
             <div className="flex flex-col gap-6">
@@ -91,14 +98,16 @@ export function Footer({
                 <Heading level="h5" as="h3" className="font-semibold tracking-tighter text-foreground">
                   {clinicName}
                 </Heading>
-                {tagline && <Text variant="small" className="text-muted-foreground leading-relaxed">{tagline}</Text>}
+                <Text variant="small" className="text-muted-foreground leading-relaxed">
+                  {tFooter("tagline")}
+                </Text>
               </div>
             </div>
 
             {socialLinks && socialLinks.length > 0 && (
               <div className="flex items-center gap-3 pt-6 border-t border-blue-100/60 dark:border-blue-900/40">
                 <Heading level="h6" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 m-0">
-                  Follow Us
+                  {tFooter("followUs")}
                 </Heading>
 
                 <div className="flex items-center gap-3">
@@ -134,7 +143,7 @@ export function Footer({
             <div className="flex items-center gap-2 mb-6">
               <span className="flex h-2 w-2 rounded-full bg-blue-500 opacity-80" />
               <Heading level="h6" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 m-0">
-                Quick Links
+                {tFooter("quickLinks")}
               </Heading>
             </div>
             <nav aria-label="Quick links" className="flex flex-col gap-3">
@@ -156,12 +165,11 @@ export function Footer({
             <div className="flex items-center gap-2 mb-6">
               <span className="flex h-2 w-2 rounded-full bg-blue-500 opacity-80" />
               <Heading level="h6" className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 m-0">
-                Contact Information
+                {tFooter("contactInfo")}
               </Heading>
             </div>
 
             <div className="flex flex-col gap-4">
-              {/* WhatsApp */}
               {whatsapp && (
                 <motion.a
                   href={whatsappUrl}
@@ -176,7 +184,6 @@ export function Footer({
                 </motion.a>
               )}
 
-              {/* Phone */}
               {phone && (
                 <motion.a
                   href={`tel:${phoneHref ?? phone}`}
@@ -189,7 +196,6 @@ export function Footer({
                 </motion.a>
               )}
 
-              {/* Mobile */}
               {mobile && (
                 <motion.a
                   href={`tel:${mobileHref ?? mobile}`}
@@ -202,7 +208,6 @@ export function Footer({
                 </motion.a>
               )}
 
-              {/* Email */}
               {email && (
                 <motion.a
                   href={`mailto:${email}`}
@@ -215,7 +220,6 @@ export function Footer({
                 </motion.a>
               )}
 
-              {/* Address */}
               {address && address.length > 0 && (
                 <motion.a
                   href={addressUrl}
@@ -249,7 +253,7 @@ export function Footer({
         {/* Bottom Copyright Bar */}
         <div className="mt-12 pt-6 border-t border-blue-200/50 dark:border-blue-900/40 text-center">
           <Text variant="caption" className="text-slate-500 dark:text-slate-400 font-medium">
-            {copyright}
+            {tFooter("copyright", { year: currentYear })}
           </Text>
         </div>
       </div>

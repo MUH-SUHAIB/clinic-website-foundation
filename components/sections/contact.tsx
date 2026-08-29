@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Phone,
   MessageCircle,
@@ -22,9 +23,6 @@ export interface WorkingHoursRow {
 
 export interface ContactContent {
   id?: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
   phone: string;
   phoneHref?: string;
   mobile?: string;
@@ -94,9 +92,6 @@ const itemVariants: Variants = {
 
 export function Contact({
   id = "contact",
-  eyebrow = "Contact Us",
-  title = "Get in Touch",
-  description = "Have a question or need to schedule a visit? Our team is available by phone, WhatsApp, or email to assist you.",
   phone,
   phoneHref,
   mobile,
@@ -110,6 +105,7 @@ export function Contact({
   mapEmbedSrc,
   animate = true,
 }: ContactContent) {
+  const t = useTranslations("Contact");
   const isOpen = useClinicStatus();
 
   const landlineTel = `tel:${phoneHref ?? phone.replace(/\s+/g, "")}`;
@@ -124,7 +120,7 @@ export function Contact({
       <div className="pointer-events-none absolute -top-40 left-0 h-[600px] w-[600px] rounded-full bg-blue-300/15 dark:bg-blue-800/15 blur-[120px] mix-blend-multiply dark:mix-blend-overlay" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[600px] w-[600px] rounded-full bg-pink-300/15 dark:bg-pink-800/15 blur-[120px] mix-blend-multiply dark:mix-blend-overlay" />
 
-      <Section id={id} eyebrow={eyebrow} title={title} description={description} align="center" animate={false}>
+      <Section id={id} eyebrow={t("eyebrow")} title={t("title")} description={t("description")} align="center" animate={false}>
         <ContainerWrapper
           {...(animate
             ? {
@@ -142,7 +138,7 @@ export function Contact({
                 <div className="flex items-center gap-2 mb-6">
                   <span className="flex h-2 w-2 rounded-full bg-blue-500 opacity-80" />
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Instant Connect
+                    {t("instantConnect")}
                   </span>
                 </div>
 
@@ -194,7 +190,7 @@ export function Contact({
                     <MapPin size={24} />
                   </div>
                   <div className="flex flex-col gap-2 flex-1 pt-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Our Location</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{t("location")}</span>
                     {mapLink ? (
                       <a
                         href={mapLink}
@@ -223,7 +219,7 @@ export function Contact({
                   </div>
                   <div className="flex flex-col gap-4 flex-1">
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Working Hours</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{t("workingHours")}</span>
 
                       {isOpen === null ? null : isOpen ? (
                         <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50/90 dark:bg-emerald-500/10 border border-emerald-400 dark:border-emerald-500/40 px-3.5 py-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
@@ -231,14 +227,14 @@ export function Contact({
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                           </span>
-                          Open Now
+                          {t("openNow")}
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-2 rounded-full bg-rose-50/90 dark:bg-rose-500/10 border border-rose-400 dark:border-rose-500/40 px-3.5 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.15)]">
                           <span className="relative flex h-2 w-2">
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
                           </span>
-                          Closed Now
+                          {t("closedNow")}
                         </span>
                       )}
                     </div>
@@ -269,7 +265,7 @@ export function Contact({
                   <>
                     <iframe
                       src={mapEmbedSrc}
-                      title="Clinic location map"
+                      title={t("mapTitle")}
                       className="h-full w-full border-0 scale-[1.02] group-hover:scale-100 transition-transform duration-700 ease-out"
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
@@ -284,7 +280,7 @@ export function Contact({
                           rel="noopener noreferrer"
                           className="pointer-events-auto inline-flex items-center gap-2 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-6 py-3 text-sm font-semibold text-foreground shadow-xl shadow-black/5 border border-slate-200/60 dark:border-slate-700/60 hover:text-blue-600 transition-all duration-300"
                         >
-                          <span>Get Directions</span>
+                          <span>{t("getDirections")}</span>
                           <ExternalLink size={16} className="text-blue-500" />
                         </motion.a>
                       </div>
@@ -292,7 +288,7 @@ export function Contact({
                   </>
                 ) : (
                   <div className="flex h-full min-h-[320px] w-full items-center justify-center bg-slate-50 dark:bg-slate-900 p-6 text-center">
-                    <Heading level="h6" className="text-slate-400">Map Embed Unavailable</Heading>
+                    <Heading level="h6" className="text-slate-400">{t("mapUnavailable")}</Heading>
                   </div>
                 )}
               </div>
