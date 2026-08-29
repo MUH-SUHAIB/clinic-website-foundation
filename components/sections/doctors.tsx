@@ -1,40 +1,55 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { Section } from "./section-shell";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading, Text } from "@/components/ui/typography";
-import type { ImageContent, IconContent } from "./types";
 import { staggerContainer, slideUp } from "@/lib/motion";
 
-export interface DoctorItem {
-  image?: ImageContent;
-  specialtyIcon?: IconContent;
-  badge?: string;
-  name: string;
-  specialization: string;
-  description?: string;
-  experience?: string;
-  gender?: "male" | "female";
+interface DoctorMeta {
+  id: string;
+  image: string;
+  gender: "male" | "female";
+  hasBadge?: boolean;
 }
 
-export interface DoctorsContent {
-  id?: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  doctors: DoctorItem[];
-  animate?: boolean;
-}
+const doctorList: DoctorMeta[] = [
+  {
+    id: "safaa",
+    image: "/baghdad/doctors/Safa.png",
+    gender: "male",
+    hasBadge: true,
+  },
+  {
+    id: "jawad",
+    image: "/baghdad/doctors/Jawad khan.jpg",
+    gender: "male",
+  },
+  {
+    id: "abdullah",
+    image: "/baghdad/doctors/Abdullah.png",
+    gender: "male",
+  },
+  {
+    id: "bassam",
+    image: "/baghdad/doctors/bassam.png",
+    gender: "male",
+  },
+  {
+    id: "rana",
+    image: "/baghdad/doctors/dentistry-room.png",
+    gender: "female",
+  },
+  {
+    id: "rishika",
+    image: "/baghdad/doctors/dentistry-room.png",
+    gender: "female",
+  },
+];
 
-export function Doctors({
-  id,
-  eyebrow,
-  title,
-  description,
-  doctors,
-  animate = true,
-}: DoctorsContent) {
+export function Doctors({ animate = true }: { animate?: boolean }) {
+  const t = useTranslations("Doctors");
   const Container = animate ? motion.div : "div";
 
   return (
@@ -43,7 +58,7 @@ export function Doctors({
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-background),var(--color-secondary)_50%,var(--color-background)_100%)]" />
       </div>
 
-      <Section id={id} className="py-xl md:py-2xl">
+      <Section id="doctors" className="py-xl md:py-2xl">
         <Container
           {...(animate
             ? {
@@ -60,25 +75,26 @@ export function Doctors({
             {...(animate ? { variants: slideUp } : {})}
             className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 md:mb-14 gap-3"
           >
-            {eyebrow && <Heading level="h6">{eyebrow}</Heading>}
+            <Heading level="h6">{t("eyebrow")}</Heading>
             <Heading level="h2" className="text-foreground">
-              {title}
+              {t("title")}
             </Heading>
-            {description && (
-              <Text variant="body" className="text-muted-foreground text-balance">
-                {description}
-              </Text>
-            )}
+            <Text variant="body" className="text-muted-foreground text-balance">
+              {t("description")}
+            </Text>
           </motion.div>
 
           {/* Doctors Grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full">
-            {doctors.map((doctor, i) => {
-              const isFemale = doctor.gender?.toLowerCase() === "female";
+            {doctorList.map((doctor) => {
+              const isFemale = doctor.gender === "female";
+              const name = t(`items.${doctor.id}.name`);
+              const specialization = t(`items.${doctor.id}.specialization`);
+              const description = t(`items.${doctor.id}.description`);
 
               return (
                 <motion.div
-                  key={i}
+                  key={doctor.id}
                   {...(animate ? { variants: slideUp } : {})}
                   className="h-full"
                 >
@@ -92,28 +108,17 @@ export function Doctors({
                   >
                     {/* Image Slot Container */}
                     <div className="relative w-full aspect-[4/5] overflow-hidden bg-muted">
-                      {doctor.image ? (
-                        <img
-                          src={doctor.image.src}
-                          alt={doctor.image.alt}
-                          loading="lazy"
-                          className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-                        />
-                      ) : (
-                        <div
-                          className="absolute inset-0 flex items-center justify-center text-primary"
-                          aria-hidden
-                        >
-                          {doctor.specialtyIcon ?? (
-                            <Text variant="caption">Doctor Photo</Text>
-                          )}
-                        </div>
-                      )}
+                      <img
+                        src={doctor.image}
+                        alt={name}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                      />
 
                       {/* Glassmorphic Badge */}
-                      {doctor.badge && (
+                      {doctor.hasBadge && (
                         <span className="absolute start-3 top-3 rounded-full border border-border/80 bg-background/85 backdrop-blur-md px-3 py-1 text-xs font-semibold text-foreground shadow-sm z-10">
-                          {doctor.badge}
+                          {t("founderBadge")}
                         </span>
                       )}
                     </div>
@@ -127,7 +132,7 @@ export function Doctors({
                           isFemale ? "group-hover:text-pink-600" : "group-hover:text-primary"
                         }`}
                       >
-                        {doctor.name}
+                        {name}
                       </Heading>
 
                       <Text
@@ -136,23 +141,12 @@ export function Doctors({
                           isFemale ? "text-pink-600" : "text-primary"
                         }`}
                       >
-                        {doctor.specialization}
+                        {specialization}
                       </Text>
 
-                      {doctor.description && (
-                        <Text variant="small" className="mt-3 text-muted-foreground leading-relaxed flex-1">
-                          {doctor.description}
-                        </Text>
-                      )}
-
-                      {/* Experience Tag Footer */}
-                      {doctor.experience && (
-                        <div className="mt-4 pt-3 border-t border-border/60 flex items-center justify-between">
-                          <span className="inline-flex items-center text-xs font-medium text-muted-foreground bg-secondary/60 rounded-md px-2.5 py-1">
-                            {doctor.experience}
-                          </span>
-                        </div>
-                      )}
+                      <Text variant="small" className="mt-3 text-muted-foreground leading-relaxed flex-1">
+                        {description}
+                      </Text>
                     </CardContent>
                   </Card>
                 </motion.div>

@@ -14,8 +14,6 @@ import {
 } from "@/components/sections";
 
 import {
-  doctorsContent,
-  facilitiesContent,
   testimonialsContent,
   insuranceContent,
   faqContent,
@@ -54,22 +52,12 @@ export default async function HomePage({ params }: Props) {
       <Hero animate />
       <About animate />
       <Services animate />
+      <Doctors animate />
+      <Facilities animate />
 
       {/* 
         Sections still using mock data (we will update these next) 
       */}
-      <Doctors
-        {...doctorsContent}
-        id="doctors"
-        animate
-      />
-
-      <Facilities
-        {...facilitiesContent}
-        id="facilities"
-        animate
-      />
-
       <Testimonials
         {...testimonialsContent}
         id="testimonials"
