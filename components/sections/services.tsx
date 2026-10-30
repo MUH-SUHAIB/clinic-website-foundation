@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
@@ -11,11 +13,11 @@ import { staggerContainer, slideUp } from "@/lib/motion";
 
 // Static image mapping - untouched
 const serviceItems = [
-  { id: "service1", image: "/baghdad/services/general-practice.jpg" },
+  { id: "service1", image: "/baghdad/services/general-practice.avif" },
   { id: "service2", image: "/baghdad/services/pediatrics.jpg" },
-  { id: "service3", image: "/baghdad/services/obstetrics-gynecology.jpg" },
+  { id: "service3", image: "/baghdad/services/obstetrics-gynecology.webp" },
   { id: "service4", image: "/baghdad/services/dentistry.jpg" },
-  { id: "service5", image: "/baghdad/services/skincare.jpg" },
+  { id: "service5", image: "/baghdad/services/skincare.webp" },
   { id: "service6", image: "/baghdad/services/hijama-prp.jpg" },
 ];
 
@@ -58,9 +60,14 @@ export function Services({ animate = true }: { animate?: boolean }) {
               className="flex flex-col overflow-hidden border-blue-100 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
             >
               <div className="relative h-56 w-full overflow-hidden">
-                <img
+                <Image
                   src={item.image}
                   alt={t(`items.${item.id}.title`)}
+                  fill
+                  sizes="(min-width: 1280px) 390px, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  quality={90}
+                  // Already an 11 KB AVIF; serve directly to avoid needless re-encoding.
+                  unoptimized={item.image.endsWith(".avif")}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                 />

@@ -1,4 +1,5 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
+import { BidiText } from "./bidi-text";
 import { cn } from "@/lib/utils";
 
 type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -22,7 +23,7 @@ export function Heading({ level, as, className, children, ...props }: HeadingPro
   const Tag = (as ?? level) as ElementType;
   return (
     <Tag className={cn(headingStyles[level], "text-foreground", className)} {...props}>
-      {children}
+      {typeof children === "string" ? <BidiText>{children}</BidiText> : children}
     </Tag>
   );
 }
@@ -44,7 +45,7 @@ interface TextProps extends HTMLAttributes<HTMLParagraphElement> {
 export function Text({ variant = "body", as: Tag = "p", className, children, ...props }: TextProps) {
   return (
     <Tag className={cn(textStyles[variant], className)} {...props}>
-      {children}
+      {typeof children === "string" ? <BidiText>{children}</BidiText> : children}
     </Tag>
   );
 }

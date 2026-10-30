@@ -1,22 +1,25 @@
 "use client";
 
+import Image from "next/image";
+
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Section } from "./section-shell";
+import { BidiText } from "@/components/ui/bidi-text";
 import { Heading, Text } from "@/components/ui/typography";
 import { Card } from "@/components/ui/card";
 import { staggerContainer, slideUp } from "@/lib/motion";
 
 // Static mapping to preserve precise image paths
 const facilityList = [
-  { id: "reception", image: "/baghdad/facilities/Receptionist.png" },
+  { id: "reception", image: "/baghdad/facilities/Receptionist.webp" },
   { id: "waitingRoom", image: "/baghdad/facilities/waiting-room.jpg" },
-  { id: "dental", image: "/baghdad/facilities/dentist-waiting-room.png" },
-  { id: "laser", image: "/baghdad/facilities/GENTLEMAX-PRO-laser.png" },
-  { id: "iv", image: "/baghdad/facilities/iv-therapy.png" },
-  { id: "pediatric", image: "/baghdad/facilities/children-waiting-area.png" },
-  { id: "lounge", image: "/baghdad/facilities/department-lounge.png" },
-  { id: "comfort", image: "/baghdad/facilities/relaxing-area.png" },
+  { id: "dental", image: "/baghdad/facilities/dentist-waiting-room.webp" },
+  { id: "laser", image: "/baghdad/facilities/GENTLEMAX-PRO-laser.webp" },
+  { id: "iv", image: "/baghdad/facilities/iv-therapy.webp" },
+  { id: "pediatric", image: "/baghdad/facilities/children-waiting-area.webp" },
+  { id: "lounge", image: "/baghdad/facilities/department-lounge.webp" },
+  { id: "comfort", image: "/baghdad/facilities/relaxing-area.webp" },
 ];
 
 export function Facilities({ animate = true }: { animate?: boolean }) {
@@ -84,9 +87,14 @@ export function Facilities({ animate = true }: { animate?: boolean }) {
                 >
                   <Card className="group relative h-full w-full overflow-hidden border-border/30 rounded-section shadow-sm transition-shadow duration-500 hover:shadow-elevated cursor-pointer">
                     {/* Edge-to-Edge Image */}
-                    <img
+                    <Image
                       src={facility.image}
                       alt={label}
+                      fill
+                      sizes={i === 0 || i === 7
+                        ? "(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
+                        : "(min-width: 1280px) 300px, (min-width: 768px) 25vw, 50vw"}
+                      quality={90}
                       loading="lazy"
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                     />
@@ -97,7 +105,7 @@ export function Facilities({ animate = true }: { animate?: boolean }) {
                     {/* Label & Accent Line */}
                     <div className="absolute bottom-0 left-0 flex w-full flex-col justify-end p-4 sm:p-5 md:p-6 transform transition-transform duration-500 ease-out group-hover:-translate-y-1">
                       <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white tracking-wide drop-shadow-sm">
-                        {label}
+                        <BidiText>{label}</BidiText>
                       </h3>
                       
                       {/* Hover Accent Line */}

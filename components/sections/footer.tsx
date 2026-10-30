@@ -1,4 +1,7 @@
 "use client";
+import { clinicLocation } from "@/lib/clinic-location";
+import Image from "next/image";
+import { BidiText } from "@/components/ui/bidi-text";
 import React from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -67,7 +70,7 @@ export function Footer({
   ];
 
   const whatsappUrl = whatsappHref || (whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : "");
-  const addressUrl = addressHref || "https://maps.google.com/?q=Baghdad+Medical+Center+Al+Madam+Sharjah";
+  const addressUrl = addressHref || clinicLocation.mapHref;
 
   const socialWithBrand = [
     ...(socialLinks || []).map(social => ({
@@ -91,7 +94,16 @@ export function Footer({
             <div className="flex flex-col gap-6">
               {logo && (
                 <div className="inline-block p-3.5 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-900/50 w-fit">
-                  <img src={logo.src} alt={logo.alt} loading="lazy" className="h-14 w-auto object-contain" />
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={478}
+                    height={161}
+                    sizes="167px"
+                    quality={90}
+                    loading="lazy"
+                    className="h-14 w-auto object-contain"
+                  />
                 </div>
               )}
               <div className="flex flex-col gap-2">
@@ -146,7 +158,7 @@ export function Footer({
                 {tFooter("quickLinks")}
               </Heading>
             </div>
-            <nav aria-label="Quick links" className="flex flex-col gap-3">
+            <nav aria-label={tFooter("quickLinks")} className="flex flex-col gap-3">
               {quickLinks.map((link, i) => (
                 <motion.a
                   key={i}
@@ -180,7 +192,7 @@ export function Footer({
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0 group-hover/item:bg-emerald-600 group-hover/item:text-white transition-all duration-300 shadow-sm">
                     <MessageCircle size={18} aria-hidden />
                   </div>
-                  <span className="dir-ltr">{whatsapp}</span>
+                  <bdi dir="ltr">{whatsapp}</bdi>
                 </motion.a>
               )}
 
@@ -192,7 +204,7 @@ export function Footer({
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 group-hover/item:bg-blue-600 group-hover/item:text-white transition-all duration-300">
                     <Phone size={18} aria-hidden />
                   </div>
-                  <span className="dir-ltr">{phone}</span>
+                  <bdi dir="ltr">{phone}</bdi>
                 </motion.a>
               )}
 
@@ -204,7 +216,7 @@ export function Footer({
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 group-hover/item:bg-blue-600 group-hover/item:text-white transition-all duration-300">
                     <Phone size={18} aria-hidden />
                   </div>
-                  <span className="dir-ltr">{mobile}</span>
+                  <bdi dir="ltr">{mobile}</bdi>
                 </motion.a>
               )}
 
@@ -216,7 +228,7 @@ export function Footer({
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 group-hover/item:bg-blue-600 group-hover/item:text-white transition-all duration-300">
                     <Mail size={18} aria-hidden />
                   </div>
-                  <span>{email}</span>
+                  <bdi dir="ltr">{email}</bdi>
                 </motion.a>
               )}
 
@@ -240,7 +252,7 @@ export function Footer({
                             : "text-xs text-slate-500 dark:text-slate-400"
                         }
                       >
-                        {line}
+                        <BidiText>{line}</BidiText>
                       </span>
                     ))}
                   </div>
@@ -253,7 +265,7 @@ export function Footer({
         {/* Bottom Copyright Bar */}
         <div className="mt-12 pt-6 border-t border-blue-200/50 dark:border-blue-900/40 text-center">
           <Text variant="caption" className="text-slate-500 dark:text-slate-400 font-medium">
-            {tFooter("copyright", { year: currentYear })}
+            {tFooter.rich("copyright", { year: currentYear, yearValue: (chunks) => <bdi dir="ltr">{chunks}</bdi> })}
           </Text>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { defineRouting } from "next-intl/routing";
 
 // Single source of truth for i18n routing.
-// middleware.ts, i18n/request.ts, and i18n/navigation.ts all read from this
+// proxy.ts, i18n/request.ts, and i18n/navigation.ts all read from this
 // so locale config never drifts out of sync across the app.
 export const routing = defineRouting({
   locales: ["en", "ar"],

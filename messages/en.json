@@ -1,5 +1,6 @@
 {
   "Navigation": {
+    "home": "Home",
     "about": "About",
     "services": "Services",
     "doctors": "Doctors",
@@ -9,7 +10,8 @@
     "faq": "FAQ",
     "contact": "Contact",
     "callNow": "Call",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "toggleMenu": "Toggle navigation menu"
   },
   "Hero": {
     "badge": "Trusted Medical Center",
@@ -139,7 +141,9 @@
     "pauseLabel": "Pause testimonials",
     "playLabel": "Play testimonials",
     "prevLabel": "Previous review",
-    "nextLabel": "Next review"
+    "nextLabel": "Next review",
+    "reviewLabel": "Go to review {number}",
+    "ratingLabel": "{rating} out of 5 stars"
   },
   "Insurance": {
     "eyebrow": "Insurance Partners",
@@ -163,7 +167,7 @@
       },
       "item2": {
         "question": "What are your working hours?",
-        "answer": "We are open Saturday through Thursday from 9:00 AM to 9:00 PM, and Friday from 4:00 PM to 9:00 PM."
+        "answer": "We are open Saturday through Thursday from 8:30 AM to 10:00 PM, and Friday from 8:30 AM to 11:00 AM and 3:00 PM to 10:00 PM."
       },
       "item3": {
         "question": "Do you accept insurance?",
@@ -192,6 +196,7 @@
     }
   },
   "Contact": {
+    "address": "Al Madam, Sharjah — same building as First Abu Dhabi Bank (FAB), side entrance, First Floor.",
     "eyebrow": "Contact Us",
     "title": "Get in Touch",
     "description": "Have a question or need to schedule a visit? Our team is available by phone, WhatsApp, or email to assist you.",
@@ -208,8 +213,8 @@
       "fri": "Fri"
     },
     "hours": {
-      "satThuHours": "8:30 AM – 10:00 PM",
-      "friHours": "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM"
+      "satThuHours": "<range><timeValue>8:30 AM</timeValue> – <timeValue>10:00 PM</timeValue></range>",
+      "friHours": "<range><timeValue>8:30 AM</timeValue> – <timeValue>11:00 AM</timeValue></range>, <range><timeValue>3:00 PM</timeValue> – <timeValue>10:00 PM</timeValue></range>"
     }
   },
   "Footer": {
@@ -218,13 +223,21 @@
     "followUs": "Follow Us",
     "quickLinks": "Quick Links",
     "contactInfo": "Contact Information",
-    "copyright": "© {year} Baghdad Medical Center. All rights reserved.",
+    "copyright": "© <yearValue>{year}</yearValue> Baghdad Medical Center. All rights reserved.",
     "address": [
       "Al Madam, Sharjah",
       "First Abu Dhabi Bank (FAB) Building",
       "Side Entrance",
       "First Floor"
     ]
+  },
+  "Appointment": {
+    "close": "Close",
+    "title": "Book Your Appointment",
+    "description": "Choose how you’d like to reach us.",
+    "whatsapp": "Chat on WhatsApp",
+    "whatsappDescription": "Chat instantly with our reception team.",
+    "phone": "Call the Clinic",
+    "phoneDescription": "Speak directly with our reception."
   }
-
 }

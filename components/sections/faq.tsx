@@ -1,10 +1,13 @@
 "use client";
 
+import { clinicContact } from "@/lib/clinic-contact";
+
 import { useState, useId, memo } from "react";
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ChevronDown, MessageCircle, PhoneCall } from "lucide-react";
 import { Section } from "./section-shell";
+import { BidiText } from "@/components/ui/bidi-text";
 import { Text } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import { staggerContainer, slideUp, duration, easing } from "@/lib/motion";
@@ -132,7 +135,7 @@ const FAQAccordionCard = memo(function FAQAccordionCard({
                 variant="small"
                 className="leading-relaxed text-slate-600 dark:text-slate-300"
               >
-                {item.answer}
+                <BidiText>{item.answer}</BidiText>
               </Text>
             </div>
           </div>
@@ -239,9 +242,9 @@ export function FAQ({
     title: t("support.title"),
     description: t("support.description"),
     phoneLabel: t("support.phoneLabel"),
-    phoneLink: "tel:+971502388626",
+    phoneLink: clinicContact.mobileHref,
     whatsappLabel: t("support.whatsappLabel"),
-    whatsappLink: "https://wa.me/971563564165",
+    whatsappLink: clinicContact.whatsappHref,
   };
 
   const handleToggle = (index: number) => {

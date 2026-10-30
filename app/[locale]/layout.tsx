@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/favicon-logo.png", sizes: "any" },
+      { url: "/favicon-logo.png", sizes: "512x512" },
       { url: "/favicon-logo.png", type: "image/png" },
     ],
     shortcut: "/favicon-logo.png",
@@ -106,7 +106,7 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
+    <html lang={locale} dir={dir} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

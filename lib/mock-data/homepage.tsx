@@ -1,6 +1,9 @@
+import { clinicLocation } from "@/lib/clinic-location";
 import { Facebook, Instagram } from "lucide-react";
 import type { ContactContent } from "@/components/sections/contact";
 import type { FooterContent } from "@/components/sections/footer";
+
+const contactClinicListingHref = "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7757416,17z/data=!4m6!3m5!1s0x3ef573f609a9bbf7:0x9ebb7b0be900046e!8m2!3d24.9146055!4d55.7757416!16s%2Fg%2F11clvpfq2k";
 
 export const contactContent: ContactContent = {
   phone: "06 886 1115",
@@ -11,12 +14,13 @@ export const contactContent: ContactContent = {
   whatsappLabel: "056 356 4165",
   email: "info@baghdadmedicalcenter.ae",
   address: "Al Madam, Sharjah — same building as First Abu Dhabi Bank (FAB), side entrance, First Floor.",
-  mapLink: "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7757416,17z",
+  mapLink: contactClinicListingHref,
+  directionsLink: contactClinicListingHref,
   workingHours: [
-    { days: "Sat – Thu", hours: "8:30 AM – 10:00 PM" },
-    { days: "Fri", hours: "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM" },
+    { dayKey: "satThu", hoursKey: "satThuHours", days: "Sat – Thu", hours: "8:30 AM – 10:00 PM" },
+    { dayKey: "fri", hoursKey: "friHours", days: "Fri", hours: "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM" },
   ],
-  mapEmbedSrc: "https://www.google.com/maps?q=24.914790376977315,55.77578987975816&hl=en&z=17&output=embed",
+  mapEmbedSrc: clinicLocation.embedHref,
 };
 
 export const footerContent: FooterContent = {
@@ -28,7 +32,7 @@ export const footerContent: FooterContent = {
   whatsapp: "056 356 4165",
   whatsappHref: "https://wa.me/971563564165",
   email: "info@baghdadmedicalcenter.ae",
-  addressHref: "https://maps.google.com/?q=Baghdad+Medical+Center+Al+Madam+Sharjah",
+  addressHref: clinicLocation.mapHref,
   socialLinks: [
     {
       label: "Instagram",
