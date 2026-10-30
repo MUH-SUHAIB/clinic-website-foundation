@@ -1,5 +1,6 @@
 "use client";
 
+import { clinicLocation } from "@/lib/clinic-location";
 import React, { useState, useEffect } from "react";
 import { motion, Variants } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
@@ -35,6 +36,7 @@ export interface ContactContent {
   email?: string;
   address: string;
   mapLink?: string;
+  directionsLink?: string;
   workingHours: WorkingHoursRow[];
   mapEmbedSrc?: string;
   animate?: boolean;
@@ -104,6 +106,7 @@ export function Contact({
   email,
   address,
   mapLink,
+  directionsLink = clinicLocation.directionsHref,
   workingHours,
   mapEmbedSrc,
   animate = true,
@@ -284,12 +287,12 @@ export function Contact({
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                     />
-                    {mapLink && (
+                    {directionsLink && (
                       <div className="absolute bottom-6 inset-x-6 flex justify-center pointer-events-none">
                         <motion.a
                           whileHover={{ scale: 1.05, y: -3 }}
                           whileTap={{ scale: 0.96 }}
-                          href={mapLink}
+                          href={directionsLink}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="pointer-events-auto inline-flex items-center gap-2 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-6 py-3 text-sm font-semibold text-foreground shadow-xl shadow-black/5 border border-slate-200/60 dark:border-slate-700/60 hover:text-blue-600 transition-all duration-300"

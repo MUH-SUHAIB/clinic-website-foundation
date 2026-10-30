@@ -1,5 +1,6 @@
 "use client";
 
+import { clinicLocation } from "@/lib/clinic-location";
 import { useState, useEffect, useCallback } from "react";
 import { m, LazyMotion, domAnimation, AnimatePresence } from "framer-motion";
 import {
@@ -168,7 +169,7 @@ const defaultAggregateScore = {
 
 const defaultCta: CTAContent = {
   label: "View More on Google Reviews",
-  href: "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7731613,17z/data=!4m14!1m5!8m4!1e1!2s108076981700144378409!3m1!1e1!3m7!1s0x3ef573f609a9bbf7:0x9ebb7b0be900046e!8m2!3d24.9146055!4d55.7757416!9m1!1b1!16s%2Fg%2F11clvpfq2k?hl=en-GB&entry=ttu",
+  href: clinicLocation.reviewsHref,
 };
 
 export function Testimonials({

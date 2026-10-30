@@ -1,4 +1,5 @@
 "use client";
+import { clinicLocation } from "@/lib/clinic-location";
 import Image from "next/image";
 import { BidiText } from "@/components/ui/bidi-text";
 import React from "react";
@@ -69,7 +70,7 @@ export function Footer({
   ];
 
   const whatsappUrl = whatsappHref || (whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : "");
-  const addressUrl = addressHref || "https://maps.google.com/?q=Baghdad+Medical+Center+Al+Madam+Sharjah";
+  const addressUrl = addressHref || clinicLocation.mapHref;
 
   const socialWithBrand = [
     ...(socialLinks || []).map(social => ({
