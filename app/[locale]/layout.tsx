@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/favicon-logo.png", sizes: "any" },
+      { url: "/favicon-logo.png", sizes: "512x512" },
       { url: "/favicon-logo.png", type: "image/png" },
     ],
     shortcut: "/favicon-logo.png",
