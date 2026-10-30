@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteSeo } from "@/lib/site-seo";
 
 import {
   Hero,
@@ -27,6 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isArabic = locale === "ar";
 
   return {
+    // Official-domain canonicals only belong to the approved launch.
+    alternates: siteSeo.indexingEnabled
+      ? { canonical: `${siteSeo.origin}/${locale}` }
+      : undefined,
     title: {
       absolute: isArabic
         ? "مركز بغداد الطبي ـ المدام"
