@@ -1,5 +1,7 @@
 "use client";
 
+import { clinicContact } from "@/lib/clinic-contact";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -108,15 +110,15 @@ export default function Header() {
             href={`/${nextLocale}`}
             className="flex items-center gap-1 text-slate-600 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors px-1.5 py-1"
           >
-            <span>
+            <bdi dir={nextLocale === "ar" ? "rtl" : "ltr"} lang={nextLocale}>
               {nextLocale === "ar" ? "عربي" : "English"}
-            </span>
+            </bdi>
             <Globe className="w-3.5 h-3.5" />
           </Link>
 
           {/* Call */}
           <a
-            href="tel:+97168861115"
+            href={clinicContact.landlineHref}
             className="flex items-center gap-1.5 bg-blue-700 text-white px-3.5 xl:px-4 py-2 rounded-full font-semibold shadow-md shadow-blue-700/20 hover:bg-blue-800 transition-all text-xs xl:text-sm"
           >
             <Phone className="w-3.5 h-3.5" />
@@ -125,7 +127,7 @@ export default function Header() {
 
           {/* WhatsApp */}
           <a
-            href="https://wa.me/971563564165"
+            href={clinicContact.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 bg-[#25D366] text-white px-3.5 xl:px-4 py-2 rounded-full font-semibold shadow-md shadow-[#25D366]/20 hover:bg-[#20bd5a] transition-all text-xs xl:text-sm"
@@ -140,7 +142,7 @@ export default function Header() {
           type="button"
           className="lg:hidden p-2 text-slate-800 hover:text-blue-700 transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle navigation menu"
+          aria-label={t("toggleMenu")}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-nav-panel"
         >
@@ -184,15 +186,15 @@ export default function Header() {
             >
               <Globe className="w-5 h-5" />
 
-              <span>
+              <bdi dir={nextLocale === "ar" ? "rtl" : "ltr"} lang={nextLocale}>
                 {nextLocale === "ar" ? "العربية" : "English"}
-              </span>
+              </bdi>
             </Link>
 
             <div className="flex flex-col gap-3 mt-2">
               {/* Call */}
               <a
-                href="tel:+97168861115"
+                href={clinicContact.landlineHref}
                 className="flex items-center justify-center gap-2 bg-blue-700 text-white px-5 py-3.5 rounded-xl font-semibold w-full hover:bg-blue-800 shadow-md shadow-blue-700/20 active:scale-[0.98] transition-all duration-200"
               >
                 <Phone className="w-5 h-5" />
@@ -201,7 +203,7 @@ export default function Header() {
 
               {/* WhatsApp */}
               <a
-                href="https://wa.me/971563564165"
+                href={clinicContact.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-semibold w-full hover:bg-[#20bd5a] shadow-md shadow-[#25D366]/20 active:scale-[0.98] transition-all duration-200"

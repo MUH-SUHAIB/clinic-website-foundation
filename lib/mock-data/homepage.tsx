@@ -13,8 +13,8 @@ export const contactContent: ContactContent = {
   address: "Al Madam, Sharjah — same building as First Abu Dhabi Bank (FAB), side entrance, First Floor.",
   mapLink: "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7757416,17z",
   workingHours: [
-    { days: "Sat – Thu", hours: "8:30 AM – 10:00 PM" },
-    { days: "Fri", hours: "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM" },
+    { dayKey: "satThu", hoursKey: "satThuHours", days: "Sat – Thu", hours: "8:30 AM – 10:00 PM" },
+    { dayKey: "fri", hoursKey: "friHours", days: "Fri", hours: "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM" },
   ],
   mapEmbedSrc: "https://www.google.com/maps?q=24.914790376977315,55.77578987975816&hl=en&z=17&output=embed",
 };

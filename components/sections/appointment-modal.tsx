@@ -1,15 +1,13 @@
 "use client";
 
+import { clinicContact } from "@/lib/clinic-contact";
+
+import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, MessageCircle, Phone } from "lucide-react";
 import { Heading, Text } from "@/components/ui/typography";
 import { duration, easing } from "@/lib/motion";
-
-// TEMPORARY placeholder contact info for Baghdad Medical Center.
-// Replace with the clinic's real phone number and WhatsApp link.
-const PLACEHOLDER_PHONE_HREF = "tel:+9647701234567";
-const PLACEHOLDER_WHATSAPP_HREF = "https://wa.me/9647701234567";
 
 export interface AppointmentModalProps {
   isOpen: boolean;
@@ -33,6 +31,7 @@ export interface AppointmentModalProps {
  *   in both LTR and RTL. All text uses `text-center`, direction-agnostic.
  */
 export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
+  const t = useTranslations("Appointment");
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -78,22 +77,22 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
             <button
               ref={closeButtonRef}
               onClick={onClose}
-              aria-label="Close"
+              aria-label={t("close")}
               className="absolute end-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors duration-fast hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <X size={20} aria-hidden />
             </button>
 
             <Heading level="h3" id="appointment-modal-title">
-              Book Your Appointment
+              {t("title")}
             </Heading>
             <Text variant="body" className="mt-2">
-              Choose how you&apos;d like to reach us.
+              {t("description")}
             </Text>
 
             <div className="mt-xl flex flex-col gap-4">
               <a
-                href={PLACEHOLDER_WHATSAPP_HREF}
+                href={clinicContact.whatsappHref}
                 className="flex items-center gap-4 rounded-card border border-border bg-background p-md text-start shadow-subtle transition-shadow duration-fast hover:shadow-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-primary" aria-hidden>
@@ -101,14 +100,14 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                 </span>
                 <span className="flex flex-col">
                   <Text variant="body" className="font-semibold">
-                    Chat on WhatsApp
+                    {t("whatsapp")}
                   </Text>
-                  <Text variant="small">Chat instantly with our reception team.</Text>
+                  <Text variant="small">{t("whatsappDescription")}</Text>
                 </span>
               </a>
 
               <a
-                href={PLACEHOLDER_PHONE_HREF}
+                href={clinicContact.mobileHref}
                 className="flex items-center gap-4 rounded-card border border-border bg-background p-md text-start shadow-subtle transition-shadow duration-fast hover:shadow-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-primary" aria-hidden>
@@ -116,9 +115,9 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                 </span>
                 <span className="flex flex-col">
                   <Text variant="body" className="font-semibold">
-                    Call the Clinic
+                    {t("phone")}
                   </Text>
-                  <Text variant="small">Speak directly with our reception.</Text>
+                  <Text variant="small">{t("phoneDescription")}</Text>
                 </span>
               </a>
             </div>

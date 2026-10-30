@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Section } from "./section-shell";
+import { BidiText } from "@/components/ui/bidi-text";
 import { Heading, Text } from "@/components/ui/typography";
 import { Card } from "@/components/ui/card";
 import { staggerContainer, slideUp } from "@/lib/motion";
@@ -104,7 +105,7 @@ export function Facilities({ animate = true }: { animate?: boolean }) {
                     {/* Label & Accent Line */}
                     <div className="absolute bottom-0 left-0 flex w-full flex-col justify-end p-4 sm:p-5 md:p-6 transform transition-transform duration-500 ease-out group-hover:-translate-y-1">
                       <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white tracking-wide drop-shadow-sm">
-                        {label}
+                        <BidiText>{label}</BidiText>
                       </h3>
                       
                       {/* Hover Accent Line */}
