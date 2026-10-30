@@ -3,6 +3,8 @@ import { Facebook, Instagram } from "lucide-react";
 import type { ContactContent } from "@/components/sections/contact";
 import type { FooterContent } from "@/components/sections/footer";
 
+const contactClinicListingHref = "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7757416,17z/data=!4m6!3m5!1s0x3ef573f609a9bbf7:0x9ebb7b0be900046e!8m2!3d24.9146055!4d55.7757416!16s%2Fg%2F11clvpfq2k";
+
 export const contactContent: ContactContent = {
   phone: "06 886 1115",
   phoneHref: "+97168861115",
@@ -12,8 +14,8 @@ export const contactContent: ContactContent = {
   whatsappLabel: "056 356 4165",
   email: "info@baghdadmedicalcenter.ae",
   address: "Al Madam, Sharjah — same building as First Abu Dhabi Bank (FAB), side entrance, First Floor.",
-  mapLink: clinicLocation.mapHref,
-  directionsLink: clinicLocation.directionsHref,
+  mapLink: contactClinicListingHref,
+  directionsLink: contactClinicListingHref,
   workingHours: [
     { dayKey: "satThu", hoursKey: "satThuHours", days: "Sat – Thu", hours: "8:30 AM – 10:00 PM" },
     { dayKey: "fri", hoursKey: "friHours", days: "Fri", hours: "8:30 AM – 11:00 AM, 3:00 PM – 10:00 PM" },
