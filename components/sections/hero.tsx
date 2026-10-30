@@ -1,5 +1,7 @@
 "use client";
 
+import { clinicContact } from "@/lib/clinic-contact";
+
 import { ShieldCheck, Phone, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -67,23 +69,23 @@ export function Hero({ animate = true }: { animate?: boolean }) {
               className="mt-4 flex w-full flex-col gap-3 sm:w-auto sm:flex-row md:justify-start"
             >
               <LinkButton
-                href="tel:+971502388626"
+                href={clinicContact.mobileHref}
                 variant="primary"
                 size="lg"
                 icon={<Phone size={18} />}
                 className="min-h-[48px] w-full whitespace-nowrap !rounded-full !bg-blue-700 px-6 py-3.5 !font-semibold !text-sm !text-white !shadow-md !shadow-blue-700/20 !transition-all !duration-300 hover:-translate-y-0.5 hover:!bg-blue-800 hover:!shadow-lg hover:!shadow-blue-700/30 sm:w-auto sm:!text-base"
               >
-                {t("primaryCta")}
+                <bdi dir="ltr">{t("primaryCta")}</bdi>
               </LinkButton>
 
               <LinkButton
-                href="https://wa.me/971563564165"
+                href={clinicContact.whatsappHref}
                 variant="outline"
                 size="lg"
                 icon={<MessageCircle size={18} />}
                 className="min-h-[48px] w-full whitespace-nowrap !rounded-full !border !border-transparent !bg-[#25D366] px-6 py-3.5 !font-semibold !text-sm !text-white !shadow-md !shadow-[#25D366]/20 !transition-all !duration-300 hover:-translate-y-0.5 hover:!bg-[#20bd5a] hover:!shadow-lg hover:!shadow-[#25D366]/40 sm:w-auto sm:!text-base"
               >
-                {t("secondaryCta")}
+                <bdi dir="ltr">{t("secondaryCta")}</bdi>
               </LinkButton>
             </motion.div>
           </TextWrapper>

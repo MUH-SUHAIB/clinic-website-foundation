@@ -10,8 +10,9 @@ import {
   Play,
   Pause,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useNow, useTranslations } from "next-intl";
 import { Section } from "./section-shell";
+import { BidiText } from "@/components/ui/bidi-text";
 import { Text } from "@/components/ui/typography";
 import type { CTAContent } from "./types";
 import { slideUp } from "@/lib/motion";
@@ -63,21 +64,19 @@ function initials(name: string) {
   return name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? "").join("");
 }
 
-function getRelativeTime(dateString: string): string {
-  const then = new Date(dateString).getTime();
-  const diffDays = Math.floor((Date.now() - then) / (1000 * 60 * 60 * 24));
-  if (diffDays < 1) return "Today";
-  if (diffDays === 1) return "1 day ago";
-  if (diffDays < 30) return `${diffDays} days ago`;
-  const diffMonths = Math.floor(diffDays / 30);
-  if (diffMonths < 12) return diffMonths === 1 ? "1 month ago" : `${diffMonths} months ago`;
-  const diffYears = Math.floor(diffMonths / 12);
-  return diffYears === 1 ? "1 year ago" : `${diffYears} years ago`;
+function getRelativeTime(dateString: string, now: Date, locale: string): string {
+  const diffDays = Math.max(0, Math.floor((now.getTime() - new Date(dateString).getTime()) / 86400000));
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  if (diffDays < 30) return formatter.format(-diffDays, "day");
+  const months = Math.floor(diffDays / 30);
+  if (months < 12) return formatter.format(-months, "month");
+  return formatter.format(-Math.floor(months / 12), "year");
 }
 
 function StarRating({ rating }: { rating: number }) {
+  const t = useTranslations("Testimonials");
   return (
-    <div className="flex items-center gap-1" aria-label={`${rating} out of 5 stars`}>
+    <div className="flex items-center gap-1" aria-label={t("ratingLabel", { rating })}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
@@ -180,6 +179,8 @@ export function Testimonials({
   animate = false,
 }: TestimonialsContent) {
   const t = useTranslations("Testimonials");
+  const locale = useLocale();
+  const now = useNow({ updateInterval: 60000 });
   const [[page, direction], setPage] = useState([0, 0]);
   const [isHovered, setIsHovered] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -229,10 +230,10 @@ export function Testimonials({
             >
               <div className="inline-flex items-center gap-3 rounded-full border border-blue-300 bg-white/80 px-5 py-2 shadow-sm backdrop-blur-md transition-all hover:border-blue-400 hover:bg-white hover:shadow-md dark:border-blue-500/50 dark:bg-slate-800/80">
                 <GoogleIcon className="h-4 w-4" />
-                <span className="text-sm font-bold tracking-tight text-foreground">{aggregateScore.rating.toFixed(1)}</span>
+                <span className="text-sm font-bold tracking-tight text-foreground"><bdi dir="ltr">{aggregateScore.rating.toFixed(1)}</bdi></span>
                 <StarRating rating={Math.round(aggregateScore.rating)} />
                 <span className="h-3.5 w-px bg-slate-300 dark:bg-slate-600" />
-                <span className="text-xs font-medium text-muted-foreground">{aggregateScore.totalReviews} {t("platform")}</span>
+                <span className="text-xs font-medium text-muted-foreground"><bdi dir="ltr">{aggregateScore.totalReviews}</bdi> {t("platform")}</span>
               </div>
             </m.div>
           )}
@@ -293,20 +294,20 @@ export function Testimonials({
                     className="flex w-full max-w-3xl flex-col items-center justify-center text-center"
                   >
                     <Text variant="body" className="text-foreground/90 text-base font-medium italic leading-relaxed text-balance sm:text-lg md:text-xl md:leading-relaxed" dir="auto">
-                      “{activeReview.review}”
+                      “<BidiText>{activeReview.review}</BidiText>”
                     </Text>
                     <div className="mt-6 flex flex-col items-center gap-3 sm:mt-7">
                       <StarRating rating={activeReview.rating ?? 5} />
                       <div className="mt-1 flex items-center gap-3">
                         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-50 text-sm font-bold text-blue-600 shadow-inner ring-2 ring-white">
-                          {initials(activeReview.name)}
+                          <bdi dir="auto">{initials(activeReview.name)}</bdi>
                         </div>
-                        <div className="text-start" dir="auto">
+                        <div className="text-start">
                           <Text variant="body" className="font-semibold leading-snug text-foreground">
-                            {activeReview.name}
+                            <bdi dir="auto">{activeReview.name}</bdi>
                           </Text>
                           <Text variant="caption" className="text-muted-foreground">
-                            {getRelativeTime(activeReview.date)}
+                            <time dateTime={activeReview.date} dir={locale === "ar" ? "rtl" : "ltr"}>{getRelativeTime(activeReview.date, now, locale)}</time>
                           </Text>
                         </div>
                       </div>
@@ -329,7 +330,7 @@ export function Testimonials({
                         setIsAutoPlaying(false);
                       }}
                       className="group relative flex items-center justify-center py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 rounded-full"
-                      aria-label={`Go to review ${idx + 1}`}
+                      aria-label={t("reviewLabel", { number: idx + 1 })}
                       aria-current={isActive ? "true" : "false"}
                     >
                       <span

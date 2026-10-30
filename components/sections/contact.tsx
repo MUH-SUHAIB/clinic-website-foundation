@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, Variants } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Phone,
   MessageCircle,
@@ -13,12 +13,15 @@ import {
   Navigation,
 } from "lucide-react";
 import { Section } from "./section-shell";
+import { BidiText } from "@/components/ui/bidi-text";
 import { Heading, Text } from "@/components/ui/typography";
 import { LinkButton } from "@/components/ui/button";
 
 export interface WorkingHoursRow {
   days: string;
   hours: string;
+  dayKey?: "satThu" | "fri";
+  hoursKey?: "satThuHours" | "friHours";
 }
 
 export interface ContactContent {
@@ -107,6 +110,8 @@ export function Contact({
 }: ContactContent) {
   const t = useTranslations("Contact");
   const isOpen = useClinicStatus();
+  const locale = useLocale();
+  const localizedAddress = t("address");
 
   const landlineTel = `tel:${phoneHref ?? phone.replace(/\s+/g, "")}`;
   const mobileTel = mobile ? `tel:${mobileHref ?? mobile.replace(/\s+/g, "")}` : undefined;
@@ -150,7 +155,7 @@ export function Contact({
                       icon={<Phone size={18} className="transition-transform duration-300 group-hover:rotate-12" />}
                       className="rounded-[20px] px-6 py-3.5 shadow-sm hover:shadow-md hover:shadow-blue-500/20 transition-all duration-300"
                     >
-                      <span className="dir-ltr font-medium text-[15px]">{phone}</span>
+                      <bdi dir="ltr" className="font-medium text-[15px]">{phone}</bdi>
                     </LinkButton>
                   </motion.div>
 
@@ -162,7 +167,7 @@ export function Contact({
                         icon={<Phone size={18} className="transition-transform duration-300 group-hover:rotate-12" />}
                         className="rounded-[20px] px-6 py-3.5 shadow-sm hover:shadow-md hover:shadow-blue-500/20 transition-all duration-300"
                       >
-                        <span className="dir-ltr font-medium text-[15px]">{mobile}</span>
+                        <bdi dir="ltr" className="font-medium text-[15px]">{mobile}</bdi>
                       </LinkButton>
                     </motion.div>
                   )}
@@ -176,7 +181,7 @@ export function Contact({
                       icon={<MessageCircle size={18} className="transition-transform duration-300 group-hover:scale-110 text-[#25D366]" />}
                       className="rounded-[20px] px-6 py-3.5 bg-[#25D366]/5 hover:bg-[#25D366]/10 border-[#25D366]/40 hover:border-[#25D366] text-[#128C7E] dark:text-[#25D366] transition-all duration-300"
                     >
-                      <span className="dir-ltr font-medium text-[15px]">{whatsappLabel ?? whatsapp}</span>
+                      <bdi dir="ltr" className="font-medium text-[15px]">{whatsappLabel ?? whatsapp}</bdi>
                     </LinkButton>
                   </motion.div>
                 </div>
@@ -198,12 +203,12 @@ export function Contact({
                         rel="noopener noreferrer"
                         className="group/link inline-flex items-start gap-2 text-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                       >
-                        <span className="text-[15px] font-medium leading-relaxed">{address}</span>
+                        <span className="text-[15px] font-medium leading-relaxed"><BidiText>{localizedAddress}</BidiText></span>
                         <Navigation size={16} className="mt-0.5 shrink-0 text-blue-500 transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 rtl:-scale-x-100" />
                       </a>
                     ) : (
                       <Text variant="body" className="text-[15px] font-medium leading-relaxed text-foreground">
-                        {address}
+                        {localizedAddress}
                       </Text>
                     )}
                   </div>
@@ -213,12 +218,12 @@ export function Contact({
 
             <ItemWrapper {...(animate ? { variants: itemVariants } : {})}>
               <div className="group p-7 rounded-[32px] bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-blue-200/60 dark:border-blue-800/60 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-500">
-                <div className="flex items-start gap-5">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/30">
-                    <Clock size={24} />
-                  </div>
-                  <div className="flex flex-col gap-4 flex-1">
-                    <div className="flex items-center justify-between pt-1">
+                <div className="flex min-w-0 flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 transition-all duration-500 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-blue-500/30">
+                      <Clock size={24} />
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-2">
                       <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{t("workingHours")}</span>
 
                       {isOpen === null ? null : isOpen ? (
@@ -238,17 +243,26 @@ export function Contact({
                         </span>
                       )}
                     </div>
+                  </div>
 
-                    <div className="divide-y divide-blue-100/50 dark:divide-blue-900/30">
-                      {workingHours.map((row, i) => (
-                        <div key={i} className="flex justify-between items-center py-3 first:pt-1 last:pb-0 text-sm">
-                          <span className="font-medium text-slate-700 dark:text-slate-200">{row.days}</span>
-                          <span className="text-slate-500 dark:text-slate-400 font-mono text-[13px] sm:text-sm bg-slate-50/50 dark:bg-slate-800/50 px-3 py-1.5 rounded-xl dir-ltr border border-slate-100 dark:border-slate-800">
-                            {row.hours}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="divide-y divide-blue-100/50 dark:divide-blue-900/30">
+                    {workingHours.map((row, i) => (
+                      <div key={i} className="flex flex-col items-start gap-2 py-3 first:pt-1 last:pb-0 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                        <span className="shrink-0 font-medium text-slate-700 dark:text-slate-200">{row.dayKey ? t(`days.${row.dayKey}`) : row.days}</span>
+                        <span className={`flex max-w-full flex-col items-start gap-1 text-start font-mono leading-loose sm:flex-row sm:flex-wrap sm:justify-end sm:gap-x-3 sm:text-sm sm:leading-loose ${
+                          locale === "ar"
+                            ? "text-sm font-medium text-slate-700 dark:text-slate-200 sm:font-normal sm:text-slate-500 sm:dark:text-slate-400"
+                            : "text-[13px] text-slate-500 dark:text-slate-400"
+                        }`}>
+                          {row.hoursKey
+                            ? React.Children.toArray(t.rich(`hours.${row.hoursKey}`, {
+                                range: (chunks) => <bdi dir={locale === "ar" ? "rtl" : "ltr"} className="inline-block whitespace-nowrap">{chunks}</bdi>,
+                                timeValue: (chunks) => <bdi dir="ltr" className="inline-block">{chunks}</bdi>,
+                              })).filter((part) => typeof part !== "string" || !/^[\s,،]+$/.test(part))
+                            : <bdi dir="ltr">{row.hours}</bdi>}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -264,7 +278,7 @@ export function Contact({
                 {mapEmbedSrc ? (
                   <>
                     <iframe
-                      src={mapEmbedSrc}
+                      src={mapEmbedSrc.replace(/([?&])hl=[^&]*/, `$1hl=${locale}`)}
                       title={t("mapTitle")}
                       className="h-full w-full border-0 scale-[1.02] group-hover:scale-100 transition-transform duration-700 ease-out"
                       loading="lazy"
