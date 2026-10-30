@@ -185,12 +185,7 @@ export function Testimonials({
   const [[page, direction], setPage] = useState([0, 0]);
   const [isHovered, setIsHovered] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isRtl, setIsRtl] = useState(false);
-
-  // Detect RTL direction on mount for Framer Motion
-  useEffect(() => {
-    setIsRtl(document.documentElement.dir === "rtl" || window.getComputedStyle(document.body).direction === "rtl");
-  }, []);
+  const isRtl = locale === "ar";
 
   const currentIndex = testimonials.length > 0 
     ? ((page % testimonials.length) + testimonials.length) % testimonials.length 
