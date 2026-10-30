@@ -1,4 +1,6 @@
 "use client";
+
+import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -91,7 +93,16 @@ export function Footer({
             <div className="flex flex-col gap-6">
               {logo && (
                 <div className="inline-block p-3.5 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-900/50 w-fit">
-                  <img src={logo.src} alt={logo.alt} loading="lazy" className="h-14 w-auto object-contain" />
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={478}
+                    height={161}
+                    sizes="167px"
+                    quality={90}
+                    loading="lazy"
+                    className="h-14 w-auto object-contain"
+                  />
                 </div>
               )}
               <div className="flex flex-col gap-2">

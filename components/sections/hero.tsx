@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { ShieldCheck, Phone, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -101,9 +103,14 @@ export function Hero({ animate = true }: { animate?: boolean }) {
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               className="relative w-full group"
             >
-              <img
-                src="/baghdad/hero-reception.png"
+              <Image
+                src="/baghdad/hero-reception.webp"
                 alt="Reception area of Baghdad Medical Center"
+                width={1536}
+                height={1024}
+                sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
+                quality={90}
+                priority
                 className="w-full rounded-[2rem] object-cover shadow-xl transition-transform duration-700 group-hover:scale-[1.02] md:aspect-[4/3] lg:aspect-[1.1/1]"
               />
             </motion.div>

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Section } from "./section-shell";
@@ -17,7 +19,7 @@ interface DoctorMeta {
 const doctorList: DoctorMeta[] = [
   {
     id: "safaa",
-    image: "/baghdad/doctors/Safa.png",
+    image: "/baghdad/doctors/Safa.webp",
     gender: "male",
     hasBadge: true,
   },
@@ -28,22 +30,22 @@ const doctorList: DoctorMeta[] = [
   },
   {
     id: "abdullah",
-    image: "/baghdad/doctors/Abdullah.png",
+    image: "/baghdad/doctors/Abdullah.webp",
     gender: "male",
   },
   {
     id: "bassam",
-    image: "/baghdad/doctors/bassam.png",
+    image: "/baghdad/doctors/bassam.webp",
     gender: "male",
   },
   {
     id: "rana",
-    image: "/baghdad/doctors/dentistry-room.png",
+    image: "/baghdad/doctors/dentistry-room.webp",
     gender: "female",
   },
   {
     id: "rishika",
-    image: "/baghdad/doctors/dentistry-room.png",
+    image: "/baghdad/doctors/dentistry-room.webp",
     gender: "female",
   },
 ];
@@ -108,9 +110,12 @@ export function Doctors({ animate = true }: { animate?: boolean }) {
                   >
                     {/* Image Slot Container */}
                     <div className="relative w-full aspect-[4/5] overflow-hidden bg-muted">
-                      <img
+                      <Image
                         src={doctor.image}
                         alt={name}
+                        fill
+                        sizes="(min-width: 1280px) 400px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        quality={90}
                         loading="lazy"
                         className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                       />

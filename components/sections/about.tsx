@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { Quote, Target, Eye } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
@@ -46,9 +48,12 @@ export function About({ animate = true }: { animate?: boolean }) {
             >
               {/* INCREASED HEIGHT: We expanded min-height significantly to show more of the doctor */}
               <div className="relative min-h-[360px] sm:min-h-[400px] md:min-h-[460px] lg:min-h-[480px] flex-1 w-full overflow-hidden">
-                <img
-                  src="/baghdad/about-founder-doctor.png"
+                <Image
+                  src="/baghdad/about-founder-doctor.webp"
                   alt={`${t("author")} - ${t("role")}`}
+                  fill
+                  sizes="(min-width: 1280px) 584px, (min-width: 768px) 50vw, 100vw"
+                  quality={90}
                   loading="lazy"
                   /* CHANGED: Removed object-top so it centers naturally, keeping more of the bottom visible while cropping the top ceiling */
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
