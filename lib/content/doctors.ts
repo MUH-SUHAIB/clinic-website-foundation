@@ -14,6 +14,7 @@ export interface ClinicDoctor {
   readonly imageKind: "portrait" | "clinic-room";
   readonly accent: "blue" | "pink";
   readonly isFounder: boolean;
+  /** Temporary editorial selection, not a medical ranking. */
   readonly featuredOnHomepage: boolean;
   readonly publicationStatus: "demo" | "published";
   readonly clinicalReviewStatus: "needs-review" | "approved";
@@ -88,7 +89,7 @@ export const clinicDoctors: readonly ClinicDoctor[] = [
     "imageKind": "portrait",
     "accent": "blue",
     "isFounder": false,
-    "featuredOnHomepage": true,
+    "featuredOnHomepage": false,
     "publicationStatus": "demo",
     "clinicalReviewStatus": "needs-review",
     "content": {
@@ -113,7 +114,7 @@ export const clinicDoctors: readonly ClinicDoctor[] = [
     "imageKind": "portrait",
     "accent": "blue",
     "isFounder": false,
-    "featuredOnHomepage": true,
+    "featuredOnHomepage": false,
     "publicationStatus": "demo",
     "clinicalReviewStatus": "needs-review",
     "content": {
@@ -163,7 +164,7 @@ export const clinicDoctors: readonly ClinicDoctor[] = [
     "imageKind": "clinic-room",
     "accent": "pink",
     "isFounder": false,
-    "featuredOnHomepage": true,
+    "featuredOnHomepage": false,
     "publicationStatus": "demo",
     "clinicalReviewStatus": "needs-review",
     "content": {

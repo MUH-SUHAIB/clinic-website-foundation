@@ -24,7 +24,8 @@ test("six existing doctors have unique identities, bilingual copy and real asset
     const directory = getDoctorSummaries(locale, { includeWorkingContent: true });
     const featured = getDoctorSummaries(locale, { includeWorkingContent: true, featuredOnly: true });
     assert.equal(directory.length, 6);
-    assert.deepEqual(featured.map((doctor) => doctor.id), clinicDoctors.filter((doctor) => doctor.featuredOnHomepage).map((doctor) => doctor.id));
+    assert.equal(featured.length, 3);
+    assert.deepEqual(featured.map((doctor) => doctor.id), ["safaa", "jawad", "rana"]);
   }
 });
 
@@ -40,6 +41,20 @@ test("Rana and Rishika retain clinic-room photographs described as rooms", () =>
 });
 
 for (const locale of ["en", "ar"]) {
+  test(`${locale}: homepage shows three editorial choices while directory retains six doctors`, { skip: !process.env.TEST_BASE_URL }, async () => {
+    const homepage = await fetch(new URL(`/${locale}`, process.env.TEST_BASE_URL));
+    assert.equal(homepage.status, 200);
+    const html = await homepage.text();
+    const preview = html.match(/<section\b[^>]*id="doctors"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+    assert.ok(preview);
+    assert.equal((preview.match(/<article\b/g) || []).length, 3);
+    assert.deepEqual([...preview.matchAll(/<article\b[^>]*aria-labelledby="([^"]+)-title"/g)].map((match) => match[1]), ["safaa", "jawad", "rana"]);
+    assert.ok(preview.includes(`href="/${locale}/doctors"`));
+    const directory = await fetch(new URL(`/${locale}/doctors`, process.env.TEST_BASE_URL));
+    assert.equal(directory.status, 200);
+    assert.equal(((await directory.text()).match(/<article\b/g) || []).length, 6);
+  });
+
   test(`${locale}: directory preserves doctor content and room-photo accessibility`, { skip: !process.env.TEST_BASE_URL }, async () => {
     const response = await fetch(new URL(`/${locale}/doctors`, process.env.TEST_BASE_URL));
     assert.equal(response.status, 200);
