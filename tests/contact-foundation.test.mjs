@@ -12,7 +12,13 @@ test("existing contact details and exact clinic listing are preserved", () => {
   });
   assert.deepEqual([clinic.landline.display, clinic.mobile.display, clinic.whatsapp.display], ["06 886 1115", "050 238 8626", "056 356 4165"]);
   assert.equal(clinicLocation.mapHref, listing);
-  assert.equal(clinicLocation.directionsHref, listing);
+  const directions = new URL(clinicLocation.directionsHref);
+  assert.equal(directions.origin + directions.pathname, "https://www.google.com/maps/dir/");
+  assert.equal(directions.searchParams.get("api"), "1");
+  assert.equal(directions.searchParams.get("destination"), `${clinic.location.latitude},${clinic.location.longitude}`);
+  assert.ok(clinicLocation.directionsHref.endsWith("24.9146055%2C55.7757416"));
+  assert.deepEqual([...directions.searchParams.keys()], ["api", "destination"]);
+  assert.notEqual(clinicLocation.directionsHref, listing);
   assert.equal(clinicLocation.embedHref, "https://www.google.com/maps?q=24.9146055,55.7757416&hl=en&z=17&output=embed");
   assert.ok(clinicLocation.reviewsHref.includes("0x3ef573f609a9bbf7:0x9ebb7b0be900046e"));
 });
@@ -43,7 +49,7 @@ test("Dubai open/closed status respects exact boundaries, Friday break and all w
 const base = process.env.TEST_BASE_URL;
 for (const locale of ["en", "ar"]) {
   for (const suffix of ["", "/contact"]) {
-    test(`${locale}${suffix || "/"}: shared contact details, hours, Maps listing, email and noindex`, { skip: !base }, async () => {
+    test(`${locale}${suffix || "/"}: shared contact details, hours, Maps listing versus directions, email and noindex`, { skip: !base }, async () => {
       const response = await fetch(new URL(`/${locale}${suffix}`, base));
       assert.equal(response.status, 200);
       assert.match(response.headers.get("x-robots-tag"), /noindex/);
@@ -55,9 +61,14 @@ for (const locale of ["en", "ar"]) {
       assert.ok(contact);
       for (const href of Object.values(clinicContact)) assert.ok(contact.includes(`href="${href}"`), href);
       assert.equal([...contact.matchAll(/<a\b[^>]*href="([^"]+)"/g)].filter((match) => match[1].includes("google.com/maps")).length, 2);
-      assert.equal((contact.match(/href="https:\/\/www.google.com\/maps\/place\/BAGHDAD/g) || []).length, 2);
+      assert.equal((contact.match(/href="https:\/\/www.google.com\/maps\/place\/BAGHDAD/g) || []).length, 1);
       assert.ok(contact.includes(`href="${listing}"`));
-      assert.ok(html.includes(`href="${listing}"`)); // footer shares same destination too
+      const directionsHref = clinicLocation.directionsHref.replaceAll("&", "&amp;");
+      assert.ok(contact.includes(`href="${directionsHref}"`));
+      const directionsAction = [...contact.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)].find((match) => match[1] === directionsHref);
+      assert.ok(directionsAction?.[2].includes(locale === "en" ? "Get Directions" : "احصل على الاتجاهات"));
+      const footer = html.match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/)?.[1];
+      assert.ok(footer?.includes(`href="${listing}"`));
       assert.ok(contact.includes(`hl=${locale}&amp;z=17`));
       const text = contact.replace(/<[^>]+>/g, "");
       for (const time of ["8:30", "10:00", "11:00", "3:00"]) assert.ok(text.includes(time));

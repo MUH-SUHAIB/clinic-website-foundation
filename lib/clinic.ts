@@ -60,7 +60,8 @@ export const clinicLocation = {
   ...clinic.location,
   coordinates: `${clinic.location.latitude},${clinic.location.longitude}`,
   mapHref: clinic.location.listingHref,
-  directionsHref: clinic.location.listingHref,
+  // Leave origin unspecified so Maps can use the visitor’s location when available.
+  directionsHref: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(coordinates)}`,
 };
 
 const dubaiClock = new Intl.DateTimeFormat("en-US", {

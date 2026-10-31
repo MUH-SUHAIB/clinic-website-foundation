@@ -22,7 +22,7 @@ export async function Contact({ id = "contact", headingLevel = "h2" }: {
   const whatsappUrl = clinicContact.whatsappHref;
   const localizedAddress = clinic.content[locale].address;
   const mapLink = clinicLocation.listingHref;
-  const directionsLink = clinicLocation.listingHref;
+  const directionsLink = clinicLocation.directionsHref;
   const mapEmbedSrc = clinicLocation.embedHref;
 
   return (
