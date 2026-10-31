@@ -16,6 +16,7 @@ export const routing = defineRouting({
   // middleware or layout code.
   pathnames: {
     "/": "/",
+    "/services": "/services",
   },
 });
 

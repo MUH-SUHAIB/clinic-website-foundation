@@ -1,11 +1,12 @@
 "use client";
 
-import { clinicContact } from "@/lib/clinic-contact";
+import { ContactAction } from "@/components/contact/contact-action";
+import { usePathname } from "@/i18n/navigation";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone, MessageCircle, Globe } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -15,7 +16,11 @@ export default function Header() {
 
   const locale = useLocale();
   const nextLocale = locale === "en" ? "ar" : "en";
+  const pathname = usePathname();
+  const languageHref = `/${nextLocale}${pathname === "/" ? "" : pathname}`;
+  const homeHref = `/${locale}`;
   const t = useTranslations("Navigation");
+  const tServices = useTranslations("Services");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,17 +53,26 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
-    { name: t("about"), href: "#about" },
-    { name: t("services"), href: "#services" },
-    { name: t("doctors"), href: "#doctors" },
-    { name: t("facilities"), href: "#facilities" },
-    { name: t("reviews"), href: "#testimonials" },
-    { name: t("insurance"), href: "#insurance" },
-    { name: t("faq"), href: "#faq" },
-    { name: t("contact"), href: "#contact" },
-  ];
+    { name: t("home"), href: homeHref },
+    { name: t("about"), href: `${homeHref}#about` },
+    { name: t("services"), href: `${homeHref}/services` },
+    { name: t("doctors"), href: `${homeHref}#doctors` },
+    { name: t("facilities"), href: `${homeHref}#facilities` },
+    { name: t("reviews"), href: `${homeHref}#testimonials` },
+    { name: t("insurance"), href: `${homeHref}#insurance` },
+    { name: t("faq"), href: `${homeHref}#faq` },
+    { name: t("contact"), href: `${homeHref}#contact` },
+  ].map((link) => ({
+    ...link,
+    active: (pathname === "/" && link.href === homeHref) ||
+      (pathname === "/services" && link.href === `${homeHref}/services`),
+  }));
 
   return (
+    <>
+    <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[60] focus:rounded-xl focus:bg-white focus:px-5 focus:py-3 focus:text-blue-800 focus:ring-2 focus:ring-blue-700">
+      {tServices("skipToContent")}
+    </a>
     <header
       className={`fixed left-0 right-0 z-50 transition-all duration-500 ease-out ${
         isScrolled
@@ -94,7 +108,8 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
+              aria-current={link.active ? "page" : undefined}
+              className="site-nav-link relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
             >
               {link.name}
 
@@ -107,7 +122,7 @@ export default function Header() {
         <div className="hidden lg:flex items-center gap-2.5 xl:gap-3 shrink-0">
           {/* Language Switcher */}
           <Link
-            href={`/${nextLocale}`}
+            href={languageHref}
             className="flex items-center gap-1 text-slate-600 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors px-1.5 py-1"
           >
             <bdi dir={nextLocale === "ar" ? "rtl" : "ltr"} lang={nextLocale}>
@@ -117,24 +132,10 @@ export default function Header() {
           </Link>
 
           {/* Call */}
-          <a
-            href={clinicContact.landlineHref}
-            className="flex items-center gap-1.5 bg-blue-700 text-white px-3.5 xl:px-4 py-2 rounded-full font-semibold shadow-md shadow-blue-700/20 hover:bg-blue-800 transition-all text-xs xl:text-sm"
-          >
-            <Phone className="w-3.5 h-3.5" />
-            <span>{t("callNow")}</span>
-          </a>
+          <ContactAction kind="call" appearance="header">{t("callNow")}</ContactAction>
 
           {/* WhatsApp */}
-          <a
-            href={clinicContact.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 bg-[#25D366] text-white px-3.5 xl:px-4 py-2 rounded-full font-semibold shadow-md shadow-[#25D366]/20 hover:bg-[#20bd5a] transition-all text-xs xl:text-sm"
-          >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>{t("whatsapp")}</span>
-          </a>
+          <ContactAction kind="whatsapp" appearance="header">{t("whatsapp")}</ContactAction>
         </div>
 
         {/* Mobile Menu Button */}
@@ -169,8 +170,9 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={link.active ? "page" : undefined}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
+                className="site-nav-link text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
               >
                 {link.name}
               </Link>
@@ -180,7 +182,7 @@ export default function Header() {
 
             {/* Language Switcher */}
             <Link
-              href={`/${nextLocale}`}
+              href={languageHref}
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-2 text-slate-700 font-semibold p-3 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all"
             >
@@ -193,28 +195,15 @@ export default function Header() {
 
             <div className="flex flex-col gap-3 mt-2">
               {/* Call */}
-              <a
-                href={clinicContact.landlineHref}
-                className="flex items-center justify-center gap-2 bg-blue-700 text-white px-5 py-3.5 rounded-xl font-semibold w-full hover:bg-blue-800 shadow-md shadow-blue-700/20 active:scale-[0.98] transition-all duration-200"
-              >
-                <Phone className="w-5 h-5" />
-                <span>{t("callNow")}</span>
-              </a>
+              <ContactAction kind="call" appearance="menu">{t("callNow")}</ContactAction>
 
               {/* WhatsApp */}
-              <a
-                href={clinicContact.whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 bg-[#25D366] text-white px-5 py-3.5 rounded-xl font-semibold w-full hover:bg-[#20bd5a] shadow-md shadow-[#25D366]/20 active:scale-[0.98] transition-all duration-200"
-              >
-                <MessageCircle className="w-5 h-5" />
-                <span>{t("whatsapp")}</span>
-              </a>
+              <ContactAction kind="whatsapp" appearance="menu">{t("whatsapp")}</ContactAction>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </header>
+    </>
   );
 }

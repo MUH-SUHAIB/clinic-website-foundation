@@ -4,7 +4,7 @@ import Image from "next/image";
 import { BidiText } from "@/components/ui/bidi-text";
 import React from "react";
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   Phone,
   Mail,
@@ -54,19 +54,20 @@ export function Footer({
 }: FooterContent) {
   const tFooter = useTranslations("Footer");
   const tNav = useTranslations("Navigation");
+  const locale = useLocale();
 
   const clinicName = tFooter("clinicName");
   const address = tFooter.raw("address") as string[];
 
   const quickLinks = [
-    { label: tNav("about"), href: "#about" },
-    { label: tNav("services"), href: "#services" },
-    { label: tNav("doctors"), href: "#doctors" },
-    { label: tNav("facilities"), href: "#facilities" },
-    { label: tNav("reviews"), href: "#testimonials" },
-    { label: tNav("insurance"), href: "#insurance" },
-    { label: tNav("faq"), href: "#faq" },
-    { label: tNav("contact"), href: "#contact" },
+    { label: tNav("about"), href: `/${locale}#about` },
+    { label: tNav("services"), href: `/${locale}/services` },
+    { label: tNav("doctors"), href: `/${locale}#doctors` },
+    { label: tNav("facilities"), href: `/${locale}#facilities` },
+    { label: tNav("reviews"), href: `/${locale}#testimonials` },
+    { label: tNav("insurance"), href: `/${locale}#insurance` },
+    { label: tNav("faq"), href: `/${locale}#faq` },
+    { label: tNav("contact"), href: `/${locale}#contact` },
   ];
 
   const whatsappUrl = whatsappHref || (whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : "");
@@ -228,7 +229,7 @@ export function Footer({
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 shrink-0 group-hover/item:bg-blue-600 group-hover/item:text-white transition-all duration-300">
                     <Mail size={18} aria-hidden />
                   </div>
-                  <bdi dir="ltr">{email}</bdi>
+                  <bdi dir="ltr" className="min-w-0 break-all">{email}</bdi>
                 </motion.a>
               )}
 

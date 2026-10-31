@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteSeo } from "@/lib/site-seo";
+import { getServiceSummaries } from "@/lib/content/services";
 
 import {
   Hero,
@@ -45,15 +46,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
+  const services = getServiceSummaries(locale === "ar" ? "ar" : "en", {
+    includeWorkingContent: !siteSeo.indexingEnabled,
+  });
 
   return (
-    <main className="min-h-screen pt-20">
+    <main id="main-content" tabIndex={-1} className="min-h-screen pt-20">
       {/* 
         Fully localized sections pulling from messages/ar.json and en.json 
       */}
       <Hero animate />
       <About animate />
-      <Services animate />
+      <Services services={services} animate />
       <Doctors animate />
       <Facilities animate />
       <Testimonials animate />
