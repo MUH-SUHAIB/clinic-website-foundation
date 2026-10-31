@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteSeo } from "@/lib/site-seo";
+import { getDoctorSummaries } from "@/lib/content/doctors";
 import { getServiceSummaries } from "@/lib/content/services";
 
 import {
@@ -49,6 +50,10 @@ export default async function HomePage({ params }: Props) {
   const services = getServiceSummaries(locale === "ar" ? "ar" : "en", {
     includeWorkingContent: !siteSeo.indexingEnabled,
   });
+  const doctors = getDoctorSummaries(locale === "ar" ? "ar" : "en", {
+    includeWorkingContent: !siteSeo.indexingEnabled,
+    featuredOnly: true,
+  });
 
   return (
     <main id="main-content" tabIndex={-1} className="min-h-screen pt-20">
@@ -58,7 +63,7 @@ export default async function HomePage({ params }: Props) {
       <Hero animate />
       <About animate />
       <Services services={services} animate />
-      <Doctors animate />
+      <Doctors doctors={doctors} />
       <Facilities animate />
       <Testimonials animate />
       <Insurance animate />

@@ -62,7 +62,7 @@ export function Footer({
   const quickLinks = [
     { label: tNav("about"), href: `/${locale}#about` },
     { label: tNav("services"), href: `/${locale}/services` },
-    { label: tNav("doctors"), href: `/${locale}#doctors` },
+    { label: tNav("doctors"), href: `/${locale}/doctors` },
     { label: tNav("facilities"), href: `/${locale}#facilities` },
     { label: tNav("reviews"), href: `/${locale}#testimonials` },
     { label: tNav("insurance"), href: `/${locale}#insurance` },
