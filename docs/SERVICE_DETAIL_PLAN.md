@@ -1,8 +1,8 @@
 # Bilingual Service Detail Pages — Implementation Plan
 
-Status: planning only; no application implementation or publication authorized by this document.
+Status: reviewed and approved planning document. Approval covers the plan only; implementation, medical-content approval, publication and indexing still require separate authorization.
 
-Baseline: latest GitHub `main`, commit `3411a0b07d74ac283e5e09b4292e0996fa56ea2d`, inspected for this task. This file is a local draft on `codex/service-detail-plan`.
+Inspected baseline: GitHub `main`, commit `3411a0b07d74ac283e5e09b4292e0996fa56ea2d`. Planning branch: `codex/service-detail-plan`.
 
 ## 1. Objective and current facts
 
@@ -185,7 +185,7 @@ Use semantic landmarks, one H1, logical heading order, readable text, descriptiv
 
 ## 11. Planning deliverable and references
 
-This task creates only this plan. It does not create routes, approve medical content, enable indexing, change DNS or authorize a release. Application build/browser tests are acceptance work for a later implementation, not results claimed by this document.
+This reviewed and approved plan documents future work only. It does not create routes, approve medical content, enable indexing, change DNS or authorize a release. Application build/browser tests are acceptance work for a later implementation, not results claimed by this document.
 
 Primary documentation consulted for the plan:
 
