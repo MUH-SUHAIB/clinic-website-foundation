@@ -1,10 +1,10 @@
 "use client";
 
-import { clinicContact } from "@/lib/clinic-contact";
+import { clinicContact, clinicHoursValues } from "@/lib/clinic";
 
 import { useState, useId, memo } from "react";
 import { motion, type Variants } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ChevronDown, MessageCircle, PhoneCall } from "lucide-react";
 import { Section } from "./section-shell";
 import { BidiText } from "@/components/ui/bidi-text";
@@ -228,6 +228,7 @@ export function FAQ({
   className,
 }: FAQContent) {
   const t = useTranslations("FAQ");
+  const locale = useLocale() === "ar" ? "ar" : "en";
   const [openIndexes, setOpenIndexes] = useState<Set<number>>(new Set());
   const baseId = useId();
 
@@ -235,7 +236,7 @@ export function FAQ({
   const itemKeys = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8"];
   const items: FAQItem[] = itemKeys.map((key) => ({
     question: t(`items.${key}.question`),
-    answer: t(`items.${key}.answer`),
+    answer: t(`items.${key}.answer`, key === "item2" ? clinicHoursValues(locale) : undefined),
   }));
 
   const support = {

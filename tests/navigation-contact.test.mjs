@@ -3,7 +3,7 @@ import test from "node:test";
 
 // Run against a production build: TEST_BASE_URL=http://localhost:3100 node --test tests/*.test.mjs
 const base = process.env.TEST_BASE_URL;
-const sections = ["about", "facilities", "testimonials", "insurance", "faq", "contact"];
+const sections = ["about", "facilities", "testimonials", "insurance", "faq"];
 const pages = new Map();
 function getPage(path) {
   if (!pages.has(path)) pages.set(path, fetch(new URL(path, base)).then(async (response) => ({
@@ -15,7 +15,7 @@ function getPage(path) {
 }
 
 for (const locale of ["en", "ar"]) {
-  for (const suffix of ["", "/services", "/doctors"]) {
+  for (const suffix of ["", "/services", "/doctors", "/contact"]) {
     test(`${locale}${suffix || "/"}: locale navigation, noindex, and a single floating contact pair`, { skip: !base }, async () => {
       const { status, robots, html } = await getPage(`/${locale}${suffix}`);
       assert.equal(status, 200);
@@ -29,11 +29,12 @@ for (const locale of ["en", "ar"]) {
         for (const navigation of [header, footer]) assert.ok(navigation.includes(`href="/${locale}#${section}"`));
         assert.ok(homepage.html.includes(`id="${section}"`));
       }
-      for (const directory of ["services", "doctors"]) {
+      for (const directory of ["services", "doctors", "contact"]) {
         for (const navigation of [header, footer]) assert.ok(navigation.includes(`href="/${locale}/${directory}"`));
         assert.ok(homepage.html.includes(`href="/${locale}/${directory}"`));
       }
       assert.ok(homepage.html.includes('id="doctors"'));
+      assert.ok(homepage.html.includes('id="contact"'));
       const desktopNav = header.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/)?.[1];
       assert.ok(desktopNav);
       assert.equal(desktopNav.match(/<a\b[^>]*href="([^"]+)"/)?.[1], `/${locale}`);

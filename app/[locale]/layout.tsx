@@ -1,3 +1,4 @@
+import { clinic } from "@/lib/clinic";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
@@ -87,8 +88,8 @@ export default async function LocaleLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
-    "name": locale === "ar" ? "مركز بغداد الطبي" : "Baghdad Medical Center",
-    "alternateName": locale === "ar" ? "Baghdad Medical Center" : "مركز بغداد الطبي",
+    "name": clinic.content[locale].name,
+    "alternateName": clinic.content[locale === "ar" ? "en" : "ar"].name,
     "url": `${siteSeo.origin}/${locale}`,
     "logo": `${siteSeo.origin}/favicon-logo.png`,
     "image": `${siteSeo.origin}/favicon-logo.png`,
@@ -98,11 +99,11 @@ export default async function LocaleLayout({
         : "Multispecialty Medical Center providing compassionate, modern healthcare in Al Madam, Sharjah.",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Al Madam",
-      "addressRegion": "Sharjah",
-      "addressCountry": "AE"
+      "addressLocality": clinic.postalAddress.locality,
+      "addressRegion": clinic.postalAddress.region,
+      "addressCountry": clinic.postalAddress.country
     },
-    "telephone": "+971502388626",
+    "telephone": clinic.mobile.international,
     "priceRange": "$$"
   };
 

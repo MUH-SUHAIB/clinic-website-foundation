@@ -22,9 +22,7 @@
     "badge": "Trusted Medical Center",
     "headline": "Baghdad Medical Center",
     "subtitle": "Trusted Multispecialty Medical Care in Al Madam, Sharjah",
-    "description": "Providing compassionate, modern healthcare for individuals and families with experienced doctors and quality medical services.",
-    "primaryCta": "050 238 8626",
-    "secondaryCta": "056 356 4165"
+    "description": "Providing compassionate, modern healthcare for individuals and families with experienced doctors and quality medical services."
   },
   "About": {
     "eyebrow": "ABOUT US",
@@ -130,7 +128,7 @@
       },
       "item2": {
         "question": "What are your working hours?",
-        "answer": "We are open Saturday through Thursday from 8:30 AM to 10:00 PM, and Friday from 8:30 AM to 11:00 AM and 3:00 PM to 10:00 PM."
+        "answer": "We are open Saturday through Thursday from {satOpen} to {satClose}, and Friday from {friOpen} to {friBreak} and {friReturn} to {friClose}."
       },
       "item3": {
         "question": "Do you accept insurance?",
@@ -159,7 +157,6 @@
     }
   },
   "Contact": {
-    "address": "Al Madam, Sharjah — same building as First Abu Dhabi Bank (FAB), side entrance, First Floor.",
     "eyebrow": "Contact Us",
     "title": "Get in Touch",
     "description": "Have a question or need to schedule a visit? Our team is available by phone, WhatsApp, or email to assist you.",
@@ -175,24 +172,19 @@
       "satThu": "Sat – Thu",
       "fri": "Fri"
     },
-    "hours": {
-      "satThuHours": "<range><timeValue>8:30 AM</timeValue> – <timeValue>10:00 PM</timeValue></range>",
-      "friHours": "<range><timeValue>8:30 AM</timeValue> – <timeValue>11:00 AM</timeValue></range>, <range><timeValue>3:00 PM</timeValue> – <timeValue>10:00 PM</timeValue></range>"
-    }
+    "timeRange": "<timeValue>{start}</timeValue> {startPeriod} – <timeValue>{end}</timeValue> {endPeriod}",
+    "metaTitle": "Contact Baghdad Medical Center | Al Madam, Sharjah",
+    "metaDescription": "Contact Baghdad Medical Center in Al Madam, Sharjah. Find phone and WhatsApp numbers, the clinic location and listed opening hours.",
+    "breadcrumbLabel": "Breadcrumb",
+    "home": "Home",
+    "regularHoursNote": "Based on listed regular hours; holiday hours may differ."
   },
   "Footer": {
-    "clinicName": "Baghdad Medical Center",
     "tagline": "Compassionate, patient-centered healthcare for individuals and families in Al Madam, Sharjah.",
     "followUs": "Follow Us",
     "quickLinks": "Quick Links",
     "contactInfo": "Contact Information",
-    "copyright": "© <yearValue>{year}</yearValue> Baghdad Medical Center. All rights reserved.",
-    "address": [
-      "Al Madam, Sharjah",
-      "First Abu Dhabi Bank (FAB) Building",
-      "Side Entrance",
-      "First Floor"
-    ]
+    "copyright": "© <yearValue>{year}</yearValue> Baghdad Medical Center. All rights reserved."
   },
   "Appointment": {
     "close": "Close",

@@ -61,7 +61,7 @@ export default function Header() {
     { name: t("reviews"), href: `${homeHref}#testimonials` },
     { name: t("insurance"), href: `${homeHref}#insurance` },
     { name: t("faq"), href: `${homeHref}#faq` },
-    { name: t("contact"), href: `${homeHref}#contact` },
+    { name: t("contact"), href: `${homeHref}/contact` },
   ].map((link) => ({
     ...link,
     active: link.href === `${homeHref}${pathname === "/" ? "" : pathname}`,
