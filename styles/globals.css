@@ -114,9 +114,9 @@ body {
 :root {
   --contact-call: #1d4ed8;
   --contact-call-hover: #1e40af;
-  /* A deeper WhatsApp green keeps white labels readable. */
-  --contact-whatsapp: #12823f;
-  --contact-whatsapp-hover: #0d6b32;
+  /* Requested brand colors; white content has limited contrast on this green. */
+  --contact-whatsapp: #25D366;
+  --contact-whatsapp-hover: #20bd5a;
 }
 
 .contact-action {
@@ -178,8 +178,7 @@ html { scroll-padding-bottom: 8rem; }
 
 /* Existing menus and dialogs own the interaction layer when open. */
 body:has(#mobile-nav-panel) .floating-contact,
-body:has([role="dialog"][aria-modal="true"]) .floating-contact,
-.floating-contact[hidden] { display: none; }
+body:has([role="dialog"][aria-modal="true"]) .floating-contact { display: none; }
 
 /* Hash destinations remain fully visible below the fixed navigation. */
 :where(#about, #doctors, #facilities, #testimonials, #insurance, #faq, #contact, #services) {
@@ -189,3 +188,8 @@ body:has([role="dialog"][aria-modal="true"]) .floating-contact,
   html { scroll-behavior: auto; }
   .contact-action { transition: none; }
 }
+
+/* Mark the current page in both navigation presentations. */
+.site-nav-link[aria-current="page"] { color: var(--contact-call); }
+.site-nav-link[aria-current="page"] > span { transform: scaleX(1); }
+#mobile-nav-panel .site-nav-link[aria-current="page"] { background-color: #eff6ff; }

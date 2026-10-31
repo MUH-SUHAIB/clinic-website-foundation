@@ -1,11 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { FloatingContactControls } from "./floating-contact-controls";
+import { ContactAction } from "./contact-action";
 
-/** Render once in the locale layout; only collision visibility needs client state. */
+/** Fixed contact controls need no scroll listeners or client state. */
 export async function FloatingContact() {
   const t = await getTranslations("ContactActions");
 
   return (
-    <FloatingContactControls label={t("label")} whatsappLabel={t("whatsapp")} callLabel={t("call")} />
+    <aside aria-label={t("label")} className="floating-contact">
+      <ContactAction kind="whatsapp" appearance="floating">{t("whatsapp")}</ContactAction>
+      <ContactAction kind="call" appearance="floating">{t("call")}</ContactAction>
+    </aside>
   );
 }

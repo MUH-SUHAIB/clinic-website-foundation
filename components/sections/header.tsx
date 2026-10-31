@@ -53,6 +53,7 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
+    { name: t("home"), href: homeHref },
     { name: t("about"), href: `${homeHref}#about` },
     { name: t("services"), href: `${homeHref}/services` },
     { name: t("doctors"), href: `${homeHref}#doctors` },
@@ -61,7 +62,11 @@ export default function Header() {
     { name: t("insurance"), href: `${homeHref}#insurance` },
     { name: t("faq"), href: `${homeHref}#faq` },
     { name: t("contact"), href: `${homeHref}#contact` },
-  ];
+  ].map((link) => ({
+    ...link,
+    active: (pathname === "/" && link.href === homeHref) ||
+      (pathname === "/services" && link.href === `${homeHref}/services`),
+  }));
 
   return (
     <>
@@ -103,8 +108,8 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              aria-current={pathname === "/services" && link.href === `${homeHref}/services` ? "page" : undefined}
-              className="relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
+              aria-current={link.active ? "page" : undefined}
+              className="site-nav-link relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
             >
               {link.name}
 
@@ -165,9 +170,9 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                aria-current={pathname === "/services" && link.href === `${homeHref}/services` ? "page" : undefined}
+                aria-current={link.active ? "page" : undefined}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
+                className="site-nav-link text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
               >
                 {link.name}
               </Link>

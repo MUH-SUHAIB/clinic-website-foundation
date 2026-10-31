@@ -30,6 +30,12 @@ for (const locale of ["en", "ar"]) {
         assert.ok(homepage.html.includes(`id="${section}"`));
       }
       for (const navigation of [header, footer]) assert.ok(navigation.includes(`href="/${locale}/services"`));
+      const desktopNav = header.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/)?.[1];
+      assert.ok(desktopNav);
+      assert.equal(desktopNav.match(/<a\b[^>]*href="([^"]+)"/)?.[1], `/${locale}`);
+      const activeLinks = [...desktopNav.matchAll(/<a\b[^>]*>/g)]
+        .map((match) => match[0]).filter((tag) => tag.includes('aria-current="page"'));
+      assert.deepEqual(activeLinks.map((tag) => tag.match(/href="([^"]+)"/)?.[1]), [`/${locale}${suffix}`]);
       const otherLocale = locale === "en" ? "ar" : "en";
       assert.ok(header.includes(`href="/${otherLocale}${suffix}"`));
       assert.ok(header.includes(`href="/${locale}"`));
