@@ -1,10 +1,11 @@
 "use client";
 
 import { ContactAction } from "@/components/contact/contact-action";
-import { usePathname } from "@/i18n/navigation";
+import { getPathname, usePathname } from "@/i18n/navigation";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { Menu, X, Globe } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -17,7 +18,13 @@ export default function Header() {
   const locale = useLocale();
   const nextLocale = locale === "en" ? "ar" : "en";
   const pathname = usePathname();
-  const languageHref = `/${nextLocale}${pathname === "/" ? "" : pathname}`;
+  const params = useParams();
+  const languageHref = getPathname({
+    locale: nextLocale,
+    href: pathname === "/services/[slug]"
+      ? { pathname, params: { slug: typeof params.slug === "string" ? params.slug : "" } }
+      : pathname,
+  });
   const homeHref = `/${locale}`;
   const t = useTranslations("Navigation");
   const tServices = useTranslations("Services");
@@ -65,6 +72,7 @@ export default function Header() {
   ].map((link) => ({
     ...link,
     active: link.href === `${homeHref}${pathname === "/" ? "" : pathname}`,
+    parentActive: link.href === `${homeHref}/services` && pathname === "/services/[slug]",
   }));
 
   return (
@@ -108,7 +116,8 @@ export default function Header() {
               key={link.href}
               href={link.href}
               aria-current={link.active ? "page" : undefined}
-              className="site-nav-link relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
+              data-active={link.parentActive || undefined}
+              className="data-[active=true]:text-blue-700 site-nav-link relative text-slate-800 hover:text-blue-700 text-xs xl:text-sm font-semibold transition-colors py-1 group"
             >
               {link.name}
 
@@ -171,7 +180,8 @@ export default function Header() {
                 href={link.href}
                 aria-current={link.active ? "page" : undefined}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="site-nav-link text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
+                data-active={link.parentActive || undefined}
+                className="data-[active=true]:text-blue-700 data-[active=true]:bg-blue-50 site-nav-link text-slate-800 text-base font-semibold p-3 hover:bg-blue-50 hover:text-blue-700 rounded-xl transition-all"
               >
                 {link.name}
               </Link>

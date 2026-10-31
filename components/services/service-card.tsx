@@ -1,3 +1,5 @@
+import { Link } from "@/i18n/navigation";
+import { BidiText } from "@/components/ui/bidi-text";
 import Image from "next/image";
 import type { ServiceSummary } from "@/lib/content/services";
 import { Heading, Text } from "@/components/ui/typography";
@@ -27,7 +29,14 @@ export function ServiceCard({ service, headingLevel }: ServiceCardProps) {
       </div>
       <div className="flex flex-1 flex-col p-6 text-start">
         <Heading level="h4" as={headingLevel} id={`${service.id}-title`} className="mb-3 text-blue-700 dark:text-blue-400">
-          {service.title}
+          {service.detailSlug ? (
+            <Link
+              href={{ pathname: "/services/[slug]", params: { slug: service.detailSlug } }}
+              className="rounded-sm underline decoration-blue-200 underline-offset-4 hover:decoration-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-4"
+            >
+              <BidiText>{service.title}</BidiText>
+            </Link>
+          ) : service.title}
         </Heading>
         <Text variant="small" className="text-slate-600 dark:text-slate-300">
           {service.description}
