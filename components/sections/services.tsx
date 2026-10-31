@@ -1,34 +1,31 @@
 "use client";
 
-import Image from "next/image";
-
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
-
+import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import type { ServiceSummary } from "@/lib/content/services";
+import { ServiceGrid } from "@/components/services/service-grid";
 import { Section } from "./section-shell";
 import { Heading, Text } from "@/components/ui/typography";
-import { Card } from "@/components/ui/card";
-
 import { staggerContainer, slideUp } from "@/lib/motion";
 
-// Static image mapping - untouched
-const serviceItems = [
-  { id: "service1", image: "/baghdad/services/general-practice.avif" },
-  { id: "service2", image: "/baghdad/services/pediatrics.jpg" },
-  { id: "service3", image: "/baghdad/services/obstetrics-gynecology.webp" },
-  { id: "service4", image: "/baghdad/services/dentistry.jpg" },
-  { id: "service5", image: "/baghdad/services/skincare.webp" },
-  { id: "service6", image: "/baghdad/services/hijama-prp.jpg" },
-];
-
-export function Services({ animate = true }: { animate?: boolean }) {
+export function Services({
+  services,
+  animate = true,
+}: {
+  services: readonly ServiceSummary[];
+  animate?: boolean;
+}) {
   const t = useTranslations("Services");
-  const Container = animate ? motion.div : "div";
+  const reducedMotion = useReducedMotion();
+  const shouldAnimate = animate && !reducedMotion;
+  const Container = shouldAnimate ? motion.div : "div";
 
   return (
     <Section id="services" className="bg-slate-50/50 py-16 md:py-24 dark:bg-slate-900/50" align="center">
       <Container
-        {...(animate
+        {...(shouldAnimate
           ? {
               variants: staggerContainer,
               initial: "hidden",
@@ -38,11 +35,10 @@ export function Services({ animate = true }: { animate?: boolean }) {
           : {})}
         className="flex w-full flex-col items-center gap-12"
       >
-        {/* TEXT HEADER */}
-        <motion.div {...(animate ? { variants: slideUp } : {})} className="flex max-w-3xl flex-col items-center text-center gap-4">
-          <Heading level="h6" className="text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider text-sm">
+        <motion.div {...(shouldAnimate ? { variants: slideUp } : {})} className="flex max-w-3xl flex-col items-center text-center gap-4">
+          <p className="text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider text-sm">
             {t("eyebrow")}
-          </Heading>
+          </p>
           <Heading level="h2" className="text-slate-900 dark:text-white">
             {t("title")}
           </Heading>
@@ -51,38 +47,17 @@ export function Services({ animate = true }: { animate?: boolean }) {
           </Text>
         </motion.div>
 
-        {/* SERVICES GRID */}
-        <motion.div {...(animate ? { variants: slideUp } : {})} className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {serviceItems.map((item) => (
-            <Card
-              key={item.id}
-              interactive
-              className="flex flex-col overflow-hidden border-blue-100 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
-            >
-              <div className="relative h-56 w-full overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={t(`items.${item.id}.title`)}
-                  fill
-                  sizes="(min-width: 1280px) 390px, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  quality={90}
-                  // Already an 11 KB AVIF; serve directly to avoid needless re-encoding.
-                  unoptimized={item.image.endsWith(".avif")}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                />
-              </div>
-              <div className="flex flex-1 flex-col p-6 text-start">
-                <Heading level="h4" as="h3" className="mb-3 text-blue-700 dark:text-blue-400">
-                  {t(`items.${item.id}.title`)}
-                </Heading>
-                <Text variant="small" className="text-slate-600 dark:text-slate-300">
-                  {t(`items.${item.id}.description`)}
-                </Text>
-              </div>
-            </Card>
-          ))}
+        <motion.div {...(shouldAnimate ? { variants: slideUp } : {})} className="w-full">
+          <ServiceGrid services={services} />
         </motion.div>
+
+        <Link
+          href="/services"
+          className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-blue-200 bg-white px-7 py-3 font-semibold text-blue-700 shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-4 dark:border-blue-800 dark:bg-slate-900 dark:text-blue-300 dark:hover:bg-blue-950"
+        >
+          {t("viewAll")}
+          <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 rtl:rotate-180" />
+        </Link>
       </Container>
     </Section>
   );

@@ -109,3 +109,83 @@ body {
   flex-row + dir inheritance) instead of ml-, mr-, text-left, or text-right,
   so layouts mirror automatically under RTL without extra CSS.
 */
+
+/* Shared contact controls: one set of colors and focus styles for every size. */
+:root {
+  --contact-call: #1d4ed8;
+  --contact-call-hover: #1e40af;
+  /* A deeper WhatsApp green keeps white labels readable. */
+  --contact-whatsapp: #12823f;
+  --contact-whatsapp-hover: #0d6b32;
+}
+
+.contact-action {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 0.12);
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.contact-action--call { background-color: var(--contact-call); }
+.contact-action--call:hover { background-color: var(--contact-call-hover); }
+.contact-action--whatsapp { background-color: var(--contact-whatsapp); }
+.contact-action--whatsapp:hover { background-color: var(--contact-whatsapp-hover); }
+.contact-action:focus-visible {
+  outline: 3px solid var(--contact-call);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 3px #fff;
+}
+.contact-action svg { width: 20px; height: 20px; flex-shrink: 0; }
+.contact-action--header { min-height: 44px; gap: 0.375rem; padding: 0.5rem 0.875rem; font-size: 0.75rem; }
+.contact-action--header svg { width: 14px; height: 14px; }
+.contact-action--menu { width: 100%; border-radius: 0.75rem; }
+.contact-action--floating { width: 48px; height: 48px; padding: 0; }
+.contact-action--floating svg { width: 24px; height: 24px; }
+
+.floating-contact {
+  position: fixed;
+  z-index: 40;
+  right: calc(0.75rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Compact edge controls preserve the full mobile content width. Native anchor
+   destinations and keyboard scrolling leave room above the contact controls. */
+html { scroll-padding-bottom: 8rem; }
+@media (max-width: 767px) {
+  .floating-contact { right: calc(0.25rem + env(safe-area-inset-right, 0px)); gap: 0.625rem; }
+  .contact-action--floating { width: 44px; height: 44px; min-height: 44px; }
+}
+@media (min-width: 1440px) {
+  .floating-contact { right: calc(1.5rem + env(safe-area-inset-right, 0px)); bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); }
+  .contact-action--floating { width: 52px; height: 52px; }
+}
+@media (min-width: 1280px) {
+  .contact-action--header { font-size: 0.875rem; padding-inline: 1rem; }
+}
+
+/* Existing menus and dialogs own the interaction layer when open. */
+body:has(#mobile-nav-panel) .floating-contact,
+body:has([role="dialog"][aria-modal="true"]) .floating-contact,
+.floating-contact[hidden] { display: none; }
+
+/* Hash destinations remain fully visible below the fixed navigation. */
+:where(#about, #doctors, #facilities, #testimonials, #insurance, #faq, #contact, #services) {
+  scroll-margin-top: 6rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .contact-action { transition: none; }
+}

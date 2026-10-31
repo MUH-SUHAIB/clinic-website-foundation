@@ -21,6 +21,7 @@ import {
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import Header from "@/components/sections/header";
 import { siteSeo } from "@/lib/site-seo";
+import { FloatingContact } from "@/components/contact/floating-contact";
 
 import "@/styles/globals.css";
 
@@ -39,7 +40,6 @@ export const viewport = {
   themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export const metadata: Metadata = {
@@ -119,6 +119,7 @@ export default async function LocaleLayout({
           <ThemeProvider>
             <Header />
             {children}
+            <FloatingContact />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
