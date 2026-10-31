@@ -60,7 +60,7 @@ export default async function HomePage({ params }: Props) {
         Fully localized sections pulling from messages/ar.json and en.json 
       */}
       <Hero animate />
-      <About animate />
+      <About />
       <Services services={services} animate />
       <Doctors doctors={doctors} />
       <Facilities animate />

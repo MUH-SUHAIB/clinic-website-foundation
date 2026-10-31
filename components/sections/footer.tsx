@@ -60,7 +60,7 @@ export function Footer({
   const address = clinic.content[locale === "ar" ? "ar" : "en"].addressLines;
 
   const quickLinks = [
-    { label: tNav("about"), href: `/${locale}#about` },
+    { label: tNav("about"), href: `/${locale}/about` },
     { label: tNav("services"), href: `/${locale}/services` },
     { label: tNav("doctors"), href: `/${locale}/doctors` },
     { label: tNav("facilities"), href: `/${locale}#facilities` },
