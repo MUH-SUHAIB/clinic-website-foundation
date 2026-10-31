@@ -74,10 +74,10 @@ function getRelativeTime(dateString: string, now: Date, locale: string): string 
   return formatter.format(-Math.floor(months / 12), "year");
 }
 
-function StarRating({ rating }: { rating: number }) {
+function StarRating({ rating, accessibleRating = rating }: { rating: number; accessibleRating?: number }) {
   const t = useTranslations("Testimonials");
   return (
-    <div className="flex items-center gap-1" aria-label={t("ratingLabel", { rating })}>
+    <div role="img" className="flex items-center gap-1" aria-label={t("ratingLabel", { rating: accessibleRating })}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
@@ -227,7 +227,7 @@ export function Testimonials({
               <div className="inline-flex items-center gap-3 rounded-full border border-blue-300 bg-white/80 px-5 py-2 shadow-sm backdrop-blur-md transition-all hover:border-blue-400 hover:bg-white hover:shadow-md dark:border-blue-500/50 dark:bg-slate-800/80">
                 <GoogleIcon className="h-4 w-4" />
                 <span className="text-sm font-bold tracking-tight text-foreground"><bdi dir="ltr">{aggregateScore.rating.toFixed(1)}</bdi></span>
-                <StarRating rating={Math.round(aggregateScore.rating)} />
+                <StarRating rating={Math.round(aggregateScore.rating)} accessibleRating={aggregateScore.rating} />
                 <span className="h-3.5 w-px bg-slate-300 dark:bg-slate-600" />
                 <span className="text-xs font-medium text-muted-foreground"><bdi dir="ltr">{aggregateScore.totalReviews}</bdi> {t("platform")}</span>
               </div>
