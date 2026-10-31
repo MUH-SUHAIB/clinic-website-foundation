@@ -18,6 +18,7 @@ export const routing = defineRouting({
     "/": "/",
     "/services": "/services",
     "/doctors": "/doctors",
+    "/contact": "/contact",
   },
 });
 

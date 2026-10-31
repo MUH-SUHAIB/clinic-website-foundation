@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { clinicContact } from "@/lib/clinic-contact";
+import { clinic, clinicContact } from "@/lib/clinic";
 
 import { ShieldCheck, Phone, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -76,7 +76,7 @@ export function Hero({ animate = true }: { animate?: boolean }) {
                 icon={<Phone size={18} />}
                 className="min-h-[48px] w-full whitespace-nowrap !rounded-full !bg-blue-700 px-6 py-3.5 !font-semibold !text-sm !text-white !shadow-md !shadow-blue-700/20 !transition-all !duration-300 hover:-translate-y-0.5 hover:!bg-blue-800 hover:!shadow-lg hover:!shadow-blue-700/30 sm:w-auto sm:!text-base"
               >
-                <bdi dir="ltr">{t("primaryCta")}</bdi>
+                <bdi dir="ltr">{clinic.mobile.display}</bdi>
               </LinkButton>
 
               <LinkButton
@@ -86,7 +86,7 @@ export function Hero({ animate = true }: { animate?: boolean }) {
                 icon={<MessageCircle size={18} />}
                 className="min-h-[48px] w-full whitespace-nowrap !rounded-full !border !border-transparent !bg-[#25D366] px-6 py-3.5 !font-semibold !text-sm !text-white !shadow-md !shadow-[#25D366]/20 !transition-all !duration-300 hover:-translate-y-0.5 hover:!bg-[#20bd5a] hover:!shadow-lg hover:!shadow-[#25D366]/40 sm:w-auto sm:!text-base"
               >
-                <bdi dir="ltr">{t("secondaryCta")}</bdi>
+                <bdi dir="ltr">{clinic.whatsapp.display}</bdi>
               </LinkButton>
             </motion.div>
           </TextWrapper>

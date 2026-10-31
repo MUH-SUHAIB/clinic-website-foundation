@@ -1,5 +1,5 @@
 "use client";
-import { clinicLocation } from "@/lib/clinic-location";
+import { clinic, clinicLocation } from "@/lib/clinic";
 import Image from "next/image";
 import { BidiText } from "@/components/ui/bidi-text";
 import React from "react";
@@ -56,8 +56,8 @@ export function Footer({
   const tNav = useTranslations("Navigation");
   const locale = useLocale();
 
-  const clinicName = tFooter("clinicName");
-  const address = tFooter.raw("address") as string[];
+  const clinicName = clinic.content[locale === "ar" ? "ar" : "en"].name;
+  const address = clinic.content[locale === "ar" ? "ar" : "en"].addressLines;
 
   const quickLinks = [
     { label: tNav("about"), href: `/${locale}#about` },
@@ -67,7 +67,7 @@ export function Footer({
     { label: tNav("reviews"), href: `/${locale}#testimonials` },
     { label: tNav("insurance"), href: `/${locale}#insurance` },
     { label: tNav("faq"), href: `/${locale}#faq` },
-    { label: tNav("contact"), href: `/${locale}#contact` },
+    { label: tNav("contact"), href: `/${locale}/contact` },
   ];
 
   const whatsappUrl = whatsappHref || (whatsapp ? `https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}` : "");

@@ -17,7 +17,6 @@ import {
 } from "@/components/sections";
 
 import {
-  contactContent,
   footerContent,
 } from "@/lib/mock-data/homepage";
 
@@ -68,7 +67,7 @@ export default async function HomePage({ params }: Props) {
       <Testimonials animate />
       <Insurance animate />
       <FAQ animate />
-      <Contact {...contactContent} animate />
+      <Contact />
       <Footer {...footerContent} />
     </main>
   );

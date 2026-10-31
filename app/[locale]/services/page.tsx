@@ -80,7 +80,7 @@ export default async function ServicesPage({ params }: ServicesPageProps) {
             <div className="max-w-xl text-start">
               <Heading level="h3" as="h2" id="services-contact-title" className="text-slate-900 dark:text-white">{tContact("title")}</Heading>
               <Text className="mt-3 text-slate-600 dark:text-slate-300">{tContact("description")}</Text>
-              <Link href={{ pathname: "/", hash: "contact" }} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:decoration-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-4 dark:text-blue-300">
+              <Link href="/contact" className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:decoration-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-4 dark:text-blue-300">
                 {t("contactLocation")}<ArrowRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
               </Link>
             </div>
