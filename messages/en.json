@@ -55,40 +55,14 @@
     },"Doctors": {
     "eyebrow": "OUR MEDICAL TEAM",
     "title": "Meet Our Medical Team",
-    "description": "Board-certified specialists dedicated to your family's health.",
+    "description": "Meet the medical team at Baghdad Medical Center.",
     "founderBadge": "Founder",
-    "items": {
-      "safaa": {
-        "name": "Dr. Safaa Mohamed Hussein",
-        "specialization": "Dermatology Specialist",
-        "description": "Founder of Baghdad Medical Center. Specializes in dermatology, hair loss (alopecia), PRP therapy, skin health, diabetes management, and preventive healthcare."
-      },
-      "jawad": {
-        "name": "Dr. Jawad Khan Jamil",
-        "specialization": "General Practitioner (GP)",
-        "description": "Provides comprehensive primary healthcare, diagnosis, preventive medicine, chronic disease management, and family healthcare."
-      },
-      "abdullah": {
-        "name": "Dr. Abdullah",
-        "specialization": "Pediatric Specialist",
-        "description": "Provides specialized healthcare for infants, children, vaccinations, growth monitoring, and common childhood illnesses."
-      },
-      "bassam": {
-        "name": "Dr. Bassam Ibraheem",
-        "specialization": "Orthodontic Specialist",
-        "description": "More than 20 years of experience in braces, bite correction, teeth alignment, and orthodontic treatment."
-      },
-      "rana": {
-        "name": "Dr. Rana Maryoosh",
-        "specialization": "Dental Implant Specialist",
-        "description": "Specialized in dental implants, restorative dentistry, and advanced cosmetic dental procedures."
-      },
-      "rishika": {
-        "name": "Dr. Rishika",
-        "specialization": "General Dentist",
-        "description": "Provides preventive, restorative, and cosmetic dental care for patients of all ages."
-      }
-    }
+    "viewAll": "View All Doctors",
+    "directoryTitle": "Our Medical Team",
+    "directoryMetaTitle": "Medical Team in Al Madam | Baghdad Medical Center",
+    "directoryMetaDescription": "Meet the medical team at Baghdad Medical Center in Al Madam, Sharjah.",
+    "breadcrumbLabel": "Breadcrumb",
+    "home": "Home"
   },
   "Facilities": {
     "eyebrow": "Our Facilities",

@@ -56,7 +56,7 @@ export default function Header() {
     { name: t("home"), href: homeHref },
     { name: t("about"), href: `${homeHref}#about` },
     { name: t("services"), href: `${homeHref}/services` },
-    { name: t("doctors"), href: `${homeHref}#doctors` },
+    { name: t("doctors"), href: `${homeHref}/doctors` },
     { name: t("facilities"), href: `${homeHref}#facilities` },
     { name: t("reviews"), href: `${homeHref}#testimonials` },
     { name: t("insurance"), href: `${homeHref}#insurance` },
@@ -64,8 +64,7 @@ export default function Header() {
     { name: t("contact"), href: `${homeHref}#contact` },
   ].map((link) => ({
     ...link,
-    active: (pathname === "/" && link.href === homeHref) ||
-      (pathname === "/services" && link.href === `${homeHref}/services`),
+    active: link.href === `${homeHref}${pathname === "/" ? "" : pathname}`,
   }));
 
   return (
