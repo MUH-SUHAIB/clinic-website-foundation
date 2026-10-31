@@ -111,7 +111,7 @@
   "Insurance": {
     "eyebrow": "Insurance Partners",
     "title": "Accepted Insurance Providers",
-    "description": "We work with major health insurance networks to ensure your medical experience is smooth, accessible, and covered."
+    "description": "We work with major health insurance networks. Acceptance and coverage depend on your plan and service."
   },
   "FAQ": {
     "eyebrow": "FAQ",
@@ -134,7 +134,7 @@
       },
       "item3": {
         "question": "Do you accept insurance?",
-        "answer": "Yes — we partner with major providers including NextCare, AlMadallah, Al-Buhaira, Neuron, FMC, and Life Line."
+        "answer": "Yes — we partner with major providers including NextCare, AlMadallah, Al-Buhaira, Neuron, FMC, Life Line, and Enaya. Acceptance and coverage depend on your plan and service."
       },
       "item4": {
         "question": "What should I bring for my first visit?",
@@ -142,7 +142,7 @@
       },
       "item5": {
         "question": "Does insurance cover laser, cosmetic, or Hijama (cupping) treatments?",
-        "answer": "No. Insurance covers core consultations and treatments in General Medicine, Dermatology, Dentistry, and Gynecology. Laser, skincare, and Hijama services are direct-pay only."
+        "answer": "Coverage for core consultations and treatments in General Medicine, Dermatology, Dentistry, and Gynecology depends on your plan and service. Please contact reception to confirm coverage and direct-pay arrangements for laser, skincare, and Hijama services."
       },
       "item6": {
         "question": "Do you offer Hijama (cupping therapy) and laser treatments?",
