@@ -42,3 +42,29 @@ ESLint 9 is retained because the current React ESLint plugin declares support
 through version 9. ESLint 9 is upstream end-of-life; moving to ESLint 10 remains
 a tooling follow-up once the plugin supports it. Do not force-install it against
 incompatible peer dependencies. The upgraded lockfile currently passes `npm audit`.
+
+## Search indexing safety
+
+The demo, previews, and local builds default to `noindex, follow` in HTML
+metadata and page response headers. Do not add a robots.txt `Disallow` rule:
+crawlers need access to read `noindex`. No official-domain canonical is emitted
+while indexing is disabled; clinic JSON-LD website/image URLs identify the demo.
+The clinic email address and external Google Maps links are unchanged.
+
+For a future official launch, first connect and verify the approved domain and
+obtain clinic approval. Only then set these server-side variables for the Vercel
+Production environment and rebuild:
+
+- `SEO_SITE_URL=https://baghdadmedicalcenter.ae`
+- `SEO_INDEXING_APPROVED=true`
+
+Both settings and `VERCEL_ENV=production` are required. Other values fail closed.
+The request hostname must also be exactly `baghdadmedicalcenter.ae` to avoid a
+`noindex` response header. Demo/preview aliases stay excluded even when serving
+the same production build. If a different official hostname is approved, review
+the allowlist in `lib/site-seo.ts` before launch; changing DNS alone never enables
+indexing. Verify rendered metadata and response headers on both languages and
+on every Vercel alias after that future release. No hosting, environment, domain,
+or DNS settings are changed by this implementation.
+
+Run the indexing safety matrix with `node --test tests/seo-indexing.test.mjs`.

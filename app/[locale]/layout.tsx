@@ -20,6 +20,7 @@ import {
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import Header from "@/components/sections/header";
+import { siteSeo } from "@/lib/site-seo";
 
 import "@/styles/globals.css";
 
@@ -42,7 +43,7 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://baghdadmedicalcenter.ae"),
+  metadataBase: new URL(siteSeo.origin),
   title: {
     default: "Baghdad Medical Center | مركز بغداد الطبي",
     template: "%s | Baghdad Medical Center",
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
     apple: "/apple-touch-logo.png",
   },
   robots: {
-    index: true,
+    index: siteSeo.indexingEnabled,
     follow: true,
   },
 };
@@ -88,9 +89,9 @@ export default async function LocaleLayout({
     "@type": "MedicalClinic",
     "name": locale === "ar" ? "مركز بغداد الطبي" : "Baghdad Medical Center",
     "alternateName": locale === "ar" ? "Baghdad Medical Center" : "مركز بغداد الطبي",
-    "url": `https://baghdadmedicalcenter.ae/${locale}`,
-    "logo": "https://baghdadmedicalcenter.ae/favicon-logo.png",
-    "image": "https://baghdadmedicalcenter.ae/favicon-logo.png",
+    "url": `${siteSeo.origin}/${locale}`,
+    "logo": `${siteSeo.origin}/favicon-logo.png`,
+    "image": `${siteSeo.origin}/favicon-logo.png`,
     "description":
       locale === "ar"
         ? "مركز طبي متعدد التخصصات يقدم أفضل الخدمات الطبية والرعاية الصحية في المدام، الشارقة."
