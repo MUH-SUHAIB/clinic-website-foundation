@@ -4,10 +4,11 @@ import Image from "next/image";
 import type { DoctorSummary } from "@/lib/content/doctors";
 import { Heading, Text } from "@/components/ui/typography";
 
-export function DoctorCard({ doctor, headingLevel, founderLabel }: {
+export function DoctorCard({ doctor, headingLevel, founderLabel, priority = false }: {
   doctor: DoctorSummary;
   headingLevel: "h2" | "h3";
   founderLabel: string;
+  priority?: boolean;
 }) {
   const pink = doctor.accent === "pink";
 
@@ -20,7 +21,9 @@ export function DoctorCard({ doctor, headingLevel, founderLabel }: {
           fill
           sizes="(min-width: 1280px) 400px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           quality={90}
-          loading="lazy"
+          priority={priority}
+          fetchPriority={priority ? "high" : undefined}
+          loading={priority ? undefined : "lazy"}
           className="object-cover object-center motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.02]"
         />
         {doctor.isFounder && (

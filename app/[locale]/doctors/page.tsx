@@ -69,7 +69,7 @@ export default async function DoctorsPage({ params }: DoctorsPageProps) {
           </header>
 
           <section aria-label={t("eyebrow")}>
-            <DoctorGrid doctors={doctors} founderLabel={t("founderBadge")} headingLevel="h2" />
+            <DoctorGrid doctors={doctors} founderLabel={t("founderBadge")} headingLevel="h2" prioritizeFirstImage />
           </section>
 
           <section aria-labelledby="doctors-contact-title" className="mt-12 flex flex-col items-start justify-between gap-8 rounded-[32px] border border-blue-100 bg-white p-7 dark:border-slate-800 dark:bg-slate-900 md:p-10 lg:flex-row lg:items-center">

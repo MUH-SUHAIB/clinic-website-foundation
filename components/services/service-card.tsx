@@ -7,9 +7,10 @@ import { Heading, Text } from "@/components/ui/typography";
 interface ServiceCardProps {
   service: ServiceSummary;
   headingLevel: "h2" | "h3";
+  priority?: boolean;
 }
 
-export function ServiceCard({ service, headingLevel }: ServiceCardProps) {
+export function ServiceCard({ service, headingLevel, priority = false }: ServiceCardProps) {
   return (
     <article
       aria-labelledby={`${service.id}-title`}
@@ -23,7 +24,9 @@ export function ServiceCard({ service, headingLevel }: ServiceCardProps) {
           sizes="(min-width: 1280px) 390px, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           quality={90}
           unoptimized={service.image.endsWith(".avif")}
-          loading="lazy"
+          priority={priority}
+          fetchPriority={priority ? "high" : undefined}
+          loading={priority ? undefined : "lazy"}
           className="object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:hover:scale-105"
         />
       </div>
