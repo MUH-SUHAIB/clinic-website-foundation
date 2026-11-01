@@ -1,3 +1,5 @@
+import { pageUrl } from "@/lib/seo/eligible-pages";
+import { serializeJsonLd } from "@/lib/seo/structured-data";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -34,7 +36,7 @@ export async function DoctorProfile({ doctor, locale }: { doctor: ApprovedDoctor
   const navigation = await getTranslations({ locale, namespace: "Navigation" });
   const copy = doctor.profile.content[locale];
   const identity = doctor.content[locale];
-  const url = `${siteSeo.origin}/${locale}/doctors/${doctor.slug}`;
+  const url = pageUrl(locale, `/doctors/${doctor.slug}`);
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -46,15 +48,15 @@ export async function DoctorProfile({ doctor, locale }: { doctor: ApprovedDoctor
         ...(copy.languages?.length ? { knowsLanguage: copy.languages } : {}),
       },
       { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, itemListElement: [
-        { "@type": "ListItem", position: 1, name: directory("home"), item: `${siteSeo.origin}/${locale}` },
-        { "@type": "ListItem", position: 2, name: directory("eyebrow"), item: `${siteSeo.origin}/${locale}/doctors` },
+        { "@type": "ListItem", position: 1, name: directory("home"), item: pageUrl(locale) },
+        { "@type": "ListItem", position: 2, name: directory("eyebrow"), item: pageUrl(locale, "/doctors") },
         { "@type": "ListItem", position: 3, name: identity.name, item: url },
       ] },
     ],
   };
   return (
     <>
-      {siteSeo.indexingEnabled && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />}
+      {siteSeo.indexingEnabled && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />}
       <main id="main-content" tabIndex={-1} className="min-h-screen bg-slate-50/50 pt-28 dark:bg-slate-950 md:pt-32">
         <div className="mx-auto max-w-7xl px-md pb-16 md:px-lg md:pb-24">
           <nav aria-label={directory("breadcrumbLabel")} className="mb-10 text-sm text-slate-600 dark:text-slate-300">

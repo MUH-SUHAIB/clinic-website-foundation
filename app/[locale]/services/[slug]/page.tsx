@@ -1,3 +1,4 @@
+import { pageAlternates, pageUrl } from "@/lib/seo/eligible-pages";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -28,17 +29,11 @@ async function resolveDetail(params: ServiceDetailPageProps["params"]) {
 export async function generateMetadata({ params }: ServiceDetailPageProps): Promise<Metadata> {
   const { locale, service } = await resolveDetail(params);
   const copy = service.details.content[locale];
-  const url = `${siteSeo.origin}/${locale}/services/${service.slug}`;
+  const url = pageUrl(locale, `/services/${service.slug}`);
   return {
     title: { absolute: copy.metaTitle },
     description: copy.metaDescription,
-    alternates: siteSeo.indexingEnabled ? {
-      canonical: url,
-      languages: {
-        en: `${siteSeo.origin}/en/services/${service.slug}`,
-        ar: `${siteSeo.origin}/ar/services/${service.slug}`,
-      },
-    } : undefined,
+    alternates: pageAlternates(locale, `/services/${service.slug}`),
     openGraph: {
       title: copy.metaTitle,
       description: copy.metaDescription,

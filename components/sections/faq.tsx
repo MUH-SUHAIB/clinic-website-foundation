@@ -1,5 +1,6 @@
 "use client";
 
+import { serializeJsonLd } from "@/lib/seo/serialize-json-ld";
 import { clinicContact, clinicHoursValues } from "@/lib/clinic";
 
 import { useState, useId, memo } from "react";
@@ -309,7 +310,7 @@ export function FAQ({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqSchema),
+            __html: serializeJsonLd(faqSchema),
           }}
         />
 

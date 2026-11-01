@@ -1,3 +1,4 @@
+import { pageAlternates, pageUrl } from "@/lib/seo/eligible-pages";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -28,17 +29,11 @@ async function resolveDetail(params: DoctorProfilePageProps["params"]) {
 export async function generateMetadata({ params }: DoctorProfilePageProps): Promise<Metadata> {
   const { locale, doctor } = await resolveDetail(params);
   const copy = doctor.profile.content[locale];
-  const url = `${siteSeo.origin}/${locale}/doctors/${doctor.slug}`;
+  const url = pageUrl(locale, `/doctors/${doctor.slug}`);
   return {
     title: { absolute: copy.metaTitle },
     description: copy.metaDescription,
-    alternates: siteSeo.indexingEnabled ? {
-      canonical: url,
-      languages: {
-        en: `${siteSeo.origin}/en/doctors/${doctor.slug}`,
-        ar: `${siteSeo.origin}/ar/doctors/${doctor.slug}`,
-      },
-    } : undefined,
+    alternates: pageAlternates(locale, `/doctors/${doctor.slug}`),
     openGraph: {
       title: copy.metaTitle,
       description: copy.metaDescription,

@@ -1,4 +1,4 @@
-import { clinic } from "@/lib/clinic";
+import { clinicSchema, serializeJsonLd } from "@/lib/seo/structured-data";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
@@ -84,35 +84,14 @@ export default async function LocaleLayout({
   console.log("AVAILABLE TRANSLATIONS:", Object.keys(messages));
   const dir = getDirection(locale as Locale);
 
-  // Structured JSON-LD Data for Google Sitelinks & Search Knowledge Graph
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "MedicalClinic",
-    "name": clinic.content[locale].name,
-    "alternateName": clinic.content[locale === "ar" ? "en" : "ar"].name,
-    "url": `${siteSeo.origin}/${locale}`,
-    "logo": `${siteSeo.origin}/favicon-logo.png`,
-    "image": `${siteSeo.origin}/favicon-logo.png`,
-    "description":
-      locale === "ar"
-        ? "مركز طبي متعدد التخصصات يقدم أفضل الخدمات الطبية والرعاية الصحية في المدام، الشارقة."
-        : "Multispecialty Medical Center providing compassionate, modern healthcare in Al Madam, Sharjah.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": clinic.postalAddress.locality,
-      "addressRegion": clinic.postalAddress.region,
-      "addressCountry": clinic.postalAddress.country
-    },
-    "telephone": clinic.mobile.international,
-    "priceRange": "$$"
-  };
+  const jsonLd = clinicSchema(locale);
 
   return (
     <html lang={locale} dir={dir} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>

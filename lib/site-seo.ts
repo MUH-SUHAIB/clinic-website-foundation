@@ -17,3 +17,12 @@ export function getSiteSeo(env: NodeJS.ProcessEnv = process.env) {
 }
 
 export const siteSeo = getSiteSeo();
+
+/** Next can supply a server-internal nextUrl origin. Read the actual
+ * HTTP Host authority, never X-Forwarded-Host supplied by a visitor.
+ */
+export function requestHostname(request: Request): string {
+  const host = request.headers.get("host") ?? "";
+  if (!/^[a-z0-9.-]+(?::[0-9]+)?$/i.test(host)) return "";
+  try { return new URL(`https://${host}`).hostname; } catch { return ""; }
+}

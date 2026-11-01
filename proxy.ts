@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
 import type { NextRequest } from "next/server";
-import { siteSeo } from "@/lib/site-seo";
+import { requestHostname, siteSeo } from "@/lib/site-seo";
 
 // Handles:
 // - "/" -> "/en" (default locale redirect)
@@ -15,7 +15,7 @@ export default function proxy(request: NextRequest) {
 
   // Also protect demo/preview aliases serving an approved production build.
   // Crawlers retain access to the pages so they can read this header.
-  if (!siteSeo.canIndexHost(request.nextUrl.hostname)) {
+  if (!siteSeo.canIndexHost(requestHostname(request))) {
     response.headers.set("X-Robots-Tag", "noindex, follow");
   }
 

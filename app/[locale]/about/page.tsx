@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo/eligible-pages";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -5,7 +6,6 @@ import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { siteSeo } from "@/lib/site-seo";
 import { About } from "@/components/sections/about";
 import { Footer } from "@/components/sections/footer";
 import { footerContent } from "@/lib/mock-data/homepage";
@@ -19,10 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: t("metaTitle") },
     description: t("metaDescription"),
-    alternates: siteSeo.indexingEnabled ? {
-      canonical: `${siteSeo.origin}/${locale}/about`,
-      languages: { en: `${siteSeo.origin}/en/about`, ar: `${siteSeo.origin}/ar/about` },
-    } : undefined,
+    alternates: pageAlternates(locale, "/about"),
   };
 }
 
