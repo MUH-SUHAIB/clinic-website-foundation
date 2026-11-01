@@ -196,5 +196,11 @@
     "whatsappDescription": "Chat instantly with our reception team.",
     "phone": "Call the Clinic",
     "phoneDescription": "Speak directly with our reception."
+  },
+  "ServiceDetail": {
+    "questions": "Questions about this service",
+    "contact": "Contact the clinic",
+    "relatedLinks": "Explore the clinic",
+    "homeContact": "Homepage contact section"
   }
 }

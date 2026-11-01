@@ -194,5 +194,11 @@
     "whatsappDescription": "تحدث مباشرة مع فريق الاستقبال.",
     "phone": "اتصال بالعيادة",
     "phoneDescription": "تحدث مباشرة مع فريق الاستقبال."
+  },
+  "ServiceDetail": {
+    "questions": "أسئلة حول هذه الخدمة",
+    "contact": "تواصل مع المركز",
+    "relatedLinks": "استكشف المركز",
+    "homeContact": "قسم التواصل في الصفحة الرئيسية"
   }
 }
