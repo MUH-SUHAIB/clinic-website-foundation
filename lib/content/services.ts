@@ -1,4 +1,5 @@
-import { createHash } from "node:crypto";
+import { getContentDigest, hasCurrentApproval, nonempty, type DetailApproval } from "./detail-approval.ts";
+export type { ContentReview } from "./detail-approval.ts";
 import type { Locale } from "@/i18n/routing";
 
 export interface ServiceCopy {
@@ -21,25 +22,9 @@ export interface ServiceDetailCopy {
   readonly faqs?: readonly { readonly question: string; readonly answer: string }[];
 }
 
-export interface ContentReview {
-  readonly reviewer: string;
-  readonly role: string;
-  readonly reviewedAt: string; // Actual review date, YYYY-MM-DD in UTC.
-  readonly evidenceReference: string; // Internal reference; never rendered publicly.
-}
-
 export interface ServiceDetails {
   readonly content: Readonly<Partial<Record<Locale, ServiceDetailCopy>>>;
-  readonly approval?: {
-    readonly status: "draft" | "approved";
-    readonly substantiveBilingualContent: boolean;
-    // Bind the review to both translations, summary/name, asset and stable URL.
-    // Generate again only AFTER the changed content has been reviewed.
-    readonly contentDigest: string;
-    readonly owner: ContentReview;
-    readonly clinical: ContentReview;
-    readonly editorial: ContentReview;
-  };
+  readonly approval?: DetailApproval;
 }
 
 export interface ClinicService {
@@ -186,17 +171,13 @@ export function getServiceSummaries(
 
 /** Approval integrity, not authentication. Human review/evidence must be genuine. */
 export function getServiceDetailDigest(service: ClinicService): string {
-  return createHash("sha256").update(JSON.stringify({
+  return getContentDigest({
     id: service.id,
     slug: service.slug,
     image: service.image,
     content: service.content,
     details: service.details?.content,
-  })).digest("hex");
-}
-
-function nonempty(value: string): boolean {
-  return typeof value === "string" && value.trim().length > 0;
+  });
 }
 
 function validSection(section: ServiceDetailSection): boolean {
@@ -215,15 +196,6 @@ function validCopy(copy: ServiceDetailCopy | undefined, summary: ServiceCopy): b
     (!copy.faqs || copy.faqs.every(({ question, answer }) => nonempty(question) && nonempty(answer)));
 }
 
-function validReview(review: ContentReview): boolean {
-  if (!review) return false;
-  return [review.reviewer, review.role, review.evidenceReference].every(nonempty) &&
-    /^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt) &&
-    Number.isFinite(Date.parse(review.reviewedAt)) &&
-    new Date(review.reviewedAt).toISOString().slice(0, 10) === review.reviewedAt &&
-    review.reviewedAt <= new Date().toISOString().slice(0, 10);
-}
-
 type ApprovedService = ClinicService & {
   readonly details: ServiceDetails & { readonly content: Readonly<Record<Locale, ServiceDetailCopy>> };
 };
@@ -232,12 +204,10 @@ export function hasApprovedServiceDetails(service: ClinicService): service is Ap
   const approval = service.details?.approval;
   // Structural checks cannot establish medical usefulness. That decision requires
   // explicit owner/clinical/bilingual editorial review, bound to this exact copy.
-  return !!approval && approval.status === "approved" && approval.substantiveBilingualContent &&
+  return hasCurrentApproval(approval, getServiceDetailDigest(service)) &&
     /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(service.slug) &&
-    [approval.owner, approval.clinical, approval.editorial].every(validReview) &&
     validCopy(service.details?.content.en, service.content.en) &&
-    validCopy(service.details?.content.ar, service.content.ar) &&
-    approval.contentDigest === getServiceDetailDigest(service);
+    validCopy(service.details?.content.ar, service.content.ar);
 }
 
 interface DetailOptions {

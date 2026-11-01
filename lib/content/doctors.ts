@@ -1,3 +1,4 @@
+import { getContentDigest, hasCurrentApproval, nonempty, type DetailApproval } from "./detail-approval.ts";
 import type { Locale } from "@/i18n/routing";
 
 export interface DoctorCopy {
@@ -5,6 +6,23 @@ export interface DoctorCopy {
   readonly specialty: string;
   readonly description: string;
   readonly imageAlt: string;
+}
+
+export interface DoctorProfileCopy {
+  readonly metaTitle: string;
+  readonly metaDescription: string;
+  // Required useful biography, distinct from the directory summary. No word-count padding.
+  readonly biography: readonly string[];
+  // Every present field is part of the complete version-bound review. Leave drafts out.
+  readonly specialties?: readonly string[];
+  readonly qualifications?: readonly string[];
+  readonly languages?: readonly string[];
+  readonly experience?: readonly string[];
+}
+
+export interface DoctorProfile {
+  readonly content: Readonly<Partial<Record<Locale, DoctorProfileCopy>>>;
+  readonly approval?: DetailApproval;
 }
 
 export interface ClinicDoctor {
@@ -19,9 +37,11 @@ export interface ClinicDoctor {
   readonly publicationStatus: "demo" | "published";
   readonly clinicalReviewStatus: "needs-review" | "approved";
   readonly content: Readonly<Record<Locale, DoctorCopy>>;
+  readonly profile?: DoctorProfile;
 }
 
 export interface DoctorSummary extends DoctorCopy {
+  readonly profileSlug?: string;
   readonly id: string;
   readonly image: string;
   readonly imageKind: ClinicDoctor["imageKind"];
@@ -199,10 +219,63 @@ export function getDoctorSummaries(
     ))
     .map((doctor) => ({
       id: doctor.id,
+      ...(hasApprovedDoctorProfile(doctor) ? { profileSlug: doctor.slug } : {}),
       image: doctor.image,
       imageKind: doctor.imageKind,
       accent: doctor.accent,
       isFounder: doctor.isFounder,
       ...doctor.content[locale],
     }));
+}
+
+
+export function getDoctorProfileDigest(doctor: ClinicDoctor): string {
+  return getContentDigest({
+    id: doctor.id, slug: doctor.slug, image: doctor.image, imageKind: doctor.imageKind,
+    isFounder: doctor.isFounder, content: doctor.content, profile: doctor.profile?.content,
+  });
+}
+
+function validProfileCopy(copy: DoctorProfileCopy | undefined, summary: DoctorCopy): boolean {
+  if (!copy) return false;
+  return [summary.name, summary.specialty, summary.imageAlt, copy.metaTitle, copy.metaDescription].every(nonempty) &&
+    Array.isArray(copy.biography) && copy.biography.length > 0 && copy.biography.every(nonempty) &&
+    copy.biography.some((paragraph) => paragraph.trim() !== summary.description.trim()) &&
+    [copy.specialties, copy.qualifications, copy.languages, copy.experience].every((items) =>
+      items === undefined || (Array.isArray(items) && items.every(nonempty)),
+    );
+}
+
+type ApprovedDoctor = ClinicDoctor & {
+  readonly profile: DoctorProfile & { readonly content: Readonly<Record<Locale, DoctorProfileCopy>> };
+};
+
+export function hasApprovedDoctorProfile(doctor: ClinicDoctor): doctor is ApprovedDoctor {
+  // All present optional sections, summary identity and truthful image descriptions
+  // must be reviewed together. Readiness does not certify reviewer authenticity.
+  return hasCurrentApproval(doctor.profile?.approval, getDoctorProfileDigest(doctor)) &&
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doctor.slug) &&
+    validProfileCopy(doctor.profile?.content.en, doctor.content.en) &&
+    validProfileCopy(doctor.profile?.content.ar, doctor.content.ar);
+}
+
+interface ProfileOptions {
+  readonly includeWorkingContent?: boolean;
+  readonly doctors?: readonly ClinicDoctor[];
+}
+
+export function getDoctorProfile(
+  slug: string,
+  { includeWorkingContent = false, doctors = clinicDoctors }: ProfileOptions = {},
+): ApprovedDoctor | undefined {
+  return doctors.find((doctor): doctor is ApprovedDoctor => doctor.slug === slug &&
+    hasApprovedDoctorProfile(doctor) && (includeWorkingContent || (
+      doctor.publicationStatus === "published" && doctor.clinicalReviewStatus === "approved"
+    )),
+  );
+}
+
+export function getDoctorProfileSlugs(options: ProfileOptions = {}): readonly string[] {
+  return (options.doctors ?? clinicDoctors)
+    .filter((doctor) => getDoctorProfile(doctor.slug, options)).map((doctor) => doctor.slug);
 }

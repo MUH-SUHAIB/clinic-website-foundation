@@ -202,5 +202,15 @@
     "contact": "Contact the clinic",
     "relatedLinks": "Explore the clinic",
     "homeContact": "Homepage contact section"
+  },
+  "DoctorProfile": {
+    "biography": "Biography",
+    "specialties": "Confirmed specialties",
+    "qualifications": "Qualifications",
+    "languages": "Languages",
+    "experience": "Professional experience",
+    "roomPhoto": "Clinic treatment room, not a personal portrait.",
+    "contact": "Contact the clinic",
+    "relatedLinks": "Explore the clinic"
   }
 }
