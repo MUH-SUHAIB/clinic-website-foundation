@@ -150,6 +150,7 @@ body {
 .contact-action--menu { width: 100%; border-radius: 0.75rem; }
 .contact-action--floating { width: 48px; height: 48px; padding: 0; }
 .contact-action--floating svg { width: 24px; height: 24px; }
+.contact-action__dock-label { display: none; }
 
 .floating-contact {
   position: fixed;
@@ -161,12 +162,50 @@ body {
   gap: 0.75rem;
 }
 
-/* Compact edge controls preserve the full mobile content width. Native anchor
-   destinations and keyboard scrolling leave room above the contact controls. */
+/* Desktop positioning stays unchanged. The mobile dock has an opaque surface,
+   and the document reserves its full height plus a gap below the final content. */
 html { scroll-padding-bottom: 8rem; }
 @media (max-width: 767px) {
-  .floating-contact { right: calc(0.25rem + env(safe-area-inset-right, 0px)); gap: 0.625rem; }
-  .contact-action--floating { width: 44px; height: 44px; min-height: 44px; }
+  :root {
+    --contact-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --contact-safe-left: env(safe-area-inset-left, 0px);
+    --contact-safe-right: env(safe-area-inset-right, 0px);
+    --contact-dock-control-height: 3rem;
+    --contact-dock-padding: 0.625rem;
+    --contact-dock-height: calc(var(--contact-dock-control-height) + 2 * var(--contact-dock-padding) + 1px + var(--contact-safe-bottom));
+    --contact-dock-clearance: calc(var(--contact-dock-height) + 1rem);
+  }
+  html { scroll-padding-bottom: var(--contact-dock-clearance); }
+  body:has(.floating-contact) { padding-bottom: var(--contact-dock-clearance); }
+  /* Native focus/anchor scrolling should stop above the opaque dock. */
+  :where(main, footer) :where(a, button, input, select, textarea, [tabindex]) {
+    scroll-margin-bottom: var(--contact-dock-clearance);
+  }
+  .floating-contact {
+    inset-inline: 0;
+    bottom: 0;
+    height: var(--contact-dock-height);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: var(--contact-dock-padding) max(1rem, var(--contact-safe-right))
+      calc(var(--contact-dock-padding) + var(--contact-safe-bottom)) max(1rem, var(--contact-safe-left));
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-background);
+    box-shadow: 0 -4px 16px rgb(15 23 42 / 0.08);
+  }
+  .floating-contact .contact-action--floating {
+    width: 100%;
+    height: var(--contact-dock-control-height);
+    min-height: 48px;
+    min-width: 0;
+    padding-inline: 0.5rem;
+    border-radius: var(--radius-button);
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+  .floating-contact .contact-action--floating svg { width: 20px; height: 20px; }
+  .contact-action__dock-label { display: inline; overflow-wrap: anywhere; }
 }
 @media (min-width: 1440px) {
   .floating-contact { right: calc(1.5rem + env(safe-area-inset-right, 0px)); bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); }

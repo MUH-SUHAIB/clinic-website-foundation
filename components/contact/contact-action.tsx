@@ -7,10 +7,12 @@ export function ContactAction({
   kind,
   appearance = "standard",
   children,
+  mobileLabel,
 }: {
   kind: "call" | "whatsapp";
   appearance?: "standard" | "header" | "menu" | "floating";
   children: string;
+  mobileLabel?: string;
 }) {
   const whatsapp = kind === "whatsapp";
 
@@ -23,6 +25,9 @@ export function ContactAction({
     >
       {whatsapp ? <WhatsAppIcon /> : <Phone aria-hidden="true" focusable="false" />}
       <span className={appearance === "floating" ? "sr-only" : undefined}>{children}</span>
+      {appearance === "floating" && mobileLabel && (
+        <span className="contact-action__dock-label" aria-hidden="true">{mobileLabel}</span>
+      )}
     </a>
   );
 }
