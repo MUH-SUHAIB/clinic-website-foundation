@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 
 // Run against a production build: TEST_BASE_URL=http://localhost:3100 node --test tests/*.test.mjs
 const base = process.env.TEST_BASE_URL;
@@ -15,6 +16,7 @@ function getPage(path) {
 }
 
 for (const locale of ["en", "ar"]) {
+  const messages = JSON.parse(await readFile(new URL(`../messages/${locale}.json`, import.meta.url), "utf8"));
   for (const suffix of ["", "/services", "/doctors", "/contact", "/about"]) {
     test(`${locale}${suffix || "/"}: locale navigation, noindex, and a single floating contact pair`, { skip: !base }, async () => {
       const { status, robots, html } = await getPage(`/${locale}${suffix}`);
@@ -50,6 +52,11 @@ for (const locale of ["en", "ar"]) {
       const links = [...floating[0][1].matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]);
       assert.deepEqual(links, ["https://wa.me/971563564165", "tel:+97168861115"]);
       assert.equal((floating[0][1].match(/class="sr-only"/g) || []).length, 2);
+      // The same two anchors serve desktop and mobile, with unchanged full names.
+      const accessibleNames = [...floating[0][1].matchAll(/<span class="sr-only">([^<]+)<\/span>/g)].map(match => match[1]);
+      assert.deepEqual(accessibleNames, [messages.ContactActions.whatsapp, messages.ContactActions.call]);
+      const mobileLabels = [...floating[0][1].matchAll(/<span class="contact-action__dock-label" aria-hidden="true">([^<]+)<\/span>/g)].map(match => match[1]);
+      assert.deepEqual(mobileLabels, [messages.Navigation.whatsapp, messages.Navigation.callNow]);
       assert.ok(!html.includes('rel="canonical"'));
     });
   }
