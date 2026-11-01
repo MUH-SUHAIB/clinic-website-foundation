@@ -141,7 +141,7 @@ test("fixture data is absent from application sources and public assets", () => 
       if (entry.isDirectory()) inspect(path);
       else if (/\.(?:tsx?|m?js|json|html|txt)$/.test(entry.name)) {
         const source = readFileSync(path, "utf8");
-        for (const marker of ["layout-fixture", "approvedDetailFixture", "Synthetic fixture, not real clinic approval", "tests/fixtures"]) {
+        for (const marker of ["layout-fixture", "approvedDetailFixture", "approvedDoctorFixture", "profile-layout-fixture", "profile-minimal-fixture", "Synthetic fixture, not real clinic approval", "tests/fixtures"]) {
           assert.ok(!source.includes(marker), `${path}: unexpected fixture reference`);
         }
       }

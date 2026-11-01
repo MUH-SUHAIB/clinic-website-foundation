@@ -200,5 +200,15 @@
     "contact": "تواصل مع المركز",
     "relatedLinks": "استكشف المركز",
     "homeContact": "قسم التواصل في الصفحة الرئيسية"
+  },
+  "DoctorProfile": {
+    "biography": "السيرة المهنية",
+    "specialties": "التخصصات المعتمدة",
+    "qualifications": "المؤهلات",
+    "languages": "اللغات",
+    "experience": "الخبرة المهنية",
+    "roomPhoto": "غرفة علاج في المركز، وليست صورة شخصية للطبيبة.",
+    "contact": "تواصل مع المركز",
+    "relatedLinks": "استكشف المركز"
   }
 }

@@ -21,7 +21,7 @@ export default function Header() {
   const params = useParams();
   const languageHref = getPathname({
     locale: nextLocale,
-    href: pathname === "/services/[slug]"
+    href: pathname === "/services/[slug]" || pathname === "/doctors/[slug]"
       ? { pathname, params: { slug: typeof params.slug === "string" ? params.slug : "" } }
       : pathname,
   });
@@ -72,7 +72,8 @@ export default function Header() {
   ].map((link) => ({
     ...link,
     active: link.href === `${homeHref}${pathname === "/" ? "" : pathname}`,
-    parentActive: link.href === `${homeHref}/services` && pathname === "/services/[slug]",
+    parentActive: (link.href === `${homeHref}/services` && pathname === "/services/[slug]") ||
+      (link.href === `${homeHref}/doctors` && pathname === "/doctors/[slug]"),
   }));
 
   return (

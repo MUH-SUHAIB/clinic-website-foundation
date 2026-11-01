@@ -1,3 +1,5 @@
+import { Link } from "@/i18n/navigation";
+import { BidiText } from "@/components/ui/bidi-text";
 import Image from "next/image";
 import type { DoctorSummary } from "@/lib/content/doctors";
 import { Heading, Text } from "@/components/ui/typography";
@@ -29,7 +31,11 @@ export function DoctorCard({ doctor, headingLevel, founderLabel }: {
       </div>
       <div className="flex flex-1 flex-col p-5 text-start sm:p-6">
         <Heading level="h5" as={headingLevel} id={`${doctor.id}-title`} className={pink ? "group-hover:text-pink-600" : "group-hover:text-primary"}>
-          {doctor.name}
+          {doctor.profileSlug ? (
+            <Link href={{ pathname: "/doctors/[slug]", params: { slug: doctor.profileSlug } }} className="rounded-sm underline decoration-blue-200 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-4">
+              <BidiText>{doctor.name}</BidiText>
+            </Link>
+          ) : doctor.name}
         </Heading>
         <Text variant="small" className={`mt-1 font-medium ${pink ? "text-pink-600" : "text-primary"}`}>
           {doctor.specialty}
