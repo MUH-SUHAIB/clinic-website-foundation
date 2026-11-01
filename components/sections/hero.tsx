@@ -93,7 +93,8 @@ export function Hero({ animate = true }: { animate?: boolean }) {
 
           {/* HERO IMAGE */}
           <motion.div
-            initial={animate ? { opacity: 0, scale: 1.06, y: 20 } : undefined}
+            // The LCP photograph must be visible before JavaScript hydrates.
+            initial={false}
             animate={animate ? { opacity: 1, scale: 1, y: 0 } : undefined}
             transition={{ duration: duration.slow, ease: easing }}
             className="relative order-1 flex h-full w-full items-center justify-center md:order-2"
@@ -112,6 +113,7 @@ export function Hero({ animate = true }: { animate?: boolean }) {
                 sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
                 quality={90}
                 priority
+                fetchPriority="high"
                 className="w-full rounded-[2rem] object-cover shadow-xl transition-transform duration-700 group-hover:scale-[1.02] md:aspect-[4/3] lg:aspect-[1.1/1]"
               />
             </motion.div>
