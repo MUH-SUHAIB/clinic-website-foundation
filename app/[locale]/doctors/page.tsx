@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo/eligible-pages";
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -25,13 +26,7 @@ export async function generateMetadata({ params }: DoctorsPageProps): Promise<Me
   return {
     title: { absolute: t("directoryMetaTitle") },
     description: t("directoryMetaDescription"),
-    alternates: siteSeo.indexingEnabled ? {
-      canonical: `${siteSeo.origin}/${locale}/doctors`,
-      languages: {
-        en: `${siteSeo.origin}/en/doctors`,
-        ar: `${siteSeo.origin}/ar/doctors`,
-      },
-    } : undefined,
+    alternates: pageAlternates(locale, "/doctors"),
   };
 }
 

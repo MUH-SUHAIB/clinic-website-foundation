@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo/eligible-pages";
 import type { Metadata } from "next";
 import { siteSeo } from "@/lib/site-seo";
 import { getDoctorSummaries } from "@/lib/content/doctors";
@@ -30,9 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     // Official-domain canonicals only belong to the approved launch.
-    alternates: siteSeo.indexingEnabled
-      ? { canonical: `${siteSeo.origin}/${locale}` }
-      : undefined,
+    alternates: pageAlternates(locale === "ar" ? "ar" : "en"),
     title: {
       absolute: isArabic
         ? "مركز بغداد الطبي ـ المدام"

@@ -1,3 +1,5 @@
+import { pageUrl } from "@/lib/seo/eligible-pages";
+import { serializeJsonLd } from "@/lib/seo/structured-data";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
@@ -32,15 +34,15 @@ export async function ServiceDetail({ service, locale }: { service: ApprovedServ
   const navigation = await getTranslations({ locale, namespace: "Navigation" });
   const copy = service.details.content[locale];
   const title = service.content[locale].title;
-  const url = `${siteSeo.origin}/${locale}/services/${service.slug}`;
+  const url = pageUrl(locale, `/services/${service.slug}`);
   // Schema uses visible facts only, never medical claims, ratings or inferred clinicians.
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": `${url}#webpage`, url, name: copy.metaTitle, description: copy.metaDescription, inLanguage: locale, breadcrumb: { "@id": `${url}#breadcrumb` } },
       { "@type": "BreadcrumbList", "@id": `${url}#breadcrumb`, itemListElement: [
-        { "@type": "ListItem", position: 1, name: services("home"), item: `${siteSeo.origin}/${locale}` },
-        { "@type": "ListItem", position: 2, name: services("eyebrow"), item: `${siteSeo.origin}/${locale}/services` },
+        { "@type": "ListItem", position: 1, name: services("home"), item: pageUrl(locale) },
+        { "@type": "ListItem", position: 2, name: services("eyebrow"), item: pageUrl(locale, "/services") },
         { "@type": "ListItem", position: 3, name: title, item: url },
       ] },
     ],
@@ -48,7 +50,7 @@ export async function ServiceDetail({ service, locale }: { service: ApprovedServ
 
   return (
     <>
-      {siteSeo.indexingEnabled && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />}
+      {siteSeo.indexingEnabled && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(schema) }} />}
       <main id="main-content" tabIndex={-1} className="min-h-screen bg-slate-50/50 pt-28 dark:bg-slate-950 md:pt-32">
         <div className="mx-auto max-w-7xl px-md pb-16 md:px-lg md:pb-24">
           <nav aria-label={services("breadcrumbLabel")} className="mb-10 text-sm text-slate-600 dark:text-slate-300">
