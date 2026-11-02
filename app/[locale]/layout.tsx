@@ -32,6 +32,10 @@ const inter = Inter({
   display: "swap",
 });
 
+// Only these generated locale segments are valid. Reject file-like unknown
+// locales before rendering can invoke next-intl request headers at runtime.
+export const dynamicParams = false;
+
 // Pre-renders /en and /ar at build time
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
