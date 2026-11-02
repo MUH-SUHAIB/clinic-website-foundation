@@ -7,7 +7,7 @@ export const clinic = {
   reviewStatus: "needs-review",
   timeZone: "Asia/Dubai",
   postalAddress: { locality: "Al Madam", region: "Sharjah", country: "AE" },
-  email: "info@baghdadmedicalcenter.ae",
+  email: "mail@baghdadmedicalcenter.ae",
   landline: { display: "06 886 1115", international: "+97168861115" },
   mobile: { display: "050 238 8626", international: "+971502388626" },
   whatsapp: { display: "056 356 4165", number: "971563564165" },
