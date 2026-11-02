@@ -1,15 +1,17 @@
+import { legalDocuments, getPublishedLegalDocuments, type LegalDocument } from "../content/legal-documents.ts";
 import type { Locale } from "@/i18n/routing";
 import { clinicServices, getServiceDetailSlugs, type ClinicService } from "../content/services.ts";
 import { clinicDoctors, getDoctorProfileSlugs, type ClinicDoctor } from "../content/doctors.ts";
 import { siteSeo } from "../site-seo.ts";
 
 interface Catalogues {
+  readonly legal?: readonly LegalDocument[];
   readonly services?: readonly ClinicService[];
   readonly doctors?: readonly ClinicDoctor[];
 }
 
 /** Matches the official rendering gates; working demo content is never eligible. */
-export function getEligiblePages({ services = clinicServices, doctors = clinicDoctors }: Catalogues = {}) {
+export function getEligiblePages({ services = clinicServices, doctors = clinicDoctors, legal = legalDocuments }: Catalogues = {}) {
   const published = (record: ClinicService | ClinicDoctor) =>
     record.publicationStatus === "published" && record.clinicalReviewStatus === "approved";
   const paths = [
@@ -17,6 +19,7 @@ export function getEligiblePages({ services = clinicServices, doctors = clinicDo
     ...(services.some(published) ? ["/services"] : []),
     ...(doctors.some(published) ? ["/doctors"] : []),
     "/contact",
+    ...getPublishedLegalDocuments(legal).map(document => `/${document.kind}`),
     ...getServiceDetailSlugs({ services }).map((slug) => `/services/${slug}`),
     ...getDoctorProfileSlugs({ doctors }).map((slug) => `/doctors/${slug}`),
   ];

@@ -22,6 +22,9 @@ export const routing = defineRouting({
     "/doctors/[slug]": "/doctors/[slug]",
     "/contact": "/contact",
     "/about": "/about",
+    "/privacy": "/privacy",
+    "/terms": "/terms",
+    "/cookies": "/cookies",
   },
 });
 

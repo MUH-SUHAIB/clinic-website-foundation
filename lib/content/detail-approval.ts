@@ -25,7 +25,7 @@ export function nonempty(value: string): boolean {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function validReview(review: ContentReview): boolean {
+export function validReview(review: ContentReview): boolean {
   if (!review) return false;
   return [review.reviewer, review.role, review.evidenceReference].every(nonempty) &&
     /^\d{4}-\d{2}-\d{2}$/.test(review.reviewedAt) &&
