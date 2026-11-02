@@ -4,11 +4,12 @@ import { clinic, clinicContact, clinicLocation, clinicTime, clinicHoursValues, i
 
 const listing = "https://www.google.com/maps/place/BAGHDAD+MEDICAL+CENTRE/@24.9146055,55.7757416,17z/data=!4m6!3m5!1s0x3ef573f609a9bbf7:0x9ebb7b0be900046e!8m2!3d24.9146055!4d55.7757416!16s%2Fg%2F11clvpfq2k";
 
-test("existing contact details and exact clinic listing are preserved", () => {
+test("confirmed working email and existing contact details preserve the exact clinic listing", () => {
   assert.equal(clinic.reviewStatus, "needs-review");
+  assert.equal(clinic.email, "mail@baghdadmedicalcenter.ae");
   assert.deepEqual(clinicContact, {
     landlineHref: "tel:+97168861115", mobileHref: "tel:+971502388626",
-    whatsappHref: "https://wa.me/971563564165", emailHref: "mailto:info@baghdadmedicalcenter.ae",
+    whatsappHref: "https://wa.me/971563564165", emailHref: "mailto:mail@baghdadmedicalcenter.ae",
   });
   assert.deepEqual([clinic.landline.display, clinic.mobile.display, clinic.whatsapp.display], ["06 886 1115", "050 238 8626", "056 356 4165"]);
   assert.equal(clinicLocation.mapHref, listing);
@@ -48,6 +49,22 @@ test("Dubai open/closed status respects exact boundaries, Friday break and all w
 
 const base = process.env.TEST_BASE_URL;
 for (const locale of ["en", "ar"]) {
+  test(`${locale}: confirmed email is displayed, linked and shared with clinic schema on every baseline page`, { skip: !base }, async () => {
+    for (const suffix of ["", "/about", "/services", "/doctors", "/contact"]) {
+      const response = await fetch(new URL(`/${locale}${suffix}`, base));
+      assert.equal(response.status, 200);
+      const html = await response.text();
+      assert.ok(!html.includes("info@baghdadmedicalcenter.ae"));
+      const footer = html.match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/)?.[1];
+      assert.ok(footer?.includes('href="mailto:mail@baghdadmedicalcenter.ae"'));
+      assert.match(footer, />mail@baghdadmedicalcenter\.ae</);
+      const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .map(match => JSON.parse(match[1]));
+      assert.equal(schemas.find(schema => schema["@type"] === "MedicalClinic")?.email, "mail@baghdadmedicalcenter.ae");
+      assert.match(response.headers.get("x-robots-tag"), /noindex/);
+      assert.match(html, /<meta name="robots" content="noindex, follow"/);
+    }
+  });
   for (const suffix of ["", "/contact"]) {
     test(`${locale}${suffix || "/"}: shared contact details, hours, Maps listing versus directions, email and noindex`, { skip: !base }, async () => {
       const response = await fetch(new URL(`/${locale}${suffix}`, base));
