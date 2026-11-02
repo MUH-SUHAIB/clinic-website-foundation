@@ -1,8 +1,11 @@
+import { getPublishedLegalDocuments } from "@/lib/content/legal-documents";
 import { clinic, clinicContact, clinicLocation } from "@/lib/clinic";
 import { Facebook, Instagram } from "lucide-react";
 import type { FooterContent } from "@/components/sections/footer";
 
 export const footerContent: FooterContent = {
+  // Serialize only public titles/paths, never internal approval records.
+  legalLinks: getPublishedLegalDocuments().map(document => ({ href: `/${document.kind}`, labels: { en: document.content.en.title, ar: document.content.ar.title } })),
   logo: { src: "/baghdad/logo.png", alt: clinic.content.en.name },
   phone: clinic.landline.display,
   phoneHref: clinic.landline.international,

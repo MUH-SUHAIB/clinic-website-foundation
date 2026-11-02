@@ -28,6 +28,7 @@ export interface FooterSocialLink {
 }
 
 export interface FooterContent {
+  legalLinks?: readonly { href: string; labels: Readonly<Record<"en" | "ar", string>> }[];
   logo?: ImageContent;
   phone?: string;
   phoneHref?: string;
@@ -41,6 +42,7 @@ export interface FooterContent {
 }
 
 export function Footer({
+  legalLinks = [],
   logo,
   phone,
   phoneHref,
@@ -262,6 +264,12 @@ export function Footer({
             </div>
           </div>
         </div>
+
+        {legalLinks.length > 0 && <nav aria-label={locale === "ar" ? "المستندات القانونية" : "Legal documents"} className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2">
+          {legalLinks.map(link => <a key={link.href} href={`/${locale}${link.href}`} className="inline-flex min-h-11 items-center rounded-lg text-sm font-semibold text-blue-700 underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-4">
+            <BidiText>{link.labels[locale === "ar" ? "ar" : "en"]}</BidiText>
+          </a>)}
+        </nav>}
 
         {/* Bottom Copyright Bar */}
         <div className="mt-12 pt-6 border-t border-blue-200/50 dark:border-blue-900/40 text-center">
